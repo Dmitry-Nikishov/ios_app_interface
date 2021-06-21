@@ -9,21 +9,25 @@
 /* Begin PBXBuildFile section */
 		F6E8D3BB267A90B400FF250E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E8D3BA267A90B400FF250E /* AppDelegate.swift */; };
 		F6E8D3BD267A90B400FF250E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E8D3BC267A90B400FF250E /* SceneDelegate.swift */; };
-		F6E8D3BF267A90B400FF250E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E8D3BE267A90B400FF250E /* ViewController.swift */; };
-		F6E8D3C2267A90B400FF250E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F6E8D3C0267A90B400FF250E /* Main.storyboard */; };
 		F6E8D3C4267A90BC00FF250E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6E8D3C3267A90BC00FF250E /* Assets.xcassets */; };
 		F6E8D3C7267A90BC00FF250E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F6E8D3C5267A90BC00FF250E /* LaunchScreen.storyboard */; };
+		F6E8D3CF267A931500FF250E /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6E8D3CE267A931500FF250E /* ProfileView.xib */; };
+		F6E8D3D1267A9A1700FF250E /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E8D3D0267A9A1700FF250E /* ProfileView.swift */; };
+		F6E8D3D4267A9D4E00FF250E /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F6E8D3D3267A9D4E00FF250E /* Profile.storyboard */; };
+		F6E8D3D6267A9D8600FF250E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E8D3D5267A9D8600FF250E /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F6E8D3B7267A90B400FF250E /* Netology_IB_Instruments.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Netology_IB_Instruments.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6E8D3BA267A90B400FF250E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6E8D3BC267A90B400FF250E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		F6E8D3BE267A90B400FF250E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		F6E8D3C1267A90B400FF250E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F6E8D3C3267A90BC00FF250E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F6E8D3C6267A90BC00FF250E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F6E8D3C8267A90BC00FF250E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F6E8D3CE267A931500FF250E /* ProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
+		F6E8D3D0267A9A1700FF250E /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		F6E8D3D3267A9D4E00FF250E /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Profile.storyboard; path = Netology_IB_Instruments/Profile.storyboard; sourceTree = SOURCE_ROOT; };
+		F6E8D3D5267A9D8600FF250E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = Netology_IB_Instruments/ProfileViewController.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,13 +62,23 @@
 			children = (
 				F6E8D3BA267A90B400FF250E /* AppDelegate.swift */,
 				F6E8D3BC267A90B400FF250E /* SceneDelegate.swift */,
-				F6E8D3BE267A90B400FF250E /* ViewController.swift */,
-				F6E8D3C0267A90B400FF250E /* Main.storyboard */,
 				F6E8D3C3267A90BC00FF250E /* Assets.xcassets */,
 				F6E8D3C5267A90BC00FF250E /* LaunchScreen.storyboard */,
 				F6E8D3C8267A90BC00FF250E /* Info.plist */,
+				F6E8D3D2267A9A2600FF250E /* ProfileView */,
 			);
 			path = Netology_IB_Instruments;
+			sourceTree = "<group>";
+		};
+		F6E8D3D2267A9A2600FF250E /* ProfileView */ = {
+			isa = PBXGroup;
+			children = (
+				F6E8D3D5267A9D8600FF250E /* ProfileViewController.swift */,
+				F6E8D3D3267A9D4E00FF250E /* Profile.storyboard */,
+				F6E8D3CE267A931500FF250E /* ProfileView.xib */,
+				F6E8D3D0267A9A1700FF250E /* ProfileView.swift */,
+			);
+			path = ProfileView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -124,9 +138,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6E8D3CF267A931500FF250E /* ProfileView.xib in Resources */,
 				F6E8D3C7267A90BC00FF250E /* LaunchScreen.storyboard in Resources */,
+				F6E8D3D4267A9D4E00FF250E /* Profile.storyboard in Resources */,
 				F6E8D3C4267A90BC00FF250E /* Assets.xcassets in Resources */,
-				F6E8D3C2267A90B400FF250E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,7 +152,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F6E8D3BF267A90B400FF250E /* ViewController.swift in Sources */,
+				F6E8D3D1267A9A1700FF250E /* ProfileView.swift in Sources */,
+				F6E8D3D6267A9D8600FF250E /* ProfileViewController.swift in Sources */,
 				F6E8D3BB267A90B400FF250E /* AppDelegate.swift in Sources */,
 				F6E8D3BD267A90B400FF250E /* SceneDelegate.swift in Sources */,
 			);
@@ -146,14 +162,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		F6E8D3C0267A90B400FF250E /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F6E8D3C1267A90B400FF250E /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		F6E8D3C5267A90BC00FF250E /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
