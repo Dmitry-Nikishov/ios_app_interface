@@ -9,26 +9,25 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
-
-    var profileHeaderView : ProfileHeaderView!
+    private lazy var manualButton : UIButton = {
+        let btn = UIButton()
+        btn.backgroundColor = .red
+        btn.setTitle("New Btn", for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        profileHeaderView = ProfileHeaderView(
-            frame: CGRect(x: 0,
-                          y: 0,
-                          width: 0,
-                          height: 0))
-        
-        profileHeaderView.backgroundColor = .lightGray
-        
-        view.addSubview(profileHeaderView)
-    }
-    
+        view.addSubview(manualButton)
 
-    override func viewWillLayoutSubviews() {
-        profileHeaderView.frame = view.frame
-    }
+        let guide = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            manualButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            manualButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            manualButton.bottomAnchor.constraint(equalTo: guide.bottomAnchor)
+        ])
 
+    }
 }
