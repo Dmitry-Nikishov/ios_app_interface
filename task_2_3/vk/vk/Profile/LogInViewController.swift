@@ -39,7 +39,7 @@ class LogInViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.contentMode = .scaleAspectFill
         view.layer.cornerRadius = 8
-        view.image = UIImage(named: "logo")!
+        view.image = UIImage(named: "logo")
         return view
     }()
     
@@ -54,7 +54,7 @@ class LogInViewController: UIViewController {
         view.textColor = .black
         view.autocapitalizationType = .none
         view.tintColor = UIColor(named: "myColor")
-        view.backgroundColor = .systemGray
+        view.backgroundColor = .systemGray6
         
         return view
     }()
@@ -71,7 +71,7 @@ class LogInViewController: UIViewController {
         view.autocapitalizationType = .none
         view.tintColor = UIColor(named: "myColor")
         view.isSecureTextEntry = true
-        view.backgroundColor = .systemGray
+        view.backgroundColor = .systemGray6
 
         return view
     }()
@@ -112,8 +112,8 @@ class LogInViewController: UIViewController {
         let constraints = [
             scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
             containerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
