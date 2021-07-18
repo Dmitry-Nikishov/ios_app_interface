@@ -20,7 +20,7 @@ class ProfileViewController: UIViewController {
         setupTableView()
         setupConstraints()
     }
-    
+        
     private func setupConstraints() {
         let constraints = [
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -94,5 +94,15 @@ extension ProfileViewController: UITableViewDelegate {
         } else {
             return 0
         }
+    }
+    
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+
+        if let indexPathForSelectedRow = tableView.indexPathForSelectedRow,
+            indexPathForSelectedRow == indexPath {
+            tableView.deselectRow(at: indexPath, animated: false)
+            return nil
+        }
+        return indexPath
     }
 }
