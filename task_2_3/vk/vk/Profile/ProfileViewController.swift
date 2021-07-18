@@ -14,9 +14,6 @@ class ProfileViewController: UIViewController {
         return view
     }()
     
-    private let cellID = "cellID"
-    private let headerID = "headerViewID"
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,12 +32,16 @@ class ProfileViewController: UIViewController {
         NSLayoutConstraint.activate(constraints)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
+    }
     
     private func setupTableView() {
         view.addSubview(tableView)
 
-        tableView.register(ProfileTableHeaderView.self, forHeaderFooterViewReuseIdentifier: headerID)
-        tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: cellID)
+        tableView.register(ProfileTableHeaderView.self, forHeaderFooterViewReuseIdentifier: String(describing: ProfileTableHeaderView.self))
+        tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: String(describing: ProfileTableViewCell.self))
+        tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: String(describing: PhotosTableViewCell.self))
 
         tableView.dataSource = self
 
@@ -51,11 +52,21 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID) as! ProfileTableViewCell
         if indexPath.section != 0 {
-            cell.cellData = Data.dataToDisplay[indexPath.section - 1]
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ProfileTableViewCell.self)) as! ProfileTableViewCell
+
+                cell.cellData = Data.dataToDisplay[indexPath.section - 1]
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PhotosTableViewCell.self)) as! PhotosTableViewCell
+
+            cell.navigationHandler = {
+                let photosViewController = PhotosViewController()
+                self.navigationController?.pushViewController(photosViewController, animated: true)
+                self.navigationController?.navigationBar.isHidden = false
+            }
+            return cell
         }
-        return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -70,7 +81,7 @@ extension ProfileViewController: UITableViewDataSource {
 extension ProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
-            guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: headerID) as? ProfileTableHeaderView else { return nil }
+            guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: String(describing: ProfileTableHeaderView.self)) as? ProfileTableHeaderView else { return nil }
             return headerView
         }
         

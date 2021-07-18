@@ -8,4 +8,5 @@
 import Foundation
 
 typealias LogInHandler = () -> Void
+typealias PhotoNavigationHandler = () -> Void
 

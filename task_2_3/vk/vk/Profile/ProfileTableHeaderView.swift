@@ -102,7 +102,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
             avatarImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             avatarImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             avatarImage.widthAnchor.constraint(equalToConstant: 100),
-            avatarImage.heightAnchor.constraint(equalTo: avatarImage.widthAnchor),
+            avatarImage.heightAnchor.constraint(equalToConstant: 100),
             
             fullNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 27),
             fullNameLabel.leadingAnchor.constraint(equalTo: avatarImage.trailingAnchor, constant: 16),
@@ -119,7 +119,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
 
             setStatusButton.topAnchor.constraint(equalTo: avatarImage.bottomAnchor, constant: 16),
             setStatusButton.leadingAnchor.constraint(equalTo: avatarImage.leadingAnchor),
-            setStatusButton.trailingAnchor.constraint(equalTo: statusTextField.trailingAnchor),
+            setStatusButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             setStatusButton.heightAnchor.constraint(equalToConstant: 50)
         ]
         
