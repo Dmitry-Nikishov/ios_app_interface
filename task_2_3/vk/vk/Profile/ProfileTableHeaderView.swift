@@ -9,6 +9,8 @@ import UIKit
 
 class ProfileTableHeaderView: UITableViewHeaderFooterView {
     private var statusText : String = ""
+    
+    private var viewConstraints : [NSLayoutConstraint] = []
             
     private let fullNameLabel: UILabel = {
         let view = UILabel()
@@ -18,18 +20,24 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-        
-    private let avatarImage: UIImageView = {
+            
+    private lazy var avatarImage: UIImageView = {
         let view = UIImageView()
         view.clipsToBounds = true
         view.layer.borderWidth = 3
         view.layer.borderColor = UIColor.white.cgColor
         view.image = UIImage(named: "avatar")
         view.contentMode = .scaleAspectFill
-        view.layer.cornerRadius = 100/2
+        view.layer.cornerRadius = ProfileTableHeaderViewLayoutConstants.avatarSize/2
         view.translatesAutoresizingMaskIntoConstraints = false
+
+        let tapGesture = UITapGestureRecognizer(target : self, action : #selector(avatarImagePressHandler))
+        view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(tapGesture)
+
         return view
     }()
+    
         
     let statusLabel: UILabel = {
         let view = UILabel()
@@ -37,6 +45,14 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         view.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         view.textColor = .gray
         view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let backgroundViewItem : UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .black
+        view.layer.opacity = 0
         return view
     }()
         
@@ -70,11 +86,87 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         return view
     }()
             
+    private lazy var closeAvatarWindowButton : UIButton = {
+        let view = UIButton()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.setBackgroundImage(UIImage(named : "close_btn"), for: .normal)
+        view.addTarget(self, action: #selector(closeAvatarWindowHandler), for: .touchUpInside)
+        view.layer.opacity = 0
+        return view
+    }()
+    
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setupViews()
     }
+    
+    private func modifyHiddenStateForViews( isHidden : Bool )
+    {
+        fullNameLabel.isHidden = isHidden
+        statusLabel.isHidden = isHidden
+        statusTextField.isHidden = isHidden
+        setStatusButton.isHidden = isHidden
+    }
+    
+    @objc func closeAvatarWindowHandler()
+    {
+        modifyHiddenStateForViews(isHidden: false)
         
+        NSLayoutConstraint.deactivate(viewConstraints)
+        setupInitialConstraints();
+        
+        let animator = UIViewPropertyAnimator(duration: 0.2, curve: .linear) {
+            self.contentView.layoutIfNeeded()
+            self.backgroundViewItem.layer.opacity = 0
+            self.closeAvatarWindowButton.layer.opacity = 0
+            self.avatarImage.layer.cornerRadius = ProfileTableHeaderViewLayoutConstants.avatarSize/2
+        }
+        
+        animator.startAnimation()
+    }
+        
+    @objc func avatarImagePressHandler()
+    {
+        modifyHiddenStateForViews(isHidden: true)
+        
+        let minOfWidthHeight = min(contentView.bounds.height, contentView.bounds.width)
+        
+        NSLayoutConstraint.deactivate(viewConstraints)
+        
+        let constraints = [
+            closeAvatarWindowButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets),
+            closeAvatarWindowButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -ProfileTableHeaderViewLayoutConstants.edgeOffsets),
+
+            backgroundViewItem.topAnchor.constraint(equalTo: contentView.topAnchor),
+            backgroundViewItem.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            backgroundViewItem.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            backgroundViewItem.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            
+            avatarImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            avatarImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            avatarImage.widthAnchor.constraint(equalToConstant: minOfWidthHeight - ProfileTableHeaderViewLayoutConstants.edgeOffsets*2),
+            avatarImage.heightAnchor.constraint(equalToConstant: minOfWidthHeight - ProfileTableHeaderViewLayoutConstants.edgeOffsets*2)
+        ]
+
+        NSLayoutConstraint.activate(constraints)
+        viewConstraints = constraints
+
+        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .linear) {
+            self.contentView.layoutIfNeeded()
+            self.backgroundViewItem.layer.opacity = 0.5
+            self.avatarImage.layer.cornerRadius = 0
+        }
+        
+        animator.addCompletion { _ in
+            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .linear) {
+                self.closeAvatarWindowButton.layer.opacity = 1
+            }
+
+            animator.startAnimation()
+        }
+        animator.startAnimation()
+    }
+    
     @objc func buttonPressed()
     {
         statusLabel.text = statusText
@@ -92,22 +184,37 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     private func setupViews()
     {
+        contentView.addSubview(backgroundViewItem)
         contentView.addSubview(avatarImage)
         contentView.addSubview(fullNameLabel)
         contentView.addSubview(statusLabel)
         contentView.addSubview(statusTextField)
         contentView.addSubview(setStatusButton)
-        
+        contentView.addSubview(closeAvatarWindowButton)
+     
+        setupInitialConstraints()
+    }
+    
+    private func setupInitialConstraints()
+    {
         let constraints = [
-            avatarImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            avatarImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            avatarImage.widthAnchor.constraint(equalToConstant: 100),
-            avatarImage.heightAnchor.constraint(equalToConstant: 100),
+            closeAvatarWindowButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets),
+            closeAvatarWindowButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -ProfileTableHeaderViewLayoutConstants.edgeOffsets),
             
+            backgroundViewItem.topAnchor.constraint(equalTo: contentView.topAnchor),
+            backgroundViewItem.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            backgroundViewItem.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            backgroundViewItem.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            
+            avatarImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets),
+            avatarImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets),
+            avatarImage.widthAnchor.constraint(equalToConstant: ProfileTableHeaderViewLayoutConstants.avatarSize),
+            avatarImage.heightAnchor.constraint(equalToConstant: ProfileTableHeaderViewLayoutConstants.avatarSize),
+
             fullNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 27),
-            fullNameLabel.leadingAnchor.constraint(equalTo: avatarImage.trailingAnchor, constant: 16),
-            fullNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-         
+            fullNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets*2 + ProfileTableHeaderViewLayoutConstants.avatarSize),
+            fullNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -ProfileTableHeaderViewLayoutConstants.edgeOffsets),
+
             statusLabel.topAnchor.constraint(equalTo: fullNameLabel.bottomAnchor, constant: 10),
             statusLabel.leadingAnchor.constraint(equalTo: fullNameLabel.leadingAnchor),
             statusLabel.trailingAnchor.constraint(equalTo: fullNameLabel.trailingAnchor),
@@ -117,13 +224,15 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
             statusTextField.leadingAnchor.constraint(equalTo: statusLabel.leadingAnchor),
             statusTextField.trailingAnchor.constraint(equalTo: statusLabel.trailingAnchor),
 
-            setStatusButton.topAnchor.constraint(equalTo: avatarImage.bottomAnchor, constant: 16),
-            setStatusButton.leadingAnchor.constraint(equalTo: avatarImage.leadingAnchor),
-            setStatusButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            setStatusButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets*2 + ProfileTableHeaderViewLayoutConstants.avatarSize),
+            setStatusButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets),
+            setStatusButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -ProfileTableHeaderViewLayoutConstants.edgeOffsets),
             setStatusButton.heightAnchor.constraint(equalToConstant: 50)
         ]
         
         NSLayoutConstraint.activate(constraints)
+        
+        viewConstraints = constraints
     }
 
 }

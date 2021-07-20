@@ -24,6 +24,7 @@
 		F67144A7269A627700495503 /* PhotoGalery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67144A6269A627700495503 /* PhotoGalery.swift */; };
 		F67144A9269A672100495503 /* PhotoGaleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67144A8269A672100495503 /* PhotoGaleryCollectionViewCell.swift */; };
 		F6890FDF269E34E70021D4E7 /* PhotoGaleryLayoutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6890FDE269E34E70021D4E7 /* PhotoGaleryLayoutSettings.swift */; };
+		F6890FE326A1ED470021D4E7 /* ProfileTableHeaderViewLayoutConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6890FE226A1ED470021D4E7 /* ProfileTableHeaderViewLayoutConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		F67144A6269A627700495503 /* PhotoGalery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGalery.swift; sourceTree = "<group>"; };
 		F67144A8269A672100495503 /* PhotoGaleryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGaleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		F6890FDE269E34E70021D4E7 /* PhotoGaleryLayoutSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGaleryLayoutSettings.swift; sourceTree = "<group>"; };
+		F6890FE226A1ED470021D4E7 /* ProfileTableHeaderViewLayoutConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableHeaderViewLayoutConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				F67144A4269A5B9400495503 /* PhotosViewController.swift */,
 				F67144A8269A672100495503 /* PhotoGaleryCollectionViewCell.swift */,
 				F6890FDE269E34E70021D4E7 /* PhotoGaleryLayoutSettings.swift */,
+				F6890FE226A1ED470021D4E7 /* ProfileTableHeaderViewLayoutConstants.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 				F67144A9269A672100495503 /* PhotoGaleryCollectionViewCell.swift in Sources */,
 				F67144A5269A5B9400495503 /* PhotosViewController.swift in Sources */,
 				F6714495269863B000495503 /* AppTypes.swift in Sources */,
+				F6890FE326A1ED470021D4E7 /* ProfileTableHeaderViewLayoutConstants.swift in Sources */,
 				F6714498269898FC00495503 /* ModelData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
