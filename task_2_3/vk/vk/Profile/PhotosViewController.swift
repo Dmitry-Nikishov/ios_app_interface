@@ -8,8 +8,7 @@
 import UIKit
 
 class PhotosViewController: UIViewController {
-    private var photoWidth : CGFloat = (UIScreen.main.bounds.width -
-                                            2*PhotoGaleryLayoutSettings.spacingBetweenImagesInShortGalery - 2*PhotoGaleryLayoutSettings.contentViewOffset)/3
+    private var photoWidth : CGFloat = 0
 
     private lazy var photoGalleryCollection : UICollectionView = {
         var layout = UICollectionViewFlowLayout()
@@ -28,6 +27,10 @@ class PhotosViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        photoWidth = (view.bounds.width -
+                    2*PhotoGaleryLayoutSettings.spacingBetweenImagesInShortGalery - 2*PhotoGaleryLayoutSettings.contentViewOffset)/3
+
         setupViews()
     }
 

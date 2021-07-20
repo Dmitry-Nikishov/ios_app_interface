@@ -54,14 +54,24 @@ class PhotosTableViewCell: UITableViewCell {
         
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        initializeGestureHandlerForView()
         setupViews()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        initializeGestureHandlerForView()
         setupViews()
     }
 
+    private func initializeGestureHandlerForView()
+    {
+        let tapGesture = UITapGestureRecognizer(target : self, action : #selector(goToGaleryClickedHandler))
+
+        contentView.isUserInteractionEnabled = true
+        contentView.addGestureRecognizer(tapGesture)
+    }
+    
     private func setupViews()
     {
         contentView.addSubview(titleLabelView)
