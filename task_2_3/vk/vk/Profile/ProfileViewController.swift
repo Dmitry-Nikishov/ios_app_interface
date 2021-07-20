@@ -14,6 +14,16 @@ class ProfileViewController: UIViewController {
         return view
     }()
     
+    private var viewConstraints : [NSLayoutConstraint] = []
+    
+    private lazy var blackoutView : UIView = {
+        let view = UIView(frame: self.view.frame)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .black
+        view.layer.opacity = 0
+        return view
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,6 +47,8 @@ class ProfileViewController: UIViewController {
     }
     
     private func setupTableView() {
+        tableView.addSubview(blackoutView)
+        
         view.addSubview(tableView)
 
         tableView.register(ProfileTableHeaderView.self, forHeaderFooterViewReuseIdentifier: String(describing: ProfileTableHeaderView.self))
@@ -48,6 +60,34 @@ class ProfileViewController: UIViewController {
         tableView.delegate = self
     }
 
+    public func showBlackoutView()
+    {
+        
+        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .linear) {
+            self.blackoutView.layer.opacity = 0.5
+            self.tableView.layer.opacity = 1
+            self.tableView.bringSubviewToFront(self.blackoutView)
+        }
+        
+        animator.startAnimation()
+        
+        blackoutView.isUserInteractionEnabled = false
+        tableView.isScrollEnabled = false
+    }
+    
+    public func closeBlackoutView()
+    {
+        let animator = UIViewPropertyAnimator(duration: 0.2, curve: .linear) {
+            self.blackoutView.layer.opacity = 0
+            self.tableView.sendSubviewToBack(self.blackoutView)
+        }
+        
+        animator.startAnimation()
+        
+        blackoutView.isUserInteractionEnabled = true
+        tableView.isScrollEnabled = true
+        
+    }
 }
 
 extension ProfileViewController: UITableViewDataSource {
@@ -82,6 +122,10 @@ extension ProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: String(describing: ProfileTableHeaderView.self)) as? ProfileTableHeaderView else { return nil }
+            
+            headerView.profileControllerView = view
+            headerView.profileController = self
+            
             return headerView
         }
         
@@ -95,4 +139,14 @@ extension ProfileViewController: UITableViewDelegate {
             return 0
         }
     }
+    
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+
+             if let indexPathForSelectedRow = tableView.indexPathForSelectedRow,
+                 indexPathForSelectedRow == indexPath {
+                 tableView.deselectRow(at: indexPath, animated: false)
+                 return nil
+             }
+             return indexPath
+         }
 }
