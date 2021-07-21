@@ -10,6 +10,10 @@ import UIKit
 class ProfileTableHeaderView: UITableViewHeaderFooterView {
     private var statusText : String = ""
     
+    public weak var profileControllerView : UIView?
+    
+    public weak var profileController : ProfileViewController?
+     
     private var viewConstraints : [NSLayoutConstraint] = []
             
     private let fullNameLabel: UILabel = {
@@ -47,15 +51,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    let backgroundViewItem : UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .black
-        view.layer.opacity = 0
-        return view
-    }()
-        
+            
     let statusTextField: UITextField = {
         let view = TextFieldWithPadding()
         view.placeholder = "add smth to show as status"
@@ -113,37 +109,39 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         modifyHiddenStateForViews(isHidden: false)
         
         NSLayoutConstraint.deactivate(viewConstraints)
-        setupInitialConstraints();
+        setupInitialConstraints()
         
         let animator = UIViewPropertyAnimator(duration: 0.2, curve: .linear) {
             self.contentView.layoutIfNeeded()
-            self.backgroundViewItem.layer.opacity = 0
             self.closeAvatarWindowButton.layer.opacity = 0
             self.avatarImage.layer.cornerRadius = ProfileTableHeaderViewLayoutConstants.avatarSize/2
         }
         
         animator.startAnimation()
+     
+        profileController?.closeBlackoutView()
     }
         
     @objc func avatarImagePressHandler()
     {
+        guard let controllerView = profileControllerView else {
+            return
+        }
+        
+        profileController?.showBlackoutView()
+        
         modifyHiddenStateForViews(isHidden: true)
         
-        let minOfWidthHeight = min(contentView.bounds.height, contentView.bounds.width)
+        let minOfWidthHeight = min(controllerView.bounds.height, controllerView.bounds.width)
         
         NSLayoutConstraint.deactivate(viewConstraints)
         
         let constraints = [
-            closeAvatarWindowButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets),
-            closeAvatarWindowButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -ProfileTableHeaderViewLayoutConstants.edgeOffsets),
-
-            backgroundViewItem.topAnchor.constraint(equalTo: contentView.topAnchor),
-            backgroundViewItem.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            backgroundViewItem.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            backgroundViewItem.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            closeAvatarWindowButton.topAnchor.constraint(equalTo: controllerView.topAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets + controllerView.safeAreaInsets.top),
+            closeAvatarWindowButton.trailingAnchor.constraint(equalTo: controllerView.trailingAnchor, constant: -ProfileTableHeaderViewLayoutConstants.edgeOffsets - contentView.safeAreaInsets.right),
             
-            avatarImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            avatarImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            avatarImage.centerXAnchor.constraint(equalTo: controllerView.centerXAnchor),
+            avatarImage.centerYAnchor.constraint(equalTo: controllerView.centerYAnchor),
             avatarImage.widthAnchor.constraint(equalToConstant: minOfWidthHeight - ProfileTableHeaderViewLayoutConstants.edgeOffsets*2),
             avatarImage.heightAnchor.constraint(equalToConstant: minOfWidthHeight - ProfileTableHeaderViewLayoutConstants.edgeOffsets*2)
         ]
@@ -153,7 +151,6 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
 
         let animator = UIViewPropertyAnimator(duration: 0.5, curve: .linear) {
             self.contentView.layoutIfNeeded()
-            self.backgroundViewItem.layer.opacity = 0.5
             self.avatarImage.layer.cornerRadius = 0
         }
         
@@ -181,10 +178,8 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         fatalError("should not be called")
     }
     
-    
     private func setupViews()
     {
-        contentView.addSubview(backgroundViewItem)
         contentView.addSubview(avatarImage)
         contentView.addSubview(fullNameLabel)
         contentView.addSubview(statusLabel)
@@ -200,12 +195,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         let constraints = [
             closeAvatarWindowButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets),
             closeAvatarWindowButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -ProfileTableHeaderViewLayoutConstants.edgeOffsets),
-            
-            backgroundViewItem.topAnchor.constraint(equalTo: contentView.topAnchor),
-            backgroundViewItem.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            backgroundViewItem.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            backgroundViewItem.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            
+                        
             avatarImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets),
             avatarImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets),
             avatarImage.widthAnchor.constraint(equalToConstant: ProfileTableHeaderViewLayoutConstants.avatarSize),
