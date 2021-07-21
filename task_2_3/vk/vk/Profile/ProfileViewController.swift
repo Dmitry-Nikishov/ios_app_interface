@@ -59,35 +59,6 @@ class ProfileViewController: UIViewController {
 
         tableView.delegate = self
     }
-
-    public func showBlackoutView()
-    {
-        
-        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .linear) {
-            self.blackoutView.layer.opacity = 0.5
-            self.tableView.layer.opacity = 1
-            self.tableView.bringSubviewToFront(self.blackoutView)
-        }
-        
-        animator.startAnimation()
-        
-        blackoutView.isUserInteractionEnabled = false
-        tableView.isScrollEnabled = false
-    }
-    
-    public func closeBlackoutView()
-    {
-        let animator = UIViewPropertyAnimator(duration: 0.2, curve: .linear) {
-            self.blackoutView.layer.opacity = 0
-            self.tableView.sendSubviewToBack(self.blackoutView)
-        }
-        
-        animator.startAnimation()
-        
-        blackoutView.isUserInteractionEnabled = true
-        tableView.isScrollEnabled = true
-        
-    }
 }
 
 extension ProfileViewController: UITableViewDataSource {
@@ -141,7 +112,6 @@ extension ProfileViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-
              if let indexPathForSelectedRow = tableView.indexPathForSelectedRow,
                  indexPathForSelectedRow == indexPath {
                  tableView.deselectRow(at: indexPath, animated: false)
@@ -149,4 +119,34 @@ extension ProfileViewController: UITableViewDelegate {
              }
              return indexPath
          }
+}
+
+extension ProfileViewController : ProfileTableHeaderViewDelegate
+{
+    public func showBlackoutView()
+    {
+        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .linear) {
+            self.blackoutView.layer.opacity = 0.5
+            self.tableView.layer.opacity = 1
+            self.tableView.bringSubviewToFront(self.blackoutView)
+        }
+        
+        animator.startAnimation()
+        
+        blackoutView.isUserInteractionEnabled = true
+        tableView.isScrollEnabled = false
+    }
+    
+    public func closeBlackoutView()
+    {
+        let animator = UIViewPropertyAnimator(duration: 0.2, curve: .linear) {
+            self.blackoutView.layer.opacity = 0
+            self.tableView.sendSubviewToBack(self.blackoutView)
+        }
+        
+        animator.startAnimation()
+        
+        blackoutView.isUserInteractionEnabled = false
+        tableView.isScrollEnabled = true
+    }
 }

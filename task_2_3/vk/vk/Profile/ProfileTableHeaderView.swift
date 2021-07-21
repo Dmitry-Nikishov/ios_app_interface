@@ -12,7 +12,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     public weak var profileControllerView : UIView?
     
-    public weak var profileController : ProfileViewController?
+    public weak var profileController : ProfileTableHeaderViewDelegate?
      
     private var viewConstraints : [NSLayoutConstraint] = []
             
@@ -85,6 +85,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     private lazy var closeAvatarWindowButton : UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.isUserInteractionEnabled = true
         view.setBackgroundImage(UIImage(named : "close_btn"), for: .normal)
         view.addTarget(self, action: #selector(closeAvatarWindowHandler), for: .touchUpInside)
         view.layer.opacity = 0

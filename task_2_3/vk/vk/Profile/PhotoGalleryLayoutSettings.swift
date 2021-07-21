@@ -7,12 +7,12 @@
 
 import UIKit
 
-struct ShortPhotoGaleryLayoutSettings {
-    static let spacingBetweenImagesInShortGalery : CGFloat = 8
+struct ShortPhotoGalleryLayoutSettings {
+    static let spacingBetweenImagesInShortGallery : CGFloat = 8
     static let contentViewOffset : CGFloat = 12
 }
 
-struct PhotoGaleryLayoutSettings {
-    static let spacingBetweenImagesInShortGalery : CGFloat = 8
+struct PhotoGalleryLayoutSettings {
+    static let spacingBetweenImagesInShortGallery : CGFloat = 8
     static let contentViewOffset : CGFloat = 8
 }
