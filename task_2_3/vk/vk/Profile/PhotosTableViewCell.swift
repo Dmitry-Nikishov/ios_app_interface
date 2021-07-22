@@ -10,8 +10,10 @@ import UIKit
 class PhotosTableViewCell: UITableViewCell {
     var navigationHandler : PhotoNavigationHandler?
 
-    private var photoWidth : CGFloat = (UIScreen.main.bounds.width -
-                                            3*ShortPhotoGaleryLayoutSettings.spacingBetweenImagesInShortGalery - 2*ShortPhotoGaleryLayoutSettings.contentViewOffset)/4
+    private var photoWidth : CGFloat = (
+        UIScreen.main.bounds.width -
+        3 * ShortPhotoGalleryLayoutSettings.spacingBetweenImagesInShortGallery -
+        2 * ShortPhotoGalleryLayoutSettings.contentViewOffset) / 4
     
     private let titleLabelView : UILabel = {
         let view = UILabel()
@@ -26,11 +28,11 @@ class PhotosTableViewCell: UITableViewCell {
         let view = UIButton()
         view.setBackgroundImage(UIImage(systemName: "arrow.right"), for: .normal)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.addTarget(self, action: #selector(goToGaleryClickedHandler), for: .touchUpInside)
+        view.addTarget(self, action: #selector(goToGalleryClickedHandler), for: .touchUpInside)
         return view
     }()
     
-    @objc private func goToGaleryClickedHandler() {
+    @objc private func goToGalleryClickedHandler() {
         guard let handler = navigationHandler else {
             return
         }
@@ -43,8 +45,8 @@ class PhotosTableViewCell: UITableViewCell {
         layout.scrollDirection = .horizontal
         
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.register(PhotoGaleryCollectionViewCell.self,
-                      forCellWithReuseIdentifier: String(describing: PhotoGaleryCollectionViewCell.self))
+        view.register(PhotoGalleryCollectionViewCell.self,
+                      forCellWithReuseIdentifier: String(describing: PhotoGalleryCollectionViewCell.self))
         view.dataSource = self
         view.delegate = self
         view.backgroundColor = .white
@@ -69,17 +71,17 @@ class PhotosTableViewCell: UITableViewCell {
         contentView.addSubview(photosPreview)
         
         let constraints = [
-            titleLabelView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: ShortPhotoGaleryLayoutSettings.contentViewOffset),
-            titleLabelView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: ShortPhotoGaleryLayoutSettings.contentViewOffset),
+            titleLabelView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: ShortPhotoGalleryLayoutSettings.contentViewOffset),
+            titleLabelView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: ShortPhotoGalleryLayoutSettings.contentViewOffset),
             buttonView.centerYAnchor.constraint(equalTo: titleLabelView.centerYAnchor),
-            buttonView.trailingAnchor.constraint(equalTo : contentView.trailingAnchor, constant: -ShortPhotoGaleryLayoutSettings.contentViewOffset),
+            buttonView.trailingAnchor.constraint(equalTo : contentView.trailingAnchor, constant: -ShortPhotoGalleryLayoutSettings.contentViewOffset),
             buttonView.heightAnchor.constraint(equalToConstant: 30),
             buttonView.widthAnchor.constraint(equalToConstant: 30),
             photosPreview.leadingAnchor.constraint(equalTo: titleLabelView.leadingAnchor),
-            photosPreview.topAnchor.constraint(equalTo : titleLabelView.bottomAnchor, constant: ShortPhotoGaleryLayoutSettings.contentViewOffset),
+            photosPreview.topAnchor.constraint(equalTo : titleLabelView.bottomAnchor, constant: ShortPhotoGalleryLayoutSettings.contentViewOffset),
             photosPreview.heightAnchor.constraint(equalToConstant : photoWidth*1.1),
-            photosPreview.trailingAnchor.constraint(equalTo : contentView.trailingAnchor, constant: -ShortPhotoGaleryLayoutSettings.contentViewOffset),
-            photosPreview.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -ShortPhotoGaleryLayoutSettings.contentViewOffset)
+            photosPreview.trailingAnchor.constraint(equalTo : contentView.trailingAnchor, constant: -ShortPhotoGalleryLayoutSettings.contentViewOffset),
+            photosPreview.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -ShortPhotoGalleryLayoutSettings.contentViewOffset)
         ]
         
         NSLayoutConstraint.activate(constraints)
@@ -101,10 +103,10 @@ extension PhotosTableViewCell : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =
             photosPreview.dequeueReusableCell(withReuseIdentifier:
-                                                String(describing: PhotoGaleryCollectionViewCell.self),
-                                              for: indexPath) as! PhotoGaleryCollectionViewCell
+                                                String(describing: PhotoGalleryCollectionViewCell.self),
+                                              for: indexPath) as! PhotoGalleryCollectionViewCell
         
-        cell.imageName = PhotoGaleryData.images[indexPath.row]
+        cell.imageName = PhotoGalleryData.images[indexPath.row]
         
         return cell
     }
@@ -117,7 +119,7 @@ extension PhotosTableViewCell: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return ShortPhotoGaleryLayoutSettings.spacingBetweenImagesInShortGalery
+        return ShortPhotoGalleryLayoutSettings.spacingBetweenImagesInShortGallery
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

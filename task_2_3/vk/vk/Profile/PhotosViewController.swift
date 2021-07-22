@@ -14,8 +14,10 @@ class PhotosViewController: UIViewController {
         var layout = UICollectionViewFlowLayout()
 
         let item = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        item.register(PhotoGaleryCollectionViewCell.self,
-                      forCellWithReuseIdentifier: String(describing: PhotoGaleryCollectionViewCell.self))
+        item.register(
+            PhotoGalleryCollectionViewCell.self,
+            forCellWithReuseIdentifier: String(describing: PhotoGalleryCollectionViewCell.self)
+        )
 
         item.dataSource = self
         item.delegate = self
@@ -28,8 +30,10 @@ class PhotosViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        photoWidth = (view.bounds.width -
-                     2*PhotoGaleryLayoutSettings.spacingBetweenImagesInShortGalery - 2*PhotoGaleryLayoutSettings.contentViewOffset)/3
+        photoWidth = (
+            view.bounds.width -
+            2 * PhotoGalleryLayoutSettings.spacingBetweenImagesInShortGallery -
+            2 * PhotoGalleryLayoutSettings.contentViewOffset) / 3
         
         setupViews()
     }
@@ -40,13 +44,13 @@ class PhotosViewController: UIViewController {
         view.addSubview(photoGalleryCollection)
         
         let constraints = [
-            photoGalleryCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: PhotoGaleryLayoutSettings.contentViewOffset),
+            photoGalleryCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: PhotoGalleryLayoutSettings.contentViewOffset),
             
-            photoGalleryCollection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: PhotoGaleryLayoutSettings.contentViewOffset),
+            photoGalleryCollection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: PhotoGalleryLayoutSettings.contentViewOffset),
             
-            photoGalleryCollection.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -PhotoGaleryLayoutSettings.contentViewOffset),
+            photoGalleryCollection.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -PhotoGalleryLayoutSettings.contentViewOffset),
             
-            photoGalleryCollection.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -PhotoGaleryLayoutSettings.contentViewOffset)
+            photoGalleryCollection.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -PhotoGalleryLayoutSettings.contentViewOffset)
         ]
         
         NSLayoutConstraint.activate(constraints)
@@ -61,19 +65,18 @@ extension PhotosViewController : UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return PhotoGaleryData.images.count
+        return PhotoGalleryData.images.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =
-            photoGalleryCollection.dequeueReusableCell(withReuseIdentifier:
-                                                String(describing: PhotoGaleryCollectionViewCell.self),
-                                              for: indexPath) as! PhotoGaleryCollectionViewCell
+            photoGalleryCollection.dequeueReusableCell(
+                withReuseIdentifier: String(describing: PhotoGalleryCollectionViewCell.self),
+                for: indexPath) as! PhotoGalleryCollectionViewCell
 
-        cell.imageName = PhotoGaleryData.images[indexPath.row]
+        cell.imageName = PhotoGalleryData.images[indexPath.row]
 
         return cell
-
     }
 }
 
@@ -84,7 +87,7 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return PhotoGaleryLayoutSettings.spacingBetweenImagesInShortGalery
+        return PhotoGalleryLayoutSettings.spacingBetweenImagesInShortGallery
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -94,6 +97,5 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
-    
 }
 
