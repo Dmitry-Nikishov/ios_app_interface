@@ -47,7 +47,6 @@ class ProfileViewController: UIViewController {
 
         tableView.delegate = self
     }
-
 }
 
 extension ProfileViewController: UITableViewDataSource {
@@ -82,6 +81,10 @@ extension ProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: String(describing: ProfileTableHeaderView.self)) as? ProfileTableHeaderView else { return nil }
+            
+            headerView.profileControllerView = view
+            headerView.profileController = self
+            
             return headerView
         }
         
@@ -97,12 +100,26 @@ extension ProfileViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-
         if let indexPathForSelectedRow = tableView.indexPathForSelectedRow,
-            indexPathForSelectedRow == indexPath {
-            tableView.deselectRow(at: indexPath, animated: false)
-            return nil
+             indexPathForSelectedRow == indexPath {
+             tableView.deselectRow(at: indexPath, animated: false)
+             return nil
         }
         return indexPath
+    }
+}
+
+extension ProfileViewController : ProfileTableHeaderViewDelegate
+{
+    public func showBlackoutView()
+    {
+        tableView.isScrollEnabled = false
+        tableView.allowsSelection = false
+    }
+    
+    public func closeBlackoutView()
+    {
+        tableView.isScrollEnabled = true
+        tableView.allowsSelection = true
     }
 }

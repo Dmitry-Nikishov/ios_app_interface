@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PhotoGaleryData {
+struct PhotoGalleryData {
     static let images = [
         "sample_0",
         "sample_1",

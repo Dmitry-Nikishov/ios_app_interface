@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PhotoGaleryCollectionViewCell: UICollectionViewCell {
+class PhotoGalleryCollectionViewCell: UICollectionViewCell {
     var imageName : String? {
         didSet {
             if let img = imageName {
