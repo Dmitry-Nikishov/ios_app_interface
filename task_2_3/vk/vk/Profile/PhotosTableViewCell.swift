@@ -68,12 +68,13 @@ class PhotosTableViewCell: UITableViewCell {
 
     private func initializeGestureHandlerForView()
     {
-        let tapGesture = UITapGestureRecognizer(target : self, action : #selector(goToGaleryClickedHandler))
+        let tapGesture = UITapGestureRecognizer(target : self,
+                                                action : #selector(goToGalleryClickedHandler))
 
         contentView.isUserInteractionEnabled = true
         contentView.addGestureRecognizer(tapGesture)
     }
-    
+        
     private func setupViews()
     {
         contentView.addSubview(titleLabelView)
