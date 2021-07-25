@@ -14,16 +14,6 @@ class ProfileViewController: UIViewController {
         return view
     }()
     
-    private var viewConstraints : [NSLayoutConstraint] = []
-    
-    private lazy var blackoutView : UIView = {
-        let view = UIView(frame: self.view.frame)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .black
-        view.layer.opacity = 0
-        return view
-    }()
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -47,8 +37,6 @@ class ProfileViewController: UIViewController {
     }
     
     private func setupTableView() {
-        tableView.addSubview(blackoutView)
-        
         view.addSubview(tableView)
 
         tableView.register(ProfileTableHeaderView.self, forHeaderFooterViewReuseIdentifier: String(describing: ProfileTableHeaderView.self))
@@ -125,28 +113,13 @@ extension ProfileViewController : ProfileTableHeaderViewDelegate
 {
     public func showBlackoutView()
     {
-        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .linear) {
-            self.blackoutView.layer.opacity = 0.5
-            self.tableView.layer.opacity = 1
-            self.tableView.bringSubviewToFront(self.blackoutView)
-        }
-        
-        animator.startAnimation()
-        
-        blackoutView.isUserInteractionEnabled = true
         tableView.isScrollEnabled = false
+        tableView.allowsSelection = false
     }
     
     public func closeBlackoutView()
     {
-        let animator = UIViewPropertyAnimator(duration: 0.2, curve: .linear) {
-            self.blackoutView.layer.opacity = 0
-            self.tableView.sendSubviewToBack(self.blackoutView)
-        }
-        
-        animator.startAnimation()
-        
-        blackoutView.isUserInteractionEnabled = false
         tableView.isScrollEnabled = true
+        tableView.allowsSelection = true
     }
 }
