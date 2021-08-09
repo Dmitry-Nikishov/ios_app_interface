@@ -10,6 +10,8 @@ import UIKit
 class HabitViewEditController: UIViewController {
     public weak var dataRefresher : HabitDataReloadDelegate?
     
+    public var originalHabitNameBeforeEditing : String?
+    
     public var controllerTitle : String? {
         didSet {
             guard let title = controllerTitle else {
@@ -212,7 +214,28 @@ class HabitViewEditController: UIViewController {
 
     @objc private func editHabitHandler()
     {
-//        print("edit")
+        guard let originalHabitName = self.originalHabitNameBeforeEditing,
+              let habitColor = colorSelector.backgroundColor,
+              let habitText = userHabitContent.text,
+              let habitDate = scheduleTimeLabel.text else {
+            return
+        }
+        
+        let habitIdxToEditOptional = HabitsStore.shared.habits.firstIndex{ $0.name == originalHabitName }
+        
+        if let habitIdxToEdit = habitIdxToEditOptional {
+            let habit = HabitsStore.shared.habits[habitIdxToEdit]
+            habit.color = habitColor
+            habit.name = habitText
+            
+            if let date = DateToFromStringConverter.fromString(dateAsString: habitDate) {
+                habit.date = date
+            }
+            
+            self.dataRefresher?.reloadContent()
+            self.navigationController?.popToRootViewController(animated: false)
+        }
+
     }
     
     @objc private func selectColorHandler()
