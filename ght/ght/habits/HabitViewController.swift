@@ -193,11 +193,23 @@ class HabitViewController: UIViewController {
             self.navigationController?.popViewController(animated: false)
         }
         
-        guard let userDate = getUserInputDate(),
+        let userInputDateOptional = getUserInputDate()
+        
+        guard let userDate = userInputDateOptional,
               let habitText = userHabitInput.text,
               let selectedColor = colorSelector.backgroundColor
               else {
-            return
+                    let vc = UIAlertController(title: "Ошибка добавления привычки",
+                                               message : "Одно из полей новой привычки пустое [дата = \(userInputDateOptional != nil)], [текст = \(userHabitInput.text != nil)], [цвет = \(colorSelector.backgroundColor != nil)]",
+                                               preferredStyle: .alert)
+
+                    let okAction = UIAlertAction(title: "Ok", style: .default)
+
+                    vc.addAction(okAction)
+
+                    present(vc, animated: true, completion: nil)
+
+                    return
         }
                 
         let newHabit = Habit(name: habitText,

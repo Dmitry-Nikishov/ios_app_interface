@@ -35,7 +35,6 @@ class HabitDetailsViewController: UIViewController {
         return view
     }()
 
-
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.prefersLargeTitles = false
     }
@@ -88,6 +87,7 @@ class HabitDetailsViewController: UIViewController {
     {
         let detailsViewEditController = HabitViewEditController()
         detailsViewEditController.controllerTitle = controllerTitle
+        detailsViewEditController.originalHabitNameBeforeEditing = controllerTitle
         detailsViewEditController.habitColor = habitColor
         detailsViewEditController.habitDate = habitDate
         detailsViewEditController.dataRefresher = dataRefresher

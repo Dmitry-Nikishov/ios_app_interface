@@ -78,13 +78,24 @@ class HabitsViewController: UIViewController {
 extension HabitsViewController : UICollectionViewDataSource
 {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return HabitsStore.shared.habits.count + 1
+        return 2
     }
 
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        var itemsInSection : Int = 0
+        switch section {
+        case 0:
+            itemsInSection = 1
+        case 1 :
+            itemsInSection = HabitsStore.shared.habits.count
+        default:
+            itemsInSection = 0
+        }
+        
+        return itemsInSection
     }
-    
+        
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
             let cell =
@@ -100,9 +111,8 @@ extension HabitsViewController : UICollectionViewDataSource
                     withReuseIdentifier: String(describing: HabitCollectionViewCell.self),
                     for: indexPath) as! HabitCollectionViewCell
             
-            cell.habitId = HabitsStore.shared.habits[indexPath.section - 1]
-            cell.habitDetailsViewControllerDelegate = self
-            cell.habitDataReloadDelegate = self
+            cell.habitId = HabitsStore.shared.habits[indexPath.row]
+            cell.habitDetailsViewReloadableController = self
             return cell
         }
     }
@@ -138,7 +148,7 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension HabitsViewController : HabitDetailsViewDelegate {
+extension HabitsViewController : HabitDetailsViewReloadDelegate {
     func showHabitDetails(habitTitle : String,
                           habitColor : UIColor,
                           habitDate : Date,
@@ -152,10 +162,9 @@ extension HabitsViewController : HabitDetailsViewDelegate {
 
         self.navigationController?.pushViewController(detailsViewController, animated: false)
     }
-}
-
-extension HabitsViewController : HabitDataReloadDelegate {
+    
     func reloadContent() {
         habitsWithProgressCollection.reloadData()
     }
 }
+

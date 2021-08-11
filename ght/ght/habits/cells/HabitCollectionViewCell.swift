@@ -8,10 +8,8 @@
 import UIKit
 
 class HabitCollectionViewCell: UICollectionViewCell {
-    public weak var habitDetailsViewControllerDelegate : HabitDetailsViewDelegate?
-    
-    public weak var habitDataReloadDelegate : HabitDataReloadDelegate?
-    
+    public weak var habitDetailsViewReloadableController : HabitDetailsViewReloadDelegate?
+        
     public weak var habitId : Habit? {
         didSet {
             guard let habit = habitId else {
@@ -22,12 +20,16 @@ class HabitCollectionViewCell: UICollectionViewCell {
             counterLabel.text = "Счетчик: \(habit.trackDates.count)"
             habitTitleLabel.text = habit.name
             scheduleInfoLabel.text = habit.dateString
-
             habitTitleLabel.textColor = habit.color
-            trackView.layer.borderColor = habit.color.cgColor
             
             if isTracked {
-                trackView.backgroundColor = habit.color
+                trackView.layer.backgroundColor = UIColor.white.cgColor
+                trackView.tintColor = habit.color
+                trackView.image = UIImage(systemName: "checkmark.circle.fill")
+                trackView.layer.borderWidth = 0
+            } else {
+                trackView.layer.borderWidth = 2
+                trackView.layer.borderColor = habit.color.cgColor
             }
         }
     }
@@ -53,12 +55,11 @@ class HabitCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    private lazy var trackView : UIView = {
-        let view = UIView()
+    private lazy var trackView : UIImageView = {
+        let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 25
-        view.layer.borderWidth = 2
-        view.backgroundColor = .white
+        view.contentMode = .scaleAspectFill
         
         let tapGesture = UITapGestureRecognizer(target : self, action : #selector(trackViewClickHandler))
         view.isUserInteractionEnabled = true
@@ -67,15 +68,7 @@ class HabitCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    public var isTracked : Bool = false {
-        didSet {
-            guard let color = self.habitId?.color else {
-                return
-            }
-                
-            trackView.backgroundColor = isTracked ? color : .white
-        }
-    }
+    private var isTracked : Bool = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -122,12 +115,13 @@ class HabitCollectionViewCell: UICollectionViewCell {
     
     @objc private func trackViewClickHandler()
     {
-        isTracked = !isTracked
-        if (isTracked) {
+        if (!isTracked) {
             if let habit = self.habitId {
                 HabitsStore.shared.track(habit)
-                habitDataReloadDelegate?.reloadContent()
+                habitDetailsViewReloadableController?.reloadContent()
             }
+            
+            isTracked = true
         }
     }
     
@@ -135,15 +129,14 @@ class HabitCollectionViewCell: UICollectionViewCell {
     {
         guard let title = habitTitleLabel.text,
               let date = self.habitId?.date,
-              let color = trackView.layer.borderColor,
               let trackedDates = self.habitId?.trackDates
         else {
             return
         }
         
-        habitDetailsViewControllerDelegate?.showHabitDetails(
+        habitDetailsViewReloadableController?.showHabitDetails(
             habitTitle: title,
-            habitColor: UIColor(cgColor: color),
+            habitColor: trackView.tintColor,
             habitDate: date,
             trackedDates: trackedDates)
     }
