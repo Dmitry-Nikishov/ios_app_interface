@@ -26,10 +26,16 @@ class HabitCollectionViewCell: UICollectionViewCell {
                 trackView.layer.backgroundColor = UIColor.white.cgColor
                 trackView.tintColor = habit.color
                 trackView.image = UIImage(systemName: "checkmark.circle.fill")
+                
                 trackView.layer.borderWidth = 0
+                trackView.layer.borderColor = nil
             } else {
                 trackView.layer.borderWidth = 2
                 trackView.layer.borderColor = habit.color.cgColor
+                
+                trackView.layer.backgroundColor = nil
+                trackView.tintColor = nil
+                trackView.image = nil
             }
         }
     }
