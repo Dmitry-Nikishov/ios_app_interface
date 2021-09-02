@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import StorageService
 
 class ProfileViewController: UIViewController {
     private let tableView : UITableView = {
@@ -19,6 +20,15 @@ class ProfileViewController: UIViewController {
 
         setupTableView()
         setupConstraints()
+        setupBackgroundColor()
+    }
+    
+    private func setupBackgroundColor() {
+        #if DEBUG
+            view.backgroundColor = .red
+        #else
+            view.backgroundColor = .green
+        #endif
     }
         
     private func setupConstraints() {

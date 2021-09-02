@@ -1,27 +1,19 @@
 //
-//  ModelData.swift
+//  StorageService.swift
 //  vk
 //
-//  Created by Дмитрий Никишов on 09.07.2021.
+//  Created by Дмитрий Никишов on 01.09.2021.
 //
 
 import Foundation
 
-struct Post {
-    let author: String
-    let description: String
-    let image: String
-    let likes: Int
-    let viewes: Int
-}
-
-struct Data {
-    static let dataToDisplay = [
+public struct Data {
+    public static let dataToDisplay = [
         Post(author: "vedmak.official",
              description: "Новые кадры со съемок фильма \"Ведьмак\"",
              image: "vedmak",
              likes: 240,
-             viewes: 312),
+             views: 312),
         
         Post(author: "Нетология. Меняем карьеру через образование",
              description: """
@@ -33,18 +25,18 @@ struct Data {
             """,
              image: "netology_media",
              likes: 766,
-             viewes: 893),
+             views: 893),
         
         Post(author: "кинопоиск hd",
              description: "Фильм про стритрейсеров",
              image: "fast_and_furious",
              likes: 1000,
-             viewes: 1000),
+             views: 1000),
         
         Post(author: "афиша",
              description: "По роману Фрэнка Геберта",
              image: "dune",
              likes: 10000,
-             viewes: 10000)
+             views: 10000)
     ]
 }
