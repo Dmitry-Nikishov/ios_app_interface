@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class ProfileTableHeaderView: UITableViewHeaderFooterView {
     private var statusText : String = ""
@@ -13,8 +14,6 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     public weak var profileControllerView : UIView?
     
     public weak var profileController : ProfileTableHeaderViewDelegate?
-    
-    private var viewConstraints : [NSLayoutConstraint] = []
     
     private let fullNameLabel: UILabel = {
         let view = UILabel()
@@ -117,7 +116,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     {
         modifyHiddenStateForViews(isHidden: false)
         
-        NSLayoutConstraint.deactivate(viewConstraints)
+        removeConstraints()
         setupInitialConstraints()
         
         let animator = UIViewPropertyAnimator(duration: 0.2, curve: .linear) {
@@ -148,23 +147,22 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         modifyHiddenStateForViews(isHidden: true)
         
         let minOfWidthHeight = min(controllerView.bounds.height, controllerView.bounds.width)
+    
+        removeConstraints()
         
-        NSLayoutConstraint.deactivate(viewConstraints)
-        
-        let constraints = [
-            closeAvatarWindowButton.topAnchor.constraint(equalTo: controllerView.topAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets + controllerView.safeAreaInsets.top),
+        closeAvatarWindowButton.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(controllerView).offset(ProfileTableHeaderViewLayoutConstants.edgeOffsets + controllerView.safeAreaInsets.top)
             
-            closeAvatarWindowButton.trailingAnchor.constraint(equalTo: controllerView.trailingAnchor, constant: -ProfileTableHeaderViewLayoutConstants.edgeOffsets - contentView.safeAreaInsets.right),
-            
-            avatarImage.centerXAnchor.constraint(equalTo: controllerView.centerXAnchor),
-            avatarImage.centerYAnchor.constraint(equalTo: controllerView.centerYAnchor),
-            avatarImage.widthAnchor.constraint(equalToConstant: minOfWidthHeight - ProfileTableHeaderViewLayoutConstants.edgeOffsets*2),
-            avatarImage.heightAnchor.constraint(equalToConstant: minOfWidthHeight - ProfileTableHeaderViewLayoutConstants.edgeOffsets*2)
-        ]
+            make.trailing.equalTo(controllerView).offset(-ProfileTableHeaderViewLayoutConstants.edgeOffsets - contentView.safeAreaInsets.right)
+        }
         
-        NSLayoutConstraint.activate(constraints)
-        viewConstraints = constraints
-        
+        avatarImage.snp.makeConstraints{ (make) -> Void in
+            make.centerX.equalTo(controllerView)
+            make.centerY.equalTo(controllerView)
+            make.width.equalTo(minOfWidthHeight - ProfileTableHeaderViewLayoutConstants.edgeOffsets*2)
+            make.height.equalTo(minOfWidthHeight - ProfileTableHeaderViewLayoutConstants.edgeOffsets*2)
+        }
+                
         let animator = UIViewPropertyAnimator(duration: 0.5, curve: .linear) {
             self.contentView.layoutIfNeeded()
             self.avatarImage.layer.cornerRadius = 0
@@ -211,39 +209,55 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         setupInitialConstraints()
     }
     
+    private func removeConstraints()
+    {
+        closeAvatarWindowButton.snp.removeConstraints()
+        avatarImage.snp.removeConstraints()
+        fullNameLabel.snp.removeConstraints()
+        statusLabel.snp.removeConstraints()
+        statusTextField.snp.removeConstraints()
+        setStatusButton.snp.removeConstraints()
+    }
+    
     private func setupInitialConstraints()
     {
-        let constraints = [
-            closeAvatarWindowButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets),
-            closeAvatarWindowButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -ProfileTableHeaderViewLayoutConstants.edgeOffsets),
-            
-            avatarImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets),
-            avatarImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets),
-            avatarImage.widthAnchor.constraint(equalToConstant: ProfileTableHeaderViewLayoutConstants.avatarSize),
-            avatarImage.heightAnchor.constraint(equalToConstant: ProfileTableHeaderViewLayoutConstants.avatarSize),
-            
-            fullNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 27),
-            fullNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets*2 + ProfileTableHeaderViewLayoutConstants.avatarSize),
-            fullNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -ProfileTableHeaderViewLayoutConstants.edgeOffsets),
-            
-            statusLabel.topAnchor.constraint(equalTo: fullNameLabel.bottomAnchor, constant: 10),
-            statusLabel.leadingAnchor.constraint(equalTo: fullNameLabel.leadingAnchor),
-            statusLabel.trailingAnchor.constraint(equalTo: fullNameLabel.trailingAnchor),
-            
-            statusTextField.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 10),
-            statusTextField.heightAnchor.constraint(equalToConstant: 40),
-            statusTextField.leadingAnchor.constraint(equalTo: statusLabel.leadingAnchor),
-            statusTextField.trailingAnchor.constraint(equalTo: statusLabel.trailingAnchor),
-            
-            setStatusButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets*2 + ProfileTableHeaderViewLayoutConstants.avatarSize),
-            setStatusButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: ProfileTableHeaderViewLayoutConstants.edgeOffsets),
-            setStatusButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -ProfileTableHeaderViewLayoutConstants.edgeOffsets),
-            setStatusButton.heightAnchor.constraint(equalToConstant: 50)
-        ]
+        closeAvatarWindowButton.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(contentView).offset(ProfileTableHeaderViewLayoutConstants.edgeOffsets)
+            make.trailing.equalTo(contentView).offset(-ProfileTableHeaderViewLayoutConstants.edgeOffsets)
+        }
         
-        NSLayoutConstraint.activate(constraints)
+        avatarImage.snp.makeConstraints{ (make) -> Void  in
+            make.top.equalTo(contentView).offset(ProfileTableHeaderViewLayoutConstants.edgeOffsets)
+            make.leading.equalTo(contentView).offset(ProfileTableHeaderViewLayoutConstants.edgeOffsets)
+            make.width.equalTo(ProfileTableHeaderViewLayoutConstants.avatarSize)
+            make.height.equalTo(ProfileTableHeaderViewLayoutConstants.avatarSize)
+        }
         
-        viewConstraints = constraints
+        fullNameLabel.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(contentView).offset(27)
+            make.leading.equalTo(contentView).offset(ProfileTableHeaderViewLayoutConstants.edgeOffsets*2 + ProfileTableHeaderViewLayoutConstants.avatarSize)
+            make.trailing.equalTo(contentView).offset(-ProfileTableHeaderViewLayoutConstants.edgeOffsets)
+        }
+        
+        statusLabel.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(fullNameLabel.snp.bottom).offset(10)
+            make.leading.equalTo(fullNameLabel)
+            make.trailing.equalTo(fullNameLabel)
+        }
+        
+        statusTextField.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(statusLabel.snp.bottom).offset(10)
+            make.height.equalTo(40)
+            make.leading.equalTo(statusLabel)
+            make.trailing.equalTo(statusLabel)
+        }
+        
+        setStatusButton.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(contentView).offset(ProfileTableHeaderViewLayoutConstants.edgeOffsets*2 + ProfileTableHeaderViewLayoutConstants.avatarSize)
+            make.leading.equalTo(contentView).offset(ProfileTableHeaderViewLayoutConstants.edgeOffsets)
+            make.trailing.equalTo(contentView).offset(-ProfileTableHeaderViewLayoutConstants.edgeOffsets)
+            make.height.equalTo(50)
+        }
     }
     
 }
