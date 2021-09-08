@@ -20,7 +20,7 @@ class ProfileViewController: UIViewController {
 
         setupTableView()
         setupConstraints()
-        setupBackgroundColor()
+//        setupBackgroundColor()
     }
     
     private func setupBackgroundColor() {
