@@ -7,6 +7,8 @@
 
 import UIKit
 
+import StorageService
+
 class ProfileTableViewCell: UITableViewCell {
     
     var cellData : Post? {
@@ -15,7 +17,7 @@ class ProfileTableViewCell: UITableViewCell {
             postImageView.image = UIImage(named: cellData!.image)
             postDescriptionView.text = cellData!.description
             likesView.text = "Likes: \(cellData!.likes)"
-            viewsView.text = "Views: \(cellData!.viewes)"
+            viewsView.text = "Views: \(cellData!.views)"
         }
     }
     
