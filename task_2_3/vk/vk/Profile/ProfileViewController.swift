@@ -9,6 +9,12 @@ import UIKit
 import StorageService
 
 class ProfileViewController: UIViewController {
+    private var user : User?
+        
+    public func setUser(userService : UserService, userName : String) {
+        self.user = userService.getUserByName(fullName: userName)
+    }
+    
     private let tableView : UITableView = {
         let view = UITableView(frame: .zero, style: .plain)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -92,6 +98,7 @@ extension ProfileViewController: UITableViewDelegate {
         if section == 0 {
             guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: String(describing: ProfileTableHeaderView.self)) as? ProfileTableHeaderView else { return nil }
             
+            headerView.user = self.user
             headerView.profileControllerView = view
             headerView.profileController = self
             
