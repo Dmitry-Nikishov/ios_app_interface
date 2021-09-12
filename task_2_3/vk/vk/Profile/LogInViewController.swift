@@ -178,7 +178,7 @@ class LogInViewController: UIViewController {
     }
 
     @objc private func logInButtonClickedHandler() {
-        logInHandler()
+        logInHandler(emailOrPhoneTextFieldView.text ?? "")
     }
 
 }

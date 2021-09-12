@@ -8,6 +8,10 @@
 import UIKit
 
 class TabBarViewController: UITabBarController {
+    private let profileViewController = ProfileViewController()
+    private let currentUser = User(fullName: "usr",
+                                   avatarPath: "avatar",
+                                   status: "waiting...")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,11 +26,23 @@ class TabBarViewController: UITabBarController {
     func setupVCs()
     {
         viewControllers = [
-            createNavController(for : LogInViewController( {
+            createNavController(for : LogInViewController( { (userNameInput : String) in
+                #if DEBUG
+                    self.profileViewController.setUser(
+                        userService: TestUserService(),
+                        userName: userNameInput
+                    )
+                #else
+                    self.profileViewController.setUser(
+                        userService: CurrentUserService(user: self.currentUser),
+                        userName: userNameInput
+                    )
+                #endif
+                
                 self.selectedIndex = 1
             }), title: "Login", image : UIImage(systemName: "person.fill")!),
             
-            createNavController(for : ProfileViewController(), title: "Feed", image : UIImage(systemName: "homekit")!)
+            createNavController(for : profileViewController, title: "Feed", image : UIImage(systemName: "homekit")!)
         ]
     }
 
