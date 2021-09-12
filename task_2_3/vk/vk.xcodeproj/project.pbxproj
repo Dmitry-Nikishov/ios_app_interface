@@ -12,6 +12,7 @@
 		F66024C926EABA99004F4B5D /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66024C826EABA99004F4B5D /* UserService.swift */; };
 		F66024CB26EABB49004F4B5D /* CurrentUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66024CA26EABB49004F4B5D /* CurrentUserService.swift */; };
 		F66024CD26EAC13E004F4B5D /* TestUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66024CC26EAC13E004F4B5D /* TestUserService.swift */; };
+		F66024CF26EE2D5C004F4B5D /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66024CE26EE2D5C004F4B5D /* Utility.swift */; };
 		F6617D5F26DFD7F4004AB050 /* StorageService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6617D5626DFD7F4004AB050 /* StorageService.framework */; };
 		F6617D6626DFD7F4004AB050 /* StorageServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6617D6526DFD7F4004AB050 /* StorageServiceTests.swift */; };
 		F6617D6826DFD7F4004AB050 /* StorageService.h in Headers */ = {isa = PBXBuildFile; fileRef = F6617D5826DFD7F4004AB050 /* StorageService.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -86,6 +87,7 @@
 		F66024C826EABA99004F4B5D /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		F66024CA26EABB49004F4B5D /* CurrentUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserService.swift; sourceTree = "<group>"; };
 		F66024CC26EAC13E004F4B5D /* TestUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUserService.swift; sourceTree = "<group>"; };
+		F66024CE26EE2D5C004F4B5D /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		F6617D4D26DFD69A004AB050 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		F6617D4F26DFD79C004AB050 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		F6617D5626DFD7F4004AB050 /* StorageService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StorageService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -262,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				F671449E2699085500495503 /* TextFieldWithPadding.swift */,
+				F66024CE26EE2D5C004F4B5D /* Utility.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -489,6 +492,7 @@
 				F6890FE526A8BE4A0021D4E7 /* ProfileTableHeaderViewDelegate.swift in Sources */,
 				F671449A2698DDEE00495503 /* ProfileTableHeaderView.swift in Sources */,
 				F67144772697C94600495503 /* SceneDelegate.swift in Sources */,
+				F66024CF26EE2D5C004F4B5D /* Utility.swift in Sources */,
 				F67144A7269A627700495503 /* PhotoGalery.swift in Sources */,
 				F671449F2699085500495503 /* TextFieldWithPadding.swift in Sources */,
 				F67144A9269A672100495503 /* PhotoGalleryCollectionViewCell.swift in Sources */,

@@ -11,8 +11,8 @@ import StorageService
 class ProfileViewController: UIViewController {
     private var user : User?
         
-    public func setUser(userService : UserService, userName : String) {
-        self.user = userService.getUserByName(fullName: userName)
+    public func setUser(user : User) {
+        self.user = user
     }
     
     private let tableView : UITableView = {
