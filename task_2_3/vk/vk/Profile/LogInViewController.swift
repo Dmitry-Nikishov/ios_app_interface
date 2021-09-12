@@ -8,10 +8,13 @@
 import UIKit
 
 class LogInViewController: UIViewController {
+    private let credentialsCheckerDelegate : CredentialsChecker
+    
     private var logInHandler : LogInHandler
     
-    init(_ handler : @escaping LogInHandler) {
+    init(_ handler : @escaping LogInHandler, credentialsChecker : CredentialsChecker) {
         logInHandler = handler
+        credentialsCheckerDelegate = credentialsChecker
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -178,9 +181,19 @@ class LogInViewController: UIViewController {
     }
 
     @objc private func logInButtonClickedHandler() {
-        logInHandler(emailOrPhoneTextFieldView.text ?? "")
+        let loginToVerify = emailOrPhoneTextFieldView.text ?? ""
+        let passwordToVerify = passwordTextFieldView.text ?? ""
+        
+        let verificationResult = credentialsCheckerDelegate.areCredentialsOk(
+                                        login: loginToVerify,
+                                        password: passwordToVerify)
+        
+        if verificationResult {
+            logInHandler(User(fullName : loginToVerify, avatarPath : "avatar", status : "initial"))
+        } else {
+            logInHandler(nil)
+        }
     }
-
 }
 
 //MARK: Keyboard Notifications
