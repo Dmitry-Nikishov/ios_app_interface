@@ -10,7 +10,22 @@ import StorageService
 
 class ProfileViewController: UIViewController {
     private var user : User?
-        
+    private let userService : UserService
+     
+    init(_ userService : UserService) {
+        self.userService = userService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    
+    public func getControllerUserService() -> UserService {
+        return userService
+    }
+    
     public func setUser(user : User) {
         self.user = user
     }

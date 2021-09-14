@@ -8,10 +8,15 @@
 import UIKit
 
 class TabBarViewController: UITabBarController {
-    private let profileViewController = ProfileViewController()
     private let currentUser = User(fullName: "usr",
                                    avatarPath: "avatar",
                                    status: "waiting...")
+    
+    #if DEBUG
+        private let profileViewController = ProfileViewController(TestUserService())
+    #else
+        private let profileViewController = ProfileViewController(CurrentUserService(user: self.currentUser))
+    #endif
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,16 +42,10 @@ class TabBarViewController: UITabBarController {
     {
         viewControllers = [
             createNavController(for : LogInViewController( { (userNameInput : String) in
-                var userName : User?  = nil
-                
-                #if DEBUG
-                    userName = Utility.getUserName(service: TestUserService(),
-                                                     userName: userNameInput)
-                #else
-                    userName = Utility.getUserName(service: CurrentUserService(user: self.currentUser),
-                                                     userName: userNameInput)
-                #endif
-                
+                let userName = Utility.getUserName(
+                    service: self.profileViewController.getControllerUserService(),
+                    userName: userNameInput)
+                                
                 guard let usr = userName else {
                    self.showInvalidUserAlert()
                    return
