@@ -12,10 +12,6 @@ class TabBarViewController: UITabBarController {
     
     private let profileViewController = ProfileViewController()
     
-    private let currentUser = User(fullName: "usr",
-                                   avatarPath: "avatar",
-                                   status: "waiting...")
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -39,7 +35,7 @@ class TabBarViewController: UITabBarController {
     func setupVCs()
     {
         viewControllers = [
-            createNavController(for : LogInViewController( { (user : User?) in
+            createNavController(for : LogInViewController( handler : { (user : User?) in
                 guard let usr = user else {
                     self.showInvalidUserAlert()
                     return

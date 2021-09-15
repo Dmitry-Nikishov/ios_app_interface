@@ -12,7 +12,7 @@ class LogInViewController: UIViewController {
     
     private var logInHandler : LogInHandler
     
-    init(_ handler : @escaping LogInHandler, credentialsChecker : CredentialsChecker) {
+    init(handler : @escaping LogInHandler, credentialsChecker : CredentialsChecker) {
         logInHandler = handler
         credentialsCheckerDelegate = credentialsChecker
         super.init(nibName: nil, bundle: nil)
