@@ -9,6 +9,27 @@ import UIKit
 import StorageService
 
 class ProfileViewController: UIViewController {
+    private var user : User?
+    private let userService : UserService
+     
+    init(_ userService : UserService) {
+        self.userService = userService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    
+    public func getControllerUserService() -> UserService {
+        return userService
+    }
+    
+    public func setUser(user : User) {
+        self.user = user
+    }
+    
     private let tableView : UITableView = {
         let view = UITableView(frame: .zero, style: .plain)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -92,6 +113,7 @@ extension ProfileViewController: UITableViewDelegate {
         if section == 0 {
             guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: String(describing: ProfileTableHeaderView.self)) as? ProfileTableHeaderView else { return nil }
             
+            headerView.user = self.user
             headerView.profileControllerView = view
             headerView.profileController = self
             

@@ -15,6 +15,18 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     public weak var profileController : ProfileTableHeaderViewDelegate?
     
+    public var user : User? {
+        didSet {
+            guard let usr = user else {
+                return
+            }
+            
+            fullNameLabel.text = usr.getFullName()
+            statusLabel.text = usr.getStatus()
+            avatarImage.image = UIImage(named: usr.getAvatarPath())
+        }
+    }
+    
     private let fullNameLabel: UILabel = {
         let view = UILabel()
         view.text = "Hipster Pinguin"
