@@ -30,3 +30,9 @@ class User {
         return status
     }
 }
+
+enum PredefinedUsers {
+    static let currentUser = User(fullName: "usr",
+                                   avatarPath: "avatar",
+                                   status: "waiting...")
+}
