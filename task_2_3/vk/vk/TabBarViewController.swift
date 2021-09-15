@@ -8,14 +8,11 @@
 import UIKit
 
 class TabBarViewController: UITabBarController {
-    private let currentUser = User(fullName: "usr",
-                                   avatarPath: "avatar",
-                                   status: "waiting...")
-    
     #if DEBUG
         private let profileViewController = ProfileViewController(TestUserService())
     #else
-        private let profileViewController = ProfileViewController(CurrentUserService(user: self.currentUser))
+    private let profileViewController = ProfileViewController(CurrentUserService(user:PredefinedUsers.currentUser))
+
     #endif
 
     override func viewDidLoad() {
