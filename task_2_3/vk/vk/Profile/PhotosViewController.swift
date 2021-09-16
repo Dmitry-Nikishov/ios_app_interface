@@ -6,10 +6,15 @@
 //
 
 import UIKit
+import iOSIntPackage
 
 class PhotosViewController: UIViewController {
+    private let imagePublisherFacade = ImagePublisherFacade()
+    
     private var photoWidth : CGFloat = 0
-
+    
+    private var publisherImages : [UIImage] = []
+        
     private lazy var photoGalleryCollection : UICollectionView = {
         var layout = UICollectionViewFlowLayout()
 
@@ -37,7 +42,16 @@ class PhotosViewController: UIViewController {
         
         setupViews()
     }
-
+     
+    override func viewWillAppear(_ animated: Bool) {
+        imagePublisherFacade.subscribe(self)
+        imagePublisherFacade.addImagesWithTimer(time: 1, repeat: 12)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        imagePublisherFacade.removeSubscription(for: self)
+    }
+    
     private func setupViews()
     {
         self.title = "Photo Galery"
@@ -65,7 +79,7 @@ extension PhotosViewController : UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return PhotoGalleryData.images.count
+        return publisherImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -74,7 +88,7 @@ extension PhotosViewController : UICollectionViewDataSource {
                 withReuseIdentifier: String(describing: PhotoGalleryCollectionViewCell.self),
                 for: indexPath) as! PhotoGalleryCollectionViewCell
 
-        cell.imageName = PhotoGalleryData.images[indexPath.row]
+        cell.photoImage = publisherImages[indexPath.row]
 
         return cell
     }
@@ -99,3 +113,9 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+extension PhotosViewController : ImageLibrarySubscriber {
+    func receive(images: [UIImage]) {
+        publisherImages = images
+        photoGalleryCollection.reloadData()
+    }
+}
