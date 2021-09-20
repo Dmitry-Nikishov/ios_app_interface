@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E829C6DA545D1EE8658FED06 /* Pods_vk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D0686B8172714CFDD7AFB33 /* Pods_vk.framework */; };
+		F64E03F926F9405100A01247 /* UserStatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64E03F826F9405100A01247 /* UserStatusModel.swift */; };
 		F66024C726EAB999004F4B5D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66024C626EAB999004F4B5D /* User.swift */; };
 		F66024C926EABA99004F4B5D /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66024C826EABA99004F4B5D /* UserService.swift */; };
 		F66024CB26EABB49004F4B5D /* CurrentUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66024CA26EABB49004F4B5D /* CurrentUserService.swift */; };
@@ -44,6 +45,7 @@
 		F6890FDF269E34E70021D4E7 /* PhotoGalleryLayoutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6890FDE269E34E70021D4E7 /* PhotoGalleryLayoutSettings.swift */; };
 		F6890FE326A1ED470021D4E7 /* ProfileTableHeaderViewLayoutConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6890FE226A1ED470021D4E7 /* ProfileTableHeaderViewLayoutConstants.swift */; };
 		F6890FE526A8BE4A0021D4E7 /* ProfileTableHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6890FE426A8BE4A0021D4E7 /* ProfileTableHeaderViewDelegate.swift */; };
+		F6EAEC0026F8A641006E8B4C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EAEBFF26F8A641006E8B4C /* CustomButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +89,7 @@
 /* Begin PBXFileReference section */
 		04E9A9054F92CFEBC8DA37A9 /* Pods-vk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vk.release.xcconfig"; path = "Target Support Files/Pods-vk/Pods-vk.release.xcconfig"; sourceTree = "<group>"; };
 		4D0686B8172714CFDD7AFB33 /* Pods_vk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F64E03F826F9405100A01247 /* UserStatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatusModel.swift; sourceTree = "<group>"; };
 		F65B1F29E07872ABF2B911FB /* Pods-vk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vk.debug.xcconfig"; path = "Target Support Files/Pods-vk/Pods-vk.debug.xcconfig"; sourceTree = "<group>"; };
 		F66024C626EAB999004F4B5D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F66024C826EABA99004F4B5D /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
@@ -126,6 +129,7 @@
 		F6890FDE269E34E70021D4E7 /* PhotoGalleryLayoutSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGalleryLayoutSettings.swift; sourceTree = "<group>"; };
 		F6890FE226A1ED470021D4E7 /* ProfileTableHeaderViewLayoutConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableHeaderViewLayoutConstants.swift; sourceTree = "<group>"; };
 		F6890FE426A8BE4A0021D4E7 /* ProfileTableHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableHeaderViewDelegate.swift; sourceTree = "<group>"; };
+		F6EAEBFF26F8A641006E8B4C /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +246,7 @@
 		F67144732697C94600495503 /* vk */ = {
 			isa = PBXGroup;
 			children = (
+				F6EAEBFE26F8A61F006E8B4C /* CustomUI */,
 				F66024D026EEB0FE004F4B5D /* LoginInspector */,
 				F66024C526EAB986004F4B5D /* User */,
 				F671449D2699083D00495503 /* Common */,
@@ -279,6 +284,7 @@
 			isa = PBXGroup;
 			children = (
 				F67144A6269A627700495503 /* PhotoGalery.swift */,
+				F64E03F826F9405100A01247 /* UserStatusModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -290,6 +296,14 @@
 				F66024CE26EE2D5C004F4B5D /* Utility.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		F6EAEBFE26F8A61F006E8B4C /* CustomUI */ = {
+			isa = PBXGroup;
+			children = (
+				F6EAEBFF26F8A641006E8B4C /* CustomButton.swift */,
+			);
+			path = CustomUI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -503,6 +517,7 @@
 			files = (
 				F66024DA26EEBAE1004F4B5D /* CredentialsCheckerFactoryImpl.swift in Sources */,
 				F6890FDF269E34E70021D4E7 /* PhotoGalleryLayoutSettings.swift in Sources */,
+				F6EAEC0026F8A641006E8B4C /* CustomButton.swift in Sources */,
 				F67144912697CAC500495503 /* LogInViewController.swift in Sources */,
 				F66024C926EABA99004F4B5D /* UserService.swift in Sources */,
 				F67144752697C94600495503 /* AppDelegate.swift in Sources */,
@@ -520,6 +535,7 @@
 				F6890FE526A8BE4A0021D4E7 /* ProfileTableHeaderViewDelegate.swift in Sources */,
 				F671449A2698DDEE00495503 /* ProfileTableHeaderView.swift in Sources */,
 				F67144772697C94600495503 /* SceneDelegate.swift in Sources */,
+				F64E03F926F9405100A01247 /* UserStatusModel.swift in Sources */,
 				F66024CF26EE2D5C004F4B5D /* Utility.swift in Sources */,
 				F67144A7269A627700495503 /* PhotoGalery.swift in Sources */,
 				F671449F2699085500495503 /* TextFieldWithPadding.swift in Sources */,

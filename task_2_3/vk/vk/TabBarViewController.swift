@@ -10,7 +10,7 @@ import UIKit
 class TabBarViewController: UITabBarController {
     private let credentialsInspectorFactory = CredentialsCheckerFactoryImpl()
     
-    private let profileViewController = ProfileViewController()
+    private let profileViewController = ProfileViewController(statusModel: UserStatusModel(policy : .onlyLettersPossible))
     
     override func viewDidLoad() {
         super.viewDidLoad()
