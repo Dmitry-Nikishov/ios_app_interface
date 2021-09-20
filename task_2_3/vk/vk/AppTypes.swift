@@ -7,6 +7,6 @@
 
 import Foundation
 
-typealias LogInHandler = (String) -> Void
+typealias LogInHandler = (User?) -> Void
 typealias PhotoNavigationHandler = () -> Void
 

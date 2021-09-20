@@ -15,6 +15,8 @@ class TabBarViewController: UITabBarController {
 
     #endif
 
+    private let credentialsInspectorFactory = CredentialsCheckerFactoryImpl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -38,29 +40,30 @@ class TabBarViewController: UITabBarController {
     func setupVCs()
     {
         viewControllers = [
-            createNavController(for : LogInViewController( { (userNameInput : String) in
-                let userName = Utility.getUserName(
-                    service: self.profileViewController.getControllerUserService(),
-                    userName: userNameInput)
-                                
-                guard let usr = userName else {
-                   self.showInvalidUserAlert()
-                   return
+            createNavController(for : LogInViewController( handler : { (user : User?) in
+                guard let usr = user else {
+                    self.showInvalidUserAlert()
+                    return
                 }
-                
+
                 self.profileViewController.setUser(user: usr)
                 self.selectedIndex = 1
                 self.setEnableStatusForFeedTabItem(true)
-                                
-            }), title: "Login", image : UIImage(systemName: "person.fill")!),
+                self.setDisableStatusForLoginTabItem()
+            }, credentialsChecker : credentialsInspectorFactory.createCredentialsInspector()),
+               title: "Login",
+               image : UIImage(systemName: "person.fill")!),
             
             createNavController(for : profileViewController, title: "Feed", image : UIImage(systemName: "homekit")!)
-            
         ]
         
         setEnableStatusForFeedTabItem(false)
     }
 
+    private func setDisableStatusForLoginTabItem() {
+        tabBar.items?[0].isEnabled = false
+    }
+    
     private func setEnableStatusForFeedTabItem(_ enabled : Bool) {
         tabBar.items?[1].isEnabled = enabled
     }
