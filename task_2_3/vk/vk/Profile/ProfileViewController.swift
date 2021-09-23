@@ -9,6 +9,8 @@ import UIKit
 import StorageService
 
 class ProfileViewController: UIViewController {
+    private var statusModel : UserStatusModel
+    
     private var user : User?
         
     public func setUser(user : User) {
@@ -21,22 +23,22 @@ class ProfileViewController: UIViewController {
         return view
     }()
     
+    init(statusModel : UserStatusModel) {
+        self.statusModel = statusModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupTableView()
         setupConstraints()
-//        setupBackgroundColor()
     }
-    
-    private func setupBackgroundColor() {
-        #if DEBUG
-            view.backgroundColor = .red
-        #else
-            view.backgroundColor = .green
-        #endif
-    }
-        
+            
     private func setupConstraints() {
         let constraints = [
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -101,6 +103,7 @@ extension ProfileViewController: UITableViewDelegate {
             headerView.user = self.user
             headerView.profileControllerView = view
             headerView.profileController = self
+            headerView.statusModel = self.statusModel
             
             return headerView
         }

@@ -10,6 +10,18 @@ import UIKit
 class PhotosTableViewCell: UITableViewCell {
     var navigationHandler : PhotoNavigationHandler?
 
+    private lazy var goToGalleryHandler : UiViewClickHandler = { [weak self] in
+        guard let self = self else {
+            return
+        }
+        
+        guard let handler = self.navigationHandler else {
+            return
+        }
+        
+        handler()
+    }
+    
     private var photoWidth : CGFloat = (
         UIScreen.main.bounds.width -
         3 * ShortPhotoGalleryLayoutSettings.spacingBetweenImagesInShortGallery -
@@ -24,20 +36,14 @@ class PhotosTableViewCell: UITableViewCell {
         return view
     }()
     
-    private lazy var buttonView : UIButton = {
-        let view = UIButton()
-        view.setBackgroundImage(UIImage(systemName: "arrow.right"), for: .normal)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.addTarget(self, action: #selector(goToGalleryClickedHandler), for: .touchUpInside)
-        return view
+    private lazy var galleryButton : CustomButton = {
+        let button = CustomButton()
+        button.setBackgroundImage(image: UIImage(systemName: "arrow.right"))
+        return button
     }()
     
     @objc private func goToGalleryClickedHandler() {
-        guard let handler = navigationHandler else {
-            return
-        }
-        
-        handler()
+        self.goToGalleryHandler()
     }
     
     private lazy var photosPreview : UICollectionView = {
@@ -54,16 +60,21 @@ class PhotosTableViewCell: UITableViewCell {
         return view
     }()
         
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    private func initializeInternals()
+    {
         initializeGestureHandlerForView()
         setupViews()
+        setupClickHandler()
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        initializeInternals()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        initializeGestureHandlerForView()
-        setupViews()
+        initializeInternals()
     }
 
     private func initializeGestureHandlerForView()
@@ -74,9 +85,16 @@ class PhotosTableViewCell: UITableViewCell {
         contentView.isUserInteractionEnabled = true
         contentView.addGestureRecognizer(tapGesture)
     }
+    
+    private func setupClickHandler()
+    {
+        galleryButton.clickHandler = goToGalleryHandler
+    }
         
     private func setupViews()
     {
+        let buttonView = galleryButton.getInternalUi()
+        
         contentView.addSubview(titleLabelView)
         contentView.addSubview(buttonView)
         contentView.addSubview(photosPreview)

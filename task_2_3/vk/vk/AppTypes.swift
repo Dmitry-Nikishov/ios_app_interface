@@ -9,4 +9,6 @@ import Foundation
 
 typealias LogInHandler = (User?) -> Void
 typealias PhotoNavigationHandler = () -> Void
-
+typealias UiViewClickHandler = () -> Void
+typealias UserStatusChecker = (String) -> Bool
+typealias UserStatusCheckerResult = (Bool) -> Void
