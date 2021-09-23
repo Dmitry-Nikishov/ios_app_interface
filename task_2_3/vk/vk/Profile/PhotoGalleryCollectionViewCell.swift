@@ -15,6 +15,15 @@ class PhotoGalleryCollectionViewCell: UICollectionViewCell {
             }
         }
     }
+
+    var photoImage : UIImage? {
+        didSet {
+            if let photo = photoImage {
+                photoArea.image = photo
+            }
+        }
+    }
+
     private let photoArea : UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
