@@ -80,28 +80,24 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         return view
     }()
     
-    let setStatusButton: CustomButton = {
-        let button = CustomButton(title: "Show status", titleColor: .white)
-        button.setBackgroundColor(color: UIColor(named: "myColor"))
+    private lazy var setStatusButton: CustomButton = {
+        let button = CustomButton(frame : self.frame, title: "Show status", titleColor: .white)
+        button.backgroundColor = UIColor(named: "myColor")
         
-        let view = button.getInternalUi()
-        view.layer.cornerRadius = 14
-        view.layer.shadowRadius = 4
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.7
-        view.layer.shadowOffset = CGSize(width: 4, height: 4)
+        button.layer.cornerRadius = 14
+        button.layer.shadowRadius = 4
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.7
+        button.layer.shadowOffset = CGSize(width: 4, height: 4)
 
         return button
     }()
     
     private lazy var closeAvatarWindowButton : CustomButton = {
-        let button = CustomButton()
-        button.setBackgroundImage(image: UIImage(named : "close_btn"))
-        
-        let view = button.getInternalUi()
-        view.isUserInteractionEnabled = true
-        view.layer.opacity = 0
-        
+        let button = CustomButton(frame : self.frame)
+        button.setBackgroundImage(UIImage(named : "close_btn"), for: .normal)
+        button.isUserInteractionEnabled = true
+        button.layer.opacity = 0
         return button
     }()
     
@@ -123,7 +119,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         fullNameLabel.isHidden = isHidden
         statusLabel.isHidden = isHidden
         statusTextField.isHidden = isHidden
-        setStatusButton.setIsHiddenState(isHidden: isHidden)
+        setStatusButton.isHidden = isHidden
     }
         
     @objc func avatarImagePressHandler()
@@ -142,7 +138,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
         removeConstraints()
         
-        closeAvatarWindowButton.getInternalUi().snp.makeConstraints{ (make) -> Void in
+        closeAvatarWindowButton.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(controllerView).offset(ProfileTableHeaderViewLayoutConstants.edgeOffsets + controllerView.safeAreaInsets.top)
             
             make.trailing.equalTo(controllerView).offset(-ProfileTableHeaderViewLayoutConstants.edgeOffsets - contentView.safeAreaInsets.right)
@@ -163,7 +159,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         
         animator.addCompletion { _ in
             let animator = UIViewPropertyAnimator(duration: 0.3, curve: .linear) {
-                self.closeAvatarWindowButton.getInternalUi().alpha = 1
+                self.closeAvatarWindowButton.alpha = 1
             }
             
             animator.startAnimation()
@@ -171,7 +167,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         animator.startAnimation()
         
         contentView.bringSubviewToFront(avatarImage)
-        contentView.bringSubviewToFront(closeAvatarWindowButton.getInternalUi())
+        contentView.bringSubviewToFront(closeAvatarWindowButton)
     }
         
     @objc func statusTextChanged(_ textField: UITextField)
@@ -209,7 +205,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
             
             let animator = UIViewPropertyAnimator(duration: 0.2, curve: .linear) {
                 self.contentView.layoutIfNeeded()
-                self.closeAvatarWindowButton.getInternalUi().alpha = 0
+                self.closeAvatarWindowButton.alpha = 0
                 self.blackoutView.alpha = 0
                 self.avatarImage.layer.cornerRadius = ProfileTableHeaderViewLayoutConstants.avatarSize/2
             }
@@ -219,7 +215,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
             self.profileController?.closeBlackoutView()
             
             self.contentView.sendSubviewToBack(self.avatarImage)
-            self.contentView.sendSubviewToBack(self.closeAvatarWindowButton.getInternalUi())
+            self.contentView.sendSubviewToBack(self.closeAvatarWindowButton)
         }
     }
     
@@ -229,8 +225,8 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         contentView.addSubview(fullNameLabel)
         contentView.addSubview(statusLabel)
         contentView.addSubview(statusTextField)
-        contentView.addSubview(setStatusButton.getInternalUi())
-        contentView.addSubview(closeAvatarWindowButton.getInternalUi())
+        contentView.addSubview(setStatusButton)
+        contentView.addSubview(closeAvatarWindowButton)
         contentView.addSubview(blackoutView)
         
         setupInitialConstraints()
@@ -240,17 +236,17 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     private func removeConstraints()
     {
-        closeAvatarWindowButton.getInternalUi().snp.removeConstraints()
+        closeAvatarWindowButton.snp.removeConstraints()
         avatarImage.snp.removeConstraints()
         fullNameLabel.snp.removeConstraints()
         statusLabel.snp.removeConstraints()
         statusTextField.snp.removeConstraints()
-        setStatusButton.getInternalUi().snp.removeConstraints()
+        setStatusButton.snp.removeConstraints()
     }
     
     private func setupInitialConstraints()
     {
-        closeAvatarWindowButton.getInternalUi().snp.makeConstraints{ (make) -> Void in
+        closeAvatarWindowButton.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(contentView).offset(ProfileTableHeaderViewLayoutConstants.edgeOffsets)
             make.trailing.equalTo(contentView).offset(-ProfileTableHeaderViewLayoutConstants.edgeOffsets)
         }
@@ -281,7 +277,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
             make.trailing.equalTo(statusLabel)
         }
         
-        setStatusButton.getInternalUi().snp.makeConstraints{ (make) -> Void in
+        setStatusButton.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(contentView).offset(ProfileTableHeaderViewLayoutConstants.edgeOffsets*2 + ProfileTableHeaderViewLayoutConstants.avatarSize)
             make.leading.equalTo(contentView).offset(ProfileTableHeaderViewLayoutConstants.edgeOffsets)
             make.trailing.equalTo(contentView).offset(-ProfileTableHeaderViewLayoutConstants.edgeOffsets)

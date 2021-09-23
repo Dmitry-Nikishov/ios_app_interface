@@ -7,41 +7,25 @@
 
 import UIKit
 
-class CustomButton {
-    private let button : UIButton
-    
+class CustomButton : UIButton {
     public var clickHandler : UiViewClickHandler?
     
-    init() {
-        button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(buttonClickHandler), for: .touchUpInside)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.addTarget(self, action: #selector(buttonClickHandler), for: .touchUpInside)
     }
     
-    convenience init(title : String, titleColor : UIColor?) {
-        self.init()
-        button.setTitle(title, for: .normal)
-        button.setTitleColor(titleColor, for: .normal)
-        button.layer.masksToBounds = true
-        button.layer.cornerRadius = 10
-    }
-        
-    public func setBackgroundImage(image : UIImage?) {
-        button.setBackgroundImage(image, for: .normal)
+    convenience init(frame: CGRect, title : String, titleColor : UIColor?) {
+        self.init(frame : frame)
+        self.setTitle(title, for: .normal)
+        self.setTitleColor(titleColor, for: .normal)
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 10
     }
     
-    public func setBackgroundColor(color : UIColor?)
-    {
-        button.backgroundColor = color
-    }
-    
-    public func setIsHiddenState(isHidden : Bool)
-    {
-        button.isHidden = isHidden
-    }
-    
-    public func getInternalUi() -> UIButton {
-        return button
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     @objc private func buttonClickHandler()
