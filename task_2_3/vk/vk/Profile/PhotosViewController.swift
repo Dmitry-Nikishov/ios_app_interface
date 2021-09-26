@@ -8,7 +8,9 @@
 import UIKit
 import iOSIntPackage
 
-class PhotosViewController: UIViewController {
+class PhotosViewController: UIViewController, Coordinating {
+    weak var coordinator: Coordinator?
+    
     private let imagePublisherFacade = ImagePublisherFacade()
     
     private var photoWidth : CGFloat = 0

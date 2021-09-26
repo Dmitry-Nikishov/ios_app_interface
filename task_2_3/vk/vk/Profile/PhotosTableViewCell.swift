@@ -7,19 +7,15 @@
 
 import UIKit
 
-class PhotosTableViewCell: UITableViewCell {
-    var navigationHandler : PhotoNavigationHandler?
+class PhotosTableViewCell: UITableViewCell, Coordinating {
+    weak var coordinator: Coordinator?
 
     private lazy var goToGalleryHandler : UiViewClickHandler = { [weak self] in
         guard let self = self else {
             return
         }
         
-        guard let handler = self.navigationHandler else {
-            return
-        }
-        
-        handler()
+        self.coordinator?.processEvent(with: .feedToPhotoEvent)
     }
     
     private var photoWidth : CGFloat = (
