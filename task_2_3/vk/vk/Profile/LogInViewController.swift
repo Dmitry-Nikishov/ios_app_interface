@@ -79,16 +79,10 @@ class LogInViewController: UIViewController {
         return view
     }()
     
-    private let logInButtonView : UIButton = {
-        let view = UIButton()
-        view.setTitle("Log in", for: .normal)
-        view.setTitleColor(.white, for : .normal)
-        view.setBackgroundImage( UIImage(named: "blue_pixel")!, for: .normal)
-        view.layer.cornerRadius = 10
-        view.layer.masksToBounds = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.addTarget(self, action: #selector(logInButtonClickedHandler), for: .touchUpInside)
-        return view
+    private lazy var logInButton : CustomButton = {
+        let button = CustomButton(frame : self.view.frame, title: "Log in", titleColor: .white)
+        button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
+        return button
     }()
 
     override func viewDidLoad() {
@@ -108,7 +102,27 @@ class LogInViewController: UIViewController {
         containerView.addSubview(logoView)
         containerView.addSubview(emailOrPhoneTextFieldView)
         containerView.addSubview(passwordTextFieldView)
-        containerView.addSubview(logInButtonView)
+        
+        logInButton.clickHandler = { [weak self] in
+            guard let self = self else {
+                return
+            }
+            
+            let loginToVerify = self.emailOrPhoneTextFieldView.text ?? ""
+            let passwordToVerify = self.passwordTextFieldView.text ?? ""
+            
+            let verificationResult = self.credentialsCheckerDelegate.areCredentialsOk(
+                                            login: loginToVerify,
+                                            password: passwordToVerify)
+            
+            if verificationResult {
+                self.logInHandler(User(fullName : loginToVerify, avatarPath : "avatar", status : "initial"))
+            } else {
+                self.logInHandler(nil)
+            }
+        }
+        
+        containerView.addSubview(logInButton)
 
         scrollView.addSubview(containerView)
 
@@ -141,13 +155,11 @@ class LogInViewController: UIViewController {
             passwordTextFieldView.heightAnchor.constraint(equalToConstant: 50),
             passwordTextFieldView.trailingAnchor.constraint(equalTo: emailOrPhoneTextFieldView.trailingAnchor),
             
-            logInButtonView.topAnchor.constraint(equalTo: passwordTextFieldView.bottomAnchor, constant: 16),
-            logInButtonView.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor),
-            logInButtonView.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor),
-            logInButtonView.heightAnchor.constraint(equalToConstant: 50),
-            logInButtonView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
-            
-            
+            logInButton.topAnchor.constraint(equalTo: passwordTextFieldView.bottomAnchor, constant: 16),
+            logInButton.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor),
+            logInButton.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor),
+            logInButton.heightAnchor.constraint(equalToConstant: 50),
+            logInButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ]
         
         NSLayoutConstraint.activate(constraints)
@@ -178,21 +190,6 @@ class LogInViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-    }
-
-    @objc private func logInButtonClickedHandler() {
-        let loginToVerify = emailOrPhoneTextFieldView.text ?? ""
-        let passwordToVerify = passwordTextFieldView.text ?? ""
-        
-        let verificationResult = credentialsCheckerDelegate.areCredentialsOk(
-                                        login: loginToVerify,
-                                        password: passwordToVerify)
-        
-        if verificationResult {
-            logInHandler(User(fullName : loginToVerify, avatarPath : "avatar", status : "initial"))
-        } else {
-            logInHandler(nil)
-        }
     }
 }
 

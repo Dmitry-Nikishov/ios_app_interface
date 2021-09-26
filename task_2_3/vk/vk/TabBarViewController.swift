@@ -8,14 +8,9 @@
 import UIKit
 
 class TabBarViewController: UITabBarController {
-    #if DEBUG
-        private let profileViewController = ProfileViewController(TestUserService())
-    #else
-    private let profileViewController = ProfileViewController(CurrentUserService(user:PredefinedUsers.currentUser))
-
-    #endif
-
     private let credentialsInspectorFactory = CredentialsCheckerFactoryImpl()
+    
+    private let profileViewController = ProfileViewController(statusModel: UserStatusModel(policy : .onlyLettersPossible))
     
     override func viewDidLoad() {
         super.viewDidLoad()

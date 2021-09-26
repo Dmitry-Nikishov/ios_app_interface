@@ -15,6 +15,8 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     public weak var profileController : ProfileTableHeaderViewDelegate?
     
+    public weak var statusModel : UserStatusModel?
+    
     public var user : User? {
         didSet {
             guard let usr = user else {
@@ -78,29 +80,25 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         return view
     }()
     
-    let setStatusButton: UIButton = {
-        let view = UIButton()
-        view.setTitle("Show status", for: .normal)
-        view.setTitleColor(.white, for : .normal)
-        view.backgroundColor = UIColor(named: "myColor")
-        view.layer.cornerRadius = 14
-        view.layer.shadowRadius = 4
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.7
-        view.layer.shadowOffset = CGSize(width: 4, height: 4)
-        view.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private lazy var setStatusButton: CustomButton = {
+        let button = CustomButton(frame : self.frame, title: "Show status", titleColor: .white)
+        button.backgroundColor = UIColor(named: "myColor")
+        
+        button.layer.cornerRadius = 14
+        button.layer.shadowRadius = 4
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.7
+        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+
+        return button
     }()
     
-    private lazy var closeAvatarWindowButton : UIButton = {
-        let view = UIButton()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.isUserInteractionEnabled = true
-        view.setBackgroundImage(UIImage(named : "close_btn"), for: .normal)
-        view.addTarget(self, action: #selector(closeAvatarWindowHandler), for: .touchUpInside)
-        view.layer.opacity = 0
-        return view
+    private lazy var closeAvatarWindowButton : CustomButton = {
+        let button = CustomButton(frame : self.frame)
+        button.setBackgroundImage(UIImage(named : "close_btn"), for: .normal)
+        button.isUserInteractionEnabled = true
+        button.layer.opacity = 0
+        return button
     }()
     
     private lazy var blackoutView : UIView = {
@@ -123,29 +121,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         statusTextField.isHidden = isHidden
         setStatusButton.isHidden = isHidden
     }
-    
-    @objc func closeAvatarWindowHandler()
-    {
-        modifyHiddenStateForViews(isHidden: false)
         
-        removeConstraints()
-        setupInitialConstraints()
-        
-        let animator = UIViewPropertyAnimator(duration: 0.2, curve: .linear) {
-            self.contentView.layoutIfNeeded()
-            self.closeAvatarWindowButton.alpha = 0
-            self.blackoutView.alpha = 0
-            self.avatarImage.layer.cornerRadius = ProfileTableHeaderViewLayoutConstants.avatarSize/2
-        }
-        
-        animator.startAnimation()
-        
-        profileController?.closeBlackoutView()
-        
-        contentView.sendSubviewToBack(avatarImage)
-        contentView.sendSubviewToBack(closeAvatarWindowButton)
-    }
-    
     @objc func avatarImagePressHandler()
     {
         guard let controllerView = profileControllerView else {
@@ -193,12 +169,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         contentView.bringSubviewToFront(avatarImage)
         contentView.bringSubviewToFront(closeAvatarWindowButton)
     }
-    
-    @objc func buttonPressed()
-    {
-        statusLabel.text = statusText
-    }
-    
+        
     @objc func statusTextChanged(_ textField: UITextField)
     {
         statusText = textField.text ?? ""
@@ -206,6 +177,46 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     required init?(coder: NSCoder) {
         fatalError("should not be called")
+    }
+    
+    private func setupClickHandlers()
+    {
+        setStatusButton.clickHandler = { [weak self] in
+            guard let self = self else {
+                return
+            }
+
+            self.statusModel?.checkStatus(status: self.statusText) { result in
+                self.statusLabel.textColor = result ? .green : .red
+            }
+            
+            self.statusLabel.text = self.statusText
+        }
+        
+        closeAvatarWindowButton.clickHandler = { [weak self] in
+            guard let self = self else {
+                return
+            }
+            
+            self.modifyHiddenStateForViews(isHidden: false)
+            
+            self.removeConstraints()
+            self.setupInitialConstraints()
+            
+            let animator = UIViewPropertyAnimator(duration: 0.2, curve: .linear) {
+                self.contentView.layoutIfNeeded()
+                self.closeAvatarWindowButton.alpha = 0
+                self.blackoutView.alpha = 0
+                self.avatarImage.layer.cornerRadius = ProfileTableHeaderViewLayoutConstants.avatarSize/2
+            }
+            
+            animator.startAnimation()
+            
+            self.profileController?.closeBlackoutView()
+            
+            self.contentView.sendSubviewToBack(self.avatarImage)
+            self.contentView.sendSubviewToBack(self.closeAvatarWindowButton)
+        }
     }
     
     private func setupViews()
@@ -219,6 +230,8 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         contentView.addSubview(blackoutView)
         
         setupInitialConstraints()
+     
+        setupClickHandlers()
     }
     
     private func removeConstraints()

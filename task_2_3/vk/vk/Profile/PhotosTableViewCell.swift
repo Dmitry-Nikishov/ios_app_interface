@@ -10,6 +10,18 @@ import UIKit
 class PhotosTableViewCell: UITableViewCell {
     var navigationHandler : PhotoNavigationHandler?
 
+    private lazy var goToGalleryHandler : UiViewClickHandler = { [weak self] in
+        guard let self = self else {
+            return
+        }
+        
+        guard let handler = self.navigationHandler else {
+            return
+        }
+        
+        handler()
+    }
+    
     private var photoWidth : CGFloat = (
         UIScreen.main.bounds.width -
         3 * ShortPhotoGalleryLayoutSettings.spacingBetweenImagesInShortGallery -
@@ -24,20 +36,14 @@ class PhotosTableViewCell: UITableViewCell {
         return view
     }()
     
-    private lazy var buttonView : UIButton = {
-        let view = UIButton()
-        view.setBackgroundImage(UIImage(systemName: "arrow.right"), for: .normal)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.addTarget(self, action: #selector(goToGalleryClickedHandler), for: .touchUpInside)
-        return view
+    private lazy var galleryButton : CustomButton = {
+        let button = CustomButton()
+        button.setBackgroundImage(UIImage(systemName: "arrow.right"), for: .normal)
+        return button
     }()
     
     @objc private func goToGalleryClickedHandler() {
-        guard let handler = navigationHandler else {
-            return
-        }
-        
-        handler()
+        self.goToGalleryHandler()
     }
     
     private lazy var photosPreview : UICollectionView = {
@@ -54,16 +60,21 @@ class PhotosTableViewCell: UITableViewCell {
         return view
     }()
         
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    private func initializeInternals()
+    {
         initializeGestureHandlerForView()
         setupViews()
+        setupClickHandler()
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        initializeInternals()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        initializeGestureHandlerForView()
-        setupViews()
+        initializeInternals()
     }
 
     private func initializeGestureHandlerForView()
@@ -74,20 +85,25 @@ class PhotosTableViewCell: UITableViewCell {
         contentView.isUserInteractionEnabled = true
         contentView.addGestureRecognizer(tapGesture)
     }
+    
+    private func setupClickHandler()
+    {
+        galleryButton.clickHandler = goToGalleryHandler
+    }
         
     private func setupViews()
     {
         contentView.addSubview(titleLabelView)
-        contentView.addSubview(buttonView)
+        contentView.addSubview(galleryButton)
         contentView.addSubview(photosPreview)
         
         let constraints = [
             titleLabelView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: ShortPhotoGalleryLayoutSettings.contentViewOffset),
             titleLabelView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: ShortPhotoGalleryLayoutSettings.contentViewOffset),
-            buttonView.centerYAnchor.constraint(equalTo: titleLabelView.centerYAnchor),
-            buttonView.trailingAnchor.constraint(equalTo : contentView.trailingAnchor, constant: -ShortPhotoGalleryLayoutSettings.contentViewOffset),
-            buttonView.heightAnchor.constraint(equalToConstant: 30),
-            buttonView.widthAnchor.constraint(equalToConstant: 30),
+            galleryButton.centerYAnchor.constraint(equalTo: titleLabelView.centerYAnchor),
+            galleryButton.trailingAnchor.constraint(equalTo : contentView.trailingAnchor, constant: -ShortPhotoGalleryLayoutSettings.contentViewOffset),
+            galleryButton.heightAnchor.constraint(equalToConstant: 30),
+            galleryButton.widthAnchor.constraint(equalToConstant: 30),
             photosPreview.leadingAnchor.constraint(equalTo: titleLabelView.leadingAnchor),
             photosPreview.topAnchor.constraint(equalTo : titleLabelView.bottomAnchor, constant: ShortPhotoGalleryLayoutSettings.contentViewOffset),
             photosPreview.heightAnchor.constraint(equalToConstant : photoWidth*1.1),
