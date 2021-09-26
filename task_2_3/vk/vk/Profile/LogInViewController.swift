@@ -79,9 +79,9 @@ class LogInViewController: UIViewController {
         return view
     }()
     
-    private let logInButton : CustomButton = {
-        let button = CustomButton(title: "Log in", titleColor: .white)
-        button.setBackgroundImage(image: UIImage(named: "blue_pixel"))
+    private lazy var logInButton : CustomButton = {
+        let button = CustomButton(frame : self.view.frame, title: "Log in", titleColor: .white)
+        button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
         return button
     }()
 
@@ -121,10 +121,8 @@ class LogInViewController: UIViewController {
                 self.logInHandler(nil)
             }
         }
-
-        let loginButtonUi = logInButton.getInternalUi()
         
-        containerView.addSubview(loginButtonUi)
+        containerView.addSubview(logInButton)
 
         scrollView.addSubview(containerView)
 
@@ -157,11 +155,11 @@ class LogInViewController: UIViewController {
             passwordTextFieldView.heightAnchor.constraint(equalToConstant: 50),
             passwordTextFieldView.trailingAnchor.constraint(equalTo: emailOrPhoneTextFieldView.trailingAnchor),
             
-            loginButtonUi.topAnchor.constraint(equalTo: passwordTextFieldView.bottomAnchor, constant: 16),
-            loginButtonUi.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor),
-            loginButtonUi.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor),
-            loginButtonUi.heightAnchor.constraint(equalToConstant: 50),
-            loginButtonUi.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+            logInButton.topAnchor.constraint(equalTo: passwordTextFieldView.bottomAnchor, constant: 16),
+            logInButton.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor),
+            logInButton.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor),
+            logInButton.heightAnchor.constraint(equalToConstant: 50),
+            logInButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ]
         
         NSLayoutConstraint.activate(constraints)

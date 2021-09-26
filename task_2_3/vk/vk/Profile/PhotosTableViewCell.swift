@@ -38,7 +38,7 @@ class PhotosTableViewCell: UITableViewCell {
     
     private lazy var galleryButton : CustomButton = {
         let button = CustomButton()
-        button.setBackgroundImage(image: UIImage(systemName: "arrow.right"))
+        button.setBackgroundImage(UIImage(systemName: "arrow.right"), for: .normal)
         return button
     }()
     
@@ -93,19 +93,17 @@ class PhotosTableViewCell: UITableViewCell {
         
     private func setupViews()
     {
-        let buttonView = galleryButton.getInternalUi()
-        
         contentView.addSubview(titleLabelView)
-        contentView.addSubview(buttonView)
+        contentView.addSubview(galleryButton)
         contentView.addSubview(photosPreview)
         
         let constraints = [
             titleLabelView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: ShortPhotoGalleryLayoutSettings.contentViewOffset),
             titleLabelView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: ShortPhotoGalleryLayoutSettings.contentViewOffset),
-            buttonView.centerYAnchor.constraint(equalTo: titleLabelView.centerYAnchor),
-            buttonView.trailingAnchor.constraint(equalTo : contentView.trailingAnchor, constant: -ShortPhotoGalleryLayoutSettings.contentViewOffset),
-            buttonView.heightAnchor.constraint(equalToConstant: 30),
-            buttonView.widthAnchor.constraint(equalToConstant: 30),
+            galleryButton.centerYAnchor.constraint(equalTo: titleLabelView.centerYAnchor),
+            galleryButton.trailingAnchor.constraint(equalTo : contentView.trailingAnchor, constant: -ShortPhotoGalleryLayoutSettings.contentViewOffset),
+            galleryButton.heightAnchor.constraint(equalToConstant: 30),
+            galleryButton.widthAnchor.constraint(equalToConstant: 30),
             photosPreview.leadingAnchor.constraint(equalTo: titleLabelView.leadingAnchor),
             photosPreview.topAnchor.constraint(equalTo : titleLabelView.bottomAnchor, constant: ShortPhotoGalleryLayoutSettings.contentViewOffset),
             photosPreview.heightAnchor.constraint(equalToConstant : photoWidth*1.1),
