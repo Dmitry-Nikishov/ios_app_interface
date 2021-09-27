@@ -25,8 +25,22 @@ class ProfileViewController: UIViewController, Coordinating {
         return view
     }()
     
+    private var processedImages : [UIImage?]
+    
+    private lazy var imageProcessor : AsyncImageProcessor = {
+        AsyncImageProcessor(posts: Data.dataToDisplay,
+                            completion: {
+                                self.processedImages = $0
+                                DispatchQueue.main.async {
+                                    self.tableView.reloadData()
+                                }
+                            })
+    }()
+    
     init(statusModel : UserStatusModel) {
         self.statusModel = statusModel
+        self.processedImages = Array(repeating: nil, count: Data.dataToDisplay.count)
+
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -39,6 +53,10 @@ class ProfileViewController: UIViewController, Coordinating {
 
         setupTableView()
         setupConstraints()
+    }
+        
+    private func processImages() {
+        imageProcessor.start()
     }
             
     private func setupConstraints() {
@@ -54,6 +72,7 @@ class ProfileViewController: UIViewController, Coordinating {
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
+        processImages()
     }
     
     private func setupTableView() {
@@ -75,6 +94,7 @@ extension ProfileViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ProfileTableViewCell.self)) as! ProfileTableViewCell
 
                 cell.cellData = Data.dataToDisplay[indexPath.section - 1]
+                cell.cellImage = self.processedImages[indexPath.section - 1]
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PhotosTableViewCell.self)) as! PhotosTableViewCell

@@ -6,7 +6,9 @@
 //
 
 import Foundation
+import UIKit
 
 typealias UiViewClickHandler = () -> Void
 typealias UserStatusChecker = (String) -> Bool
 typealias UserStatusCheckerResult = (Bool) -> Void
+typealias ImageProcessorHandler = ([UIImage?]) -> Void
