@@ -12,3 +12,5 @@ typealias UiViewClickHandler = () -> Void
 typealias UserStatusChecker = (String) -> Bool
 typealias UserStatusCheckerResult = (Bool) -> Void
 typealias ImageProcessorHandler = ([UIImage?]) -> Void
+typealias PasswordCrackerNotificationHandler = (String) -> Void
+

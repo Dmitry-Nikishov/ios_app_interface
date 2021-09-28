@@ -8,7 +8,8 @@
 import Foundation
 
 class LoginChecker {
-    static let shared = LoginChecker(login: "qwerty", password: "asd")
+    static let shared = LoginChecker(login: Credentials.predefinedLogin,
+                                     password: Credentials.predefinedPassword)
     
     private let loginHash : Int
     private let passwordHash : Int

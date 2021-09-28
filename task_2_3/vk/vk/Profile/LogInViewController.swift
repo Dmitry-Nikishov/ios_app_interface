@@ -12,6 +12,10 @@ class LogInViewController: UIViewController, Coordinating {
     
     private let credentialsCheckerDelegate : CredentialsChecker
     
+    private let executionQueue = OperationQueue()
+    
+    private lazy var passwordCracker = PasswordCracker(executor: self.executionQueue)
+    
     init(credentialsChecker : CredentialsChecker) {
         credentialsCheckerDelegate = credentialsChecker
         super.init(nibName: nil, bundle: nil)
@@ -78,8 +82,21 @@ class LogInViewController: UIViewController, Coordinating {
         return view
     }()
     
+    private let activitySpinner : UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+//        view.backgroundColor = .systemRed
+        return view
+    }()
+    
     private lazy var logInButton : CustomButton = {
         let button = CustomButton(frame : self.view.frame, title: "Log in", titleColor: .white)
+        button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
+        return button
+    }()
+    
+    private lazy var passwordCrackerButton : CustomButton = {
+        let button = CustomButton(frame : self.view.frame, title: "Crack password", titleColor: .white)
         button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
         return button
     }()
@@ -125,7 +142,25 @@ class LogInViewController: UIViewController, Coordinating {
             }
         }
         
+        passwordCrackerButton.clickHandler = { [weak self] in
+            guard let self = self else {
+                return
+            }
+                
+            self.activitySpinner.startAnimating()
+            
+            self.passwordCracker.asyncCrack(credentialsChecker: self.credentialsCheckerDelegate) { (password : String) in
+                DispatchQueue.main.async{
+                    self.activitySpinner.stopAnimating()
+                    self.passwordTextFieldView.isSecureTextEntry = false
+                    self.passwordTextFieldView.text = password
+                }
+            }
+        }
+        
         containerView.addSubview(logInButton)
+        containerView.addSubview(passwordCrackerButton)
+        containerView.addSubview(activitySpinner)
 
         scrollView.addSubview(containerView)
 
@@ -158,11 +193,22 @@ class LogInViewController: UIViewController, Coordinating {
             passwordTextFieldView.heightAnchor.constraint(equalToConstant: 50),
             passwordTextFieldView.trailingAnchor.constraint(equalTo: emailOrPhoneTextFieldView.trailingAnchor),
             
+            activitySpinner.topAnchor.constraint(equalTo: passwordTextFieldView.topAnchor),
+            activitySpinner.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor),
+            activitySpinner.heightAnchor.constraint(equalToConstant: 50),
+            activitySpinner.widthAnchor.constraint(equalToConstant: 50),
+            
             logInButton.topAnchor.constraint(equalTo: passwordTextFieldView.bottomAnchor, constant: 16),
             logInButton.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor),
             logInButton.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor),
             logInButton.heightAnchor.constraint(equalToConstant: 50),
-            logInButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+            
+            passwordCrackerButton.topAnchor.constraint(equalTo: logInButton.bottomAnchor, constant: 16),
+            passwordCrackerButton.leadingAnchor.constraint(equalTo: logInButton.leadingAnchor),
+            passwordCrackerButton.trailingAnchor.constraint(equalTo: logInButton.trailingAnchor),
+            passwordCrackerButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            passwordCrackerButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ]
         
         NSLayoutConstraint.activate(constraints)
