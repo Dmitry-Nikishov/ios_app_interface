@@ -16,9 +16,16 @@ class LogInViewController: UIViewController, Coordinating {
     
     private lazy var passwordCracker = PasswordCracker(executor: self.executionQueue)
     
+    private var appBlocker : AppBlocker?
+    
     init(credentialsChecker : CredentialsChecker) {
         credentialsCheckerDelegate = credentialsChecker
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    @objc
+    private func timerHandler() {
+        print("timer")
     }
     
     required init?(coder: NSCoder) {
@@ -65,6 +72,13 @@ class LogInViewController: UIViewController, Coordinating {
         return view
     }()
     
+    private let expiryLabel : UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        return view
+    }()
+    
     private let passwordTextFieldView : UITextField = {
         let view = UITextField()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -108,8 +122,38 @@ class LogInViewController: UIViewController, Coordinating {
         safeArea = view.layoutMarginsGuide
 
         setupViews()
+        
+        setupInternalEvents()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        resetInternalEvents()
     }
 
+    private func resetInternalEvents()
+    {
+        appBlocker?.stop()
+        appBlocker = nil
+    }
+    
+    private func setupInternalEvents()
+    {
+        appBlocker = AppBlocker()
+        appBlocker?.handler = { [weak self] timeBeforeBlock in
+            if timeBeforeBlock <= 0 {
+                self?.appBlocker?.stop()
+                self?.logInButton.isEnabled = false
+                self?.passwordTextFieldView.isEnabled = false
+                self?.passwordCrackerButton.isEnabled = false
+                self?.emailOrPhoneTextFieldView.isEnabled = false
+                self?.expiryLabel.text = "App is blocked - you are a fraud"
+            } else {
+                self?.expiryLabel.text = "\(timeBeforeBlock) sec left before app block"
+            }
+        }
+        
+        appBlocker?.start(appBlockTimeInSeconds: 10)
+    }
     
     private func setupViews()
     {
@@ -118,6 +162,7 @@ class LogInViewController: UIViewController, Coordinating {
         containerView.addSubview(logoView)
         containerView.addSubview(emailOrPhoneTextFieldView)
         containerView.addSubview(passwordTextFieldView)
+        containerView.addSubview(expiryLabel)
         
         logInButton.clickHandler = { [weak self] in
             guard let self = self else {
@@ -207,8 +252,13 @@ class LogInViewController: UIViewController, Coordinating {
             passwordCrackerButton.leadingAnchor.constraint(equalTo: logInButton.leadingAnchor),
             passwordCrackerButton.trailingAnchor.constraint(equalTo: logInButton.trailingAnchor),
             passwordCrackerButton.heightAnchor.constraint(equalToConstant: 50),
-            
-            passwordCrackerButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+
+            expiryLabel.topAnchor.constraint(equalTo: passwordCrackerButton.bottomAnchor, constant: 16),
+            expiryLabel.leadingAnchor.constraint(equalTo: passwordCrackerButton.leadingAnchor),
+            expiryLabel.trailingAnchor.constraint(equalTo: passwordCrackerButton.trailingAnchor),
+            expiryLabel.heightAnchor.constraint(equalToConstant: 50),
+
+            expiryLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ]
         
         NSLayoutConstraint.activate(constraints)
