@@ -20,7 +20,8 @@ class PasswordCrackOperation : Operation {
         // Will strangely ends at 0000 instead of ~~~
         while password != passwordToUnlock { // Increase MAXIMUM_PASSWORD_SIZE value for more
             password = generateBruteForce(password, fromArray: ALLOWED_CHARACTERS)
-            if credentialsChecker.areCredentialsOk(login: Credentials.predefinedLogin, password: password) {
+            let checkerResult = credentialsChecker.areCredentialsOk(login: Credentials.predefinedLogin, password: password)
+            if checkerResult == ApiError.success {
                 break
             }
         }
@@ -36,7 +37,7 @@ class PasswordCrackOperation : Operation {
     }
     
     override func main() {
-        self.finishedHandler( bruteForce(passwordToUnlock: Credentials.predefinedPassword) )
+        self.finishedHandler(.success(bruteForce(passwordToUnlock: Credentials.predefinedPassword)))
     }
 }
 
