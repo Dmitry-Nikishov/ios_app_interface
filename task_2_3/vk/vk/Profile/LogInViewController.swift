@@ -123,7 +123,7 @@ class LogInViewController: UIViewController, Coordinating {
 
         setupViews()
         
-        setupInternalEvents()
+//        setupInternalEvents()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
