@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E829C6DA545D1EE8658FED06 /* Pods_vk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D0686B8172714CFDD7AFB33 /* Pods_vk.framework */; };
 		F61D1DB027012D5F008E18BC /* ViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D1DAF27012D5F008E18BC /* ViewModelFactory.swift */; };
+		F61D1DB5270269FF008E18BC /* AsyncImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D1DB4270269FF008E18BC /* AsyncImageProcessor.swift */; };
 		F6461AD726FDF14A00598C2B /* CoordinatorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6461AD626FDF14A00598C2B /* CoordinatorTypes.swift */; };
 		F6461AD926FDFBEE00598C2B /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6461AD826FDFBEE00598C2B /* AppCoordinator.swift */; };
 		F6461ADB26FDFBFB00598C2B /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6461ADA26FDFBFB00598C2B /* FeedCoordinator.swift */; };
@@ -94,6 +95,7 @@
 		04E9A9054F92CFEBC8DA37A9 /* Pods-vk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vk.release.xcconfig"; path = "Target Support Files/Pods-vk/Pods-vk.release.xcconfig"; sourceTree = "<group>"; };
 		4D0686B8172714CFDD7AFB33 /* Pods_vk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F61D1DAF27012D5F008E18BC /* ViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelFactory.swift; sourceTree = "<group>"; };
+		F61D1DB4270269FF008E18BC /* AsyncImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImageProcessor.swift; sourceTree = "<group>"; };
 		F6461AD626FDF14A00598C2B /* CoordinatorTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorTypes.swift; sourceTree = "<group>"; };
 		F6461AD826FDFBEE00598C2B /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		F6461ADA26FDFBFB00598C2B /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
@@ -186,6 +188,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		F61D1DB127026992008E18BC /* Processing */ = {
+			isa = PBXGroup;
+			children = (
+				F61D1DB4270269FF008E18BC /* AsyncImageProcessor.swift */,
+			);
+			path = Processing;
+			sourceTree = "<group>";
+		};
 		F6461AD526FDF10000598C2B /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
@@ -266,6 +276,7 @@
 		F67144732697C94600495503 /* vk */ = {
 			isa = PBXGroup;
 			children = (
+				F61D1DB127026992008E18BC /* Processing */,
 				F6461AD526FDF10000598C2B /* Coordinator */,
 				F6EAEBFE26F8A61F006E8B4C /* CustomUI */,
 				F66024D026EEB0FE004F4B5D /* LoginInspector */,
@@ -545,6 +556,7 @@
 				F66024CB26EABB49004F4B5D /* CurrentUserService.swift in Sources */,
 				F66024D226EEB121004F4B5D /* LoginChecker.swift in Sources */,
 				F66024D426EEB338004F4B5D /* CredentialsChecker.swift in Sources */,
+				F61D1DB5270269FF008E18BC /* AsyncImageProcessor.swift in Sources */,
 				F67144932697CADE00495503 /* ProfileViewController.swift in Sources */,
 				F67144A3269A42DF00495503 /* PhotosTableViewCell.swift in Sources */,
 				F671449C2698E42200495503 /* ProfileTableViewCell.swift in Sources */,
@@ -894,8 +906,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/TrueMax/iOSIntPackage";
 			requirement = {
-				branch = imagepublisher;
-				kind = branch;
+				kind = exactVersion;
+				version = 3.2.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
