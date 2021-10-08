@@ -8,7 +8,6 @@
 import UIKit
 
 import StorageService
-import iOSIntPackage
 
 class ProfileTableViewCell: UITableViewCell {
     
@@ -18,12 +17,16 @@ class ProfileTableViewCell: UITableViewCell {
             postDescriptionView.text = cellData!.description
             likesView.text = "Likes: \(cellData!.likes)"
             viewsView.text = "Views: \(cellData!.views)"
-            
-            ImageProcessor().processImage(sourceImage: UIImage(named: cellData!.image)!,
-                                          filter: ColorFilter.allCases.randomElement()!)
-            {
-                self.postImageView.image = $0
+        }
+    }
+    
+    var cellImage : UIImage? {
+        didSet {
+            guard let image = cellImage else {
+                return
             }
+            
+            self.postImageView.image = image
         }
     }
     
