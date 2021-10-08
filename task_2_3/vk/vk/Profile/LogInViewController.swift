@@ -7,13 +7,12 @@
 
 import UIKit
 
-class LogInViewController: UIViewController {
+class LogInViewController: UIViewController, Coordinating {
+    weak var coordinator: Coordinator?
+    
     private let credentialsCheckerDelegate : CredentialsChecker
     
-    private var logInHandler : LogInHandler
-    
-    init(handler : @escaping LogInHandler, credentialsChecker : CredentialsChecker) {
-        logInHandler = handler
+    init(credentialsChecker : CredentialsChecker) {
         credentialsCheckerDelegate = credentialsChecker
         super.init(nibName: nil, bundle: nil)
     }
@@ -108,6 +107,10 @@ class LogInViewController: UIViewController {
                 return
             }
             
+            guard let uiDirector = self.coordinator else {
+                return
+            }
+            
             let loginToVerify = self.emailOrPhoneTextFieldView.text ?? ""
             let passwordToVerify = self.passwordTextFieldView.text ?? ""
             
@@ -116,9 +119,9 @@ class LogInViewController: UIViewController {
                                             password: passwordToVerify)
             
             if verificationResult {
-                self.logInHandler(User(fullName : loginToVerify, avatarPath : "avatar", status : "initial"))
+                uiDirector.processEvent(with: .loginToFeedEvent(User(fullName : loginToVerify, avatarPath : "avatar", status : "initial")))
             } else {
-                self.logInHandler(nil)
+                uiDirector.processEvent(with: .loginToFeedEvent(nil))
             }
         }
         

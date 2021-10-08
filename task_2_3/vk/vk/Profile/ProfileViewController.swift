@@ -8,7 +8,9 @@
 import UIKit
 import StorageService
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, Coordinating {
+    weak var coordinator: Coordinator?
+    
     private var statusModel : UserStatusModel
     
     private var user : User?
@@ -81,12 +83,7 @@ extension ProfileViewController: UITableViewDataSource {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PhotosTableViewCell.self)) as! PhotosTableViewCell
-
-            cell.navigationHandler = {
-                let photosViewController = PhotosViewController()
-                self.navigationController?.pushViewController(photosViewController, animated: true)
-                self.navigationController?.navigationBar.isHidden = false
-            }
+            cell.coordinator = self.coordinator
             return cell
         }
     }
