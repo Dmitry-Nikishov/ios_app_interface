@@ -12,6 +12,10 @@ typealias UiViewClickHandler = () -> Void
 typealias UserStatusChecker = (String) -> Bool
 typealias UserStatusCheckerResult = (Bool) -> Void
 typealias ImageProcessorHandler = ([UIImage?]) -> Void
-typealias PasswordCrackerNotificationHandler = (String) -> Void
+typealias PasswordCrackerNotificationHandler = (Result<String, ApiError>) -> Void
 typealias AppBlockerEvent = (Int) -> Void
 
+enum ApiError : Error {
+    case success
+    case failure
+}

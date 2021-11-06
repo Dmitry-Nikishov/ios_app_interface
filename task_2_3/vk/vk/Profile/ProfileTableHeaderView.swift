@@ -186,10 +186,14 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
                 return
             }
 
-            self.statusModel?.checkStatus(status: self.statusText) { result in
-                self.statusLabel.textColor = result ? .green : .red
+            do {
+                try self.statusModel?.checkStatus(status: self.statusText) { result in
+                    self.statusLabel.textColor = .green
+                }
+            } catch {
+                self.statusLabel.textColor = .red
             }
-            
+
             self.statusLabel.text = self.statusText
         }
         

@@ -180,10 +180,11 @@ class LogInViewController: UIViewController, Coordinating {
                                             login: loginToVerify,
                                             password: passwordToVerify)
             
-            if verificationResult {
-                uiDirector.processEvent(with: .loginToFeedEvent(User(fullName : loginToVerify, avatarPath : "avatar", status : "initial")))
-            } else {
-                uiDirector.processEvent(with: .loginToFeedEvent(nil))
+            switch verificationResult {
+                case .success:
+                    uiDirector.processEvent(with: .loginToFeedEvent(User(fullName : loginToVerify, avatarPath : "avatar", status : "initial")))
+                case .failure:
+                    uiDirector.processEvent(with: .loginToFeedEvent(nil))
             }
         }
         
@@ -194,11 +195,17 @@ class LogInViewController: UIViewController, Coordinating {
                 
             self.activitySpinner.startAnimating()
             
-            self.passwordCracker.asyncCrack(credentialsChecker: self.credentialsCheckerDelegate) { (password : String) in
-                DispatchQueue.main.async{
-                    self.activitySpinner.stopAnimating()
-                    self.passwordTextFieldView.isSecureTextEntry = false
-                    self.passwordTextFieldView.text = password
+            self.passwordCracker.asyncCrack(credentialsChecker: self.credentialsCheckerDelegate)
+            { (password : Result<String, ApiError>) in
+                switch password {
+                case .success(let success):
+                    DispatchQueue.main.async{
+                        self.activitySpinner.stopAnimating()
+                        self.passwordTextFieldView.isSecureTextEntry = false
+                        self.passwordTextFieldView.text = success
+                    }
+                case .failure:
+                    preconditionFailure("Brute force did not crack the password")
                 }
             }
         }

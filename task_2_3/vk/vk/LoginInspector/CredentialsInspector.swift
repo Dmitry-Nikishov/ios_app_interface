@@ -7,8 +7,21 @@
 
 import Foundation
 
+class LoginCheckerCodeToApiErrorConverter {
+    public static func toApi(retCode : Bool) -> ApiError
+    {
+        if retCode {
+            return ApiError.success
+        } else {
+            return ApiError.failure
+        }
+    }
+}
+
 class CredentialsInspector : CredentialsChecker {
-    func areCredentialsOk(login: String, password: String) -> Bool {
-        return LoginChecker.shared.isLoginAndPasswordCorrect(login: login, password: password)
+    func areCredentialsOk(login: String, password: String) -> ApiError {
+        return LoginCheckerCodeToApiErrorConverter.toApi(retCode:
+                                                            LoginChecker.shared.isLoginAndPasswordCorrect(login: login, password: password)
+                                                        )
     }
 }
