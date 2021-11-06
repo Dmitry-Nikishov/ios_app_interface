@@ -12,7 +12,7 @@ class PasswordCrackOperation : Operation {
     private let credentialsChecker : CredentialsChecker
     private let finishedHandler : PasswordCrackerNotificationHandler
     
-    private func bruteForce(passwordToUnlock: String) -> String {
+    private func bruteForce(passwordToUnlock: String) throws -> String {
         let ALLOWED_CHARACTERS:   [String] = String().printable.map { String($0) }
 
         var password: String = ""
@@ -21,12 +21,17 @@ class PasswordCrackOperation : Operation {
         while password != passwordToUnlock { // Increase MAXIMUM_PASSWORD_SIZE value for more
             password = generateBruteForce(password, fromArray: ALLOWED_CHARACTERS)
             let checkerResult = credentialsChecker.areCredentialsOk(login: Credentials.predefinedLogin, password: password)
-            if checkerResult == ApiError.success {
-                break
+
+            switch checkerResult {
+            case .success(_) :
+                return password
+            default :
+                ()
             }
         }
         
-        return password
+        // must not be here
+        throw ApiError.bruteForceNotAbleToCrackError
     }
 
     init(credentialsChecker : CredentialsChecker,
@@ -37,7 +42,12 @@ class PasswordCrackOperation : Operation {
     }
     
     override func main() {
-        self.finishedHandler(.success(bruteForce(passwordToUnlock: Credentials.predefinedPassword)))
+        do {
+            let password = try bruteForce(passwordToUnlock: Credentials.predefinedPassword)
+            self.finishedHandler(.success(password))
+        }catch {
+            self.finishedHandler(.failure(.bruteForceNotAbleToCrackError))
+        }
     }
 }
 

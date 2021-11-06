@@ -8,18 +8,18 @@
 import Foundation
 
 class LoginCheckerCodeToApiErrorConverter {
-    public static func toApi(retCode : Bool) -> ApiError
+    public static func toApi(retCode : Bool) -> InternalApiResult
     {
         if retCode {
-            return ApiError.success
+            return Result.success(Void())
         } else {
-            return ApiError.failure
+            return Result.failure(ApiError.incorrectPasswordError)
         }
     }
 }
 
 class CredentialsInspector : CredentialsChecker {
-    func areCredentialsOk(login: String, password: String) -> ApiError {
+    func areCredentialsOk(login: String, password: String) -> InternalApiResult {
         return LoginCheckerCodeToApiErrorConverter.toApi(retCode:
                                                             LoginChecker.shared.isLoginAndPasswordCorrect(login: login, password: password)
                                                         )

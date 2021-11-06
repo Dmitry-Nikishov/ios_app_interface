@@ -16,6 +16,8 @@ typealias PasswordCrackerNotificationHandler = (Result<String, ApiError>) -> Voi
 typealias AppBlockerEvent = (Int) -> Void
 
 enum ApiError : Error {
-    case success
-    case failure
+    case incorrectPasswordError
+    case bruteForceNotAbleToCrackError
 }
+
+typealias InternalApiResult = Result<Void, ApiError>
