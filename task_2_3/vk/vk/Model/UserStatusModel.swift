@@ -34,11 +34,7 @@ class UserStatusModel {
         }
     }
     
-    public func checkStatus(status : String, resultCallback : UserStatusCheckerResult) throws {
-        let checkResult = statusChecker(status)
-        if !checkResult {
-            throw ApiError.failure
-        }
-        resultCallback(checkResult)
+    public func checkStatus(status : String, resultCallback : UserStatusCheckerResult) {
+        resultCallback(statusChecker(status))
     }
 }

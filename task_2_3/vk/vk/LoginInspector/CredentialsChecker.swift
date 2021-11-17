@@ -8,5 +8,5 @@
 import Foundation
 
 protocol CredentialsChecker {
-    func areCredentialsOk(login : String, password : String) -> ApiError
+    func areCredentialsOk(login : String, password : String) -> InternalApiResult
 }
