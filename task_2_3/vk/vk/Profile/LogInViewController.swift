@@ -12,9 +12,20 @@ class LogInViewController: UIViewController, Coordinating {
     
     private let credentialsCheckerDelegate : CredentialsChecker
     
+    private let executionQueue = OperationQueue()
+    
+    private lazy var passwordCracker = PasswordCracker(executor: self.executionQueue)
+    
+    private var appBlocker : AppBlocker?
+    
     init(credentialsChecker : CredentialsChecker) {
         credentialsCheckerDelegate = credentialsChecker
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    @objc
+    private func timerHandler() {
+        print("timer")
     }
     
     required init?(coder: NSCoder) {
@@ -61,6 +72,13 @@ class LogInViewController: UIViewController, Coordinating {
         return view
     }()
     
+    private let expiryLabel : UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        return view
+    }()
+    
     private let passwordTextFieldView : UITextField = {
         let view = UITextField()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -78,8 +96,21 @@ class LogInViewController: UIViewController, Coordinating {
         return view
     }()
     
+    private let activitySpinner : UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+//        view.backgroundColor = .systemRed
+        return view
+    }()
+    
     private lazy var logInButton : CustomButton = {
         let button = CustomButton(frame : self.view.frame, title: "Log in", titleColor: .white)
+        button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
+        return button
+    }()
+    
+    private lazy var passwordCrackerButton : CustomButton = {
+        let button = CustomButton(frame : self.view.frame, title: "Crack password", titleColor: .white)
         button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
         return button
     }()
@@ -91,8 +122,38 @@ class LogInViewController: UIViewController, Coordinating {
         safeArea = view.layoutMarginsGuide
 
         setupViews()
+        
+//        setupInternalEvents()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        resetInternalEvents()
     }
 
+    private func resetInternalEvents()
+    {
+        appBlocker?.stop()
+        appBlocker = nil
+    }
+    
+    private func setupInternalEvents()
+    {
+        appBlocker = AppBlocker()
+        appBlocker?.handler = { [weak self] timeBeforeBlock in
+            if timeBeforeBlock <= 0 {
+                self?.appBlocker?.stop()
+                self?.logInButton.isEnabled = false
+                self?.passwordTextFieldView.isEnabled = false
+                self?.passwordCrackerButton.isEnabled = false
+                self?.emailOrPhoneTextFieldView.isEnabled = false
+                self?.expiryLabel.text = "App is blocked - you are a fraud"
+            } else {
+                self?.expiryLabel.text = "\(timeBeforeBlock) sec left before app block"
+            }
+        }
+        
+        appBlocker?.start(appBlockTimeInSeconds: 10)
+    }
     
     private func setupViews()
     {
@@ -101,6 +162,7 @@ class LogInViewController: UIViewController, Coordinating {
         containerView.addSubview(logoView)
         containerView.addSubview(emailOrPhoneTextFieldView)
         containerView.addSubview(passwordTextFieldView)
+        containerView.addSubview(expiryLabel)
         
         logInButton.clickHandler = { [weak self] in
             guard let self = self else {
@@ -118,14 +180,39 @@ class LogInViewController: UIViewController, Coordinating {
                                             login: loginToVerify,
                                             password: passwordToVerify)
             
-            if verificationResult {
-                uiDirector.processEvent(with: .loginToFeedEvent(User(fullName : loginToVerify, avatarPath : "avatar", status : "initial")))
-            } else {
-                uiDirector.processEvent(with: .loginToFeedEvent(nil))
+            switch verificationResult {
+                case .success:
+                    uiDirector.processEvent(with: .loginToFeedEvent(User(fullName : loginToVerify, avatarPath : "avatar", status : "initial")))
+                case .failure:
+                    uiDirector.processEvent(with: .loginToFeedEvent(nil))
+            }
+        }
+        
+        passwordCrackerButton.clickHandler = { [weak self] in
+            guard let self = self else {
+                return
+            }
+                
+            self.activitySpinner.startAnimating()
+            
+            self.passwordCracker.asyncCrack(credentialsChecker: self.credentialsCheckerDelegate)
+            { (password : Result<String, ApiError>) in
+                switch password {
+                case .success(let success):
+                    DispatchQueue.main.async{
+                        self.activitySpinner.stopAnimating()
+                        self.passwordTextFieldView.isSecureTextEntry = false
+                        self.passwordTextFieldView.text = success
+                    }
+                case .failure:
+                    preconditionFailure("Brute force did not crack the password")
+                }
             }
         }
         
         containerView.addSubview(logInButton)
+        containerView.addSubview(passwordCrackerButton)
+        containerView.addSubview(activitySpinner)
 
         scrollView.addSubview(containerView)
 
@@ -158,11 +245,27 @@ class LogInViewController: UIViewController, Coordinating {
             passwordTextFieldView.heightAnchor.constraint(equalToConstant: 50),
             passwordTextFieldView.trailingAnchor.constraint(equalTo: emailOrPhoneTextFieldView.trailingAnchor),
             
+            activitySpinner.topAnchor.constraint(equalTo: passwordTextFieldView.topAnchor),
+            activitySpinner.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor),
+            activitySpinner.heightAnchor.constraint(equalToConstant: 50),
+            activitySpinner.widthAnchor.constraint(equalToConstant: 50),
+            
             logInButton.topAnchor.constraint(equalTo: passwordTextFieldView.bottomAnchor, constant: 16),
             logInButton.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor),
             logInButton.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor),
             logInButton.heightAnchor.constraint(equalToConstant: 50),
-            logInButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+            
+            passwordCrackerButton.topAnchor.constraint(equalTo: logInButton.bottomAnchor, constant: 16),
+            passwordCrackerButton.leadingAnchor.constraint(equalTo: logInButton.leadingAnchor),
+            passwordCrackerButton.trailingAnchor.constraint(equalTo: logInButton.trailingAnchor),
+            passwordCrackerButton.heightAnchor.constraint(equalToConstant: 50),
+
+            expiryLabel.topAnchor.constraint(equalTo: passwordCrackerButton.bottomAnchor, constant: 16),
+            expiryLabel.leadingAnchor.constraint(equalTo: passwordCrackerButton.leadingAnchor),
+            expiryLabel.trailingAnchor.constraint(equalTo: passwordCrackerButton.trailingAnchor),
+            expiryLabel.heightAnchor.constraint(equalToConstant: 50),
+
+            expiryLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ]
         
         NSLayoutConstraint.activate(constraints)

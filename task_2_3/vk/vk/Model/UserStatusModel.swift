@@ -35,7 +35,6 @@ class UserStatusModel {
     }
     
     public func checkStatus(status : String, resultCallback : UserStatusCheckerResult) {
-        let checkResult = statusChecker(status)
-        resultCallback(checkResult)
+        resultCallback(statusChecker(status))
     }
 }

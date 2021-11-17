@@ -32,15 +32,7 @@ class ProfileViewController: UIViewController, Coordinating {
     
     private var processedImages : [UIImage?]
     
-    private lazy var imageProcessor : AsyncImageProcessor = {
-        AsyncImageProcessor(posts: Data.dataToDisplay,
-                            completion: {
-                                self.processedImages = $0
-                                DispatchQueue.main.async {
-                                    self.tableView.reloadData()
-                                }
-                            })
-    }()
+    private var imageProcessor : AsyncImageProcessor? = nil
     
     init(statusModel : UserStatusModel) {
         self.statusModel = statusModel
@@ -61,7 +53,16 @@ class ProfileViewController: UIViewController, Coordinating {
     }
         
     private func processImages() {
-        imageProcessor.start()
+        self.imageProcessor = AsyncImageProcessor(posts: Data.dataToDisplay,
+                                                  completion: {
+                                                        self.processedImages = $0
+                                                        DispatchQueue.main.async {
+                                                            self.tableView.reloadData()
+                                                        }
+                                                    }
+                                                )
+
+        self.imageProcessor?.start()
     }
             
     private func setupConstraints() {

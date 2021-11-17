@@ -52,6 +52,7 @@ class PhotosViewController: UIViewController, Coordinating {
     
     override func viewWillDisappear(_ animated: Bool) {
         imagePublisherFacade.removeSubscription(for: self)
+        publisherImages = []
     }
     
     private func setupViews()
@@ -71,9 +72,7 @@ class PhotosViewController: UIViewController, Coordinating {
         
         NSLayoutConstraint.activate(constraints)
     }
-
 }
-
 
 extension PhotosViewController : UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {

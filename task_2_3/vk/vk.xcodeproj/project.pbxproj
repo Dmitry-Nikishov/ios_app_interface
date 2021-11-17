@@ -10,6 +10,10 @@
 		E829C6DA545D1EE8658FED06 /* Pods_vk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D0686B8172714CFDD7AFB33 /* Pods_vk.framework */; };
 		F61D1DB027012D5F008E18BC /* ViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D1DAF27012D5F008E18BC /* ViewModelFactory.swift */; };
 		F61D1DB5270269FF008E18BC /* AsyncImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D1DB4270269FF008E18BC /* AsyncImageProcessor.swift */; };
+		F61D1DB72703C4D9008E18BC /* PasswordCracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D1DB62703C4D9008E18BC /* PasswordCracker.swift */; };
+		F61D1DB92703C5CA008E18BC /* BruteForceEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D1DB82703C5CA008E18BC /* BruteForceEngine.swift */; };
+		F61D1DBB2703C656008E18BC /* LoginConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D1DBA2703C656008E18BC /* LoginConstants.swift */; };
+		F61D1DBD270677A0008E18BC /* AppBlocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D1DBC270677A0008E18BC /* AppBlocker.swift */; };
 		F6461AD726FDF14A00598C2B /* CoordinatorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6461AD626FDF14A00598C2B /* CoordinatorTypes.swift */; };
 		F6461AD926FDFBEE00598C2B /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6461AD826FDFBEE00598C2B /* AppCoordinator.swift */; };
 		F6461ADB26FDFBFB00598C2B /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6461ADA26FDFBFB00598C2B /* FeedCoordinator.swift */; };
@@ -96,6 +100,10 @@
 		4D0686B8172714CFDD7AFB33 /* Pods_vk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F61D1DAF27012D5F008E18BC /* ViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelFactory.swift; sourceTree = "<group>"; };
 		F61D1DB4270269FF008E18BC /* AsyncImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImageProcessor.swift; sourceTree = "<group>"; };
+		F61D1DB62703C4D9008E18BC /* PasswordCracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordCracker.swift; sourceTree = "<group>"; };
+		F61D1DB82703C5CA008E18BC /* BruteForceEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BruteForceEngine.swift; sourceTree = "<group>"; };
+		F61D1DBA2703C656008E18BC /* LoginConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginConstants.swift; sourceTree = "<group>"; };
+		F61D1DBC270677A0008E18BC /* AppBlocker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBlocker.swift; sourceTree = "<group>"; };
 		F6461AD626FDF14A00598C2B /* CoordinatorTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorTypes.swift; sourceTree = "<group>"; };
 		F6461AD826FDFBEE00598C2B /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		F6461ADA26FDFBFB00598C2B /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
@@ -227,6 +235,9 @@
 				F66024D526EEB3EC004F4B5D /* CredentialsInspector.swift */,
 				F66024D726EEBA8A004F4B5D /* CredentialsCheckerFactory.swift */,
 				F66024D926EEBAE1004F4B5D /* CredentialsCheckerFactoryImpl.swift */,
+				F61D1DB62703C4D9008E18BC /* PasswordCracker.swift */,
+				F61D1DB82703C5CA008E18BC /* BruteForceEngine.swift */,
+				F61D1DBA2703C656008E18BC /* LoginConstants.swift */,
 			);
 			path = LoginInspector;
 			sourceTree = "<group>";
@@ -325,6 +336,7 @@
 			children = (
 				F671449E2699085500495503 /* TextFieldWithPadding.swift */,
 				F66024CE26EE2D5C004F4B5D /* Utility.swift */,
+				F61D1DBC270677A0008E18BC /* AppBlocker.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -546,12 +558,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F61D1DBD270677A0008E18BC /* AppBlocker.swift in Sources */,
+				F61D1DB92703C5CA008E18BC /* BruteForceEngine.swift in Sources */,
 				F66024DA26EEBAE1004F4B5D /* CredentialsCheckerFactoryImpl.swift in Sources */,
 				F6890FDF269E34E70021D4E7 /* PhotoGalleryLayoutSettings.swift in Sources */,
 				F6461ADB26FDFBFB00598C2B /* FeedCoordinator.swift in Sources */,
 				F6EAEC0026F8A641006E8B4C /* CustomButton.swift in Sources */,
 				F67144912697CAC500495503 /* LogInViewController.swift in Sources */,
 				F66024C926EABA99004F4B5D /* UserService.swift in Sources */,
+				F61D1DB72703C4D9008E18BC /* PasswordCracker.swift in Sources */,
 				F67144752697C94600495503 /* AppDelegate.swift in Sources */,
 				F66024CB26EABB49004F4B5D /* CurrentUserService.swift in Sources */,
 				F66024D226EEB121004F4B5D /* LoginChecker.swift in Sources */,
@@ -577,6 +592,7 @@
 				F67144A9269A672100495503 /* PhotoGalleryCollectionViewCell.swift in Sources */,
 				F6461AD726FDF14A00598C2B /* CoordinatorTypes.swift in Sources */,
 				F67144A5269A5B9400495503 /* PhotosViewController.swift in Sources */,
+				F61D1DBB2703C656008E18BC /* LoginConstants.swift in Sources */,
 				F6714495269863B000495503 /* AppTypes.swift in Sources */,
 				F6890FE326A1ED470021D4E7 /* ProfileTableHeaderViewLayoutConstants.swift in Sources */,
 			);

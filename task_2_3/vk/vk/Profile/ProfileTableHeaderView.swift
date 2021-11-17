@@ -189,7 +189,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
             self.statusModel?.checkStatus(status: self.statusText) { result in
                 self.statusLabel.textColor = result ? .green : .red
             }
-            
+
             self.statusLabel.text = self.statusText
         }
         
