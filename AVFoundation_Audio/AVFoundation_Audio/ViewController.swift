@@ -1,42 +1,91 @@
-//
-//  ViewController.swift
-//  AVFoundation_Audio
-//
-//  Created by Niki Pavlove on 18.02.2021.
-//
-
 import UIKit
 import AVFoundation
+import AVKit
 
 class ViewController: UIViewController {
-    
-    var Player = AVAudioPlayer()
+    private var Player = AVAudioPlayer()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    private func playStream(urlToPlay: URL) {
+         let player = AVPlayer(url: urlToPlay)
+
+         let controller = AVPlayerViewController()
+         controller.player = player
+
+         present(controller, animated: true) {
+             player.play()
+         }
+     }
+
+    private func setView()
+    {
+        let playerView = AudioPlayerView(viewFrame: self.view.frame)
         
+        playerView.streamPlayHandler = { [weak self] streamId in
+            guard let self = self else {
+                return
+            }
+
+            self.playStream(urlToPlay:streamId)
+        }
+        
+        playerView.pauseHandler = { [weak self] in
+            guard let self = self else {
+                return
+            }
+            
+            if self.Player.isPlaying {
+                self.Player.pause()
+            }
+        }
+        
+        playerView.stopHandler = { [weak self] in
+            guard let self = self else {
+                return
+            }
+            if self.Player.isPlaying {
+                self.Player.stop()
+                self.Player.currentTime = 0
+            }
+        }
+        
+        playerView.playHandler = { [weak self] in
+            guard let self = self else {
+                return
+            }
+            
+            self.startRecordPlaying(songName: playerView.selectedSong)
+            
+            guard let song = self.Player.url else {
+                return
+            }
+
+            playerView.songName = song.lastPathComponent
+        }
+        
+        self.view = playerView
+    }
+    
+    private func startRecordPlaying(songName : String)
+    {
         do {
-            Player = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "Queen", ofType: "mp3")!))
+            if let url = Player.url {
+                if url.lastPathComponent == songName + ".mp3" {
+                    Player.play()
+                    return
+                }
+            }
+
+            Player = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: songName, ofType: "mp3")!))
             Player.prepareToPlay()
+            Player.play()
         }
         catch {
             print(error)
         }
-        
-        
-    }
-
-    @IBAction func PlayButton(_ sender: Any) {
-        Player.play()
     }
     
-    @IBAction func StopButton(_ sender: Any) {
-        if Player.isPlaying {
-            Player.stop()
-        }
-        else {
-            print("Already stopped!")
-        }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setView()
     }
 }
