@@ -1,13 +1,13 @@
 //
-//  ViewController.swift
+//  FolderViewController.swift
 //  FolderContentViewer
 //
-//  Created by Дмитрий Никишов on 17.11.2021.
+//  Created by Дмитрий Никишов on 24.11.2021.
 //
 
 import UIKit
 
-class ViewController: UIViewController,
+class FolderViewController: UIViewController,
                       UIImagePickerControllerDelegate,
                       UINavigationControllerDelegate,
                       FolderCollectionDelegate {
@@ -15,6 +15,8 @@ class ViewController: UIViewController,
     func updateCollectionView() {
         updateUiWithFolderContent()
     }
+    
+    public var currentSettingsViewSetup : SettingsViewSetup?
     
     private var folderItems : [URL] = []
     
@@ -103,6 +105,8 @@ class ViewController: UIViewController,
                     
                     self.folderItems = directoryContents
                     
+                    self.sortFolderUrls()
+                    
                     DispatchQueue.main.async {
                         self.folderItemsCollection.reloadData()
                     }
@@ -155,6 +159,22 @@ class ViewController: UIViewController,
         folderItemsCollection.delegate = self
     }
     
+    private func sortFolderUrls()
+    {
+        if let setup = self.currentSettingsViewSetup {
+            if setup.isSortingEnabled {
+                folderItems.sort {
+                    let compareResult = $0.absoluteString.compare($1.absoluteString, options: .numeric)
+                    if setup.isAscendingMode {
+                        return compareResult == .orderedAscending
+                    } else {
+                        return compareResult == .orderedDescending
+                    }
+                }
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -167,9 +187,16 @@ class ViewController: UIViewController,
         
         updateUiWithFolderContent()
     }
+    
+    public func applySettingsViewSetup(setup : SettingsViewSetup?)
+    {
+        self.currentSettingsViewSetup = setup
+        self.sortFolderUrls()
+        self.folderItemsCollection.reloadData()
+    }
 }
 
-extension ViewController : UICollectionViewDataSource {
+extension FolderViewController : UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return self.folderItems.count
     }
@@ -191,7 +218,7 @@ extension ViewController : UICollectionViewDataSource {
     }
 }
 
-extension ViewController : UICollectionViewDelegateFlowLayout {
+extension FolderViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
             return CGSize(width: self.folderItemsCollection.bounds.width,
                           height: self.folderItemsCollection.bounds.height/15)
