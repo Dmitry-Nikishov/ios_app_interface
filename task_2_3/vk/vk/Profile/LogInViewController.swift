@@ -139,6 +139,8 @@ class LogInViewController: UIViewController, Coordinating {
         button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
         return button
     }()
+    
+    private let dbDataProvider = DbDataProvider()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,16 +148,26 @@ class LogInViewController: UIViewController, Coordinating {
         view.backgroundColor = .white
         safeArea = view.layoutMarginsGuide
 
-        checkFirebaseCurrentUser()
+//        checkFirebaseCurrentUser()
         
         setupViews()
         
-        showRestToDoInfo()
+        checkRealmCredentials()
         
-        showRestPlanetInfo()
+//        showRestToDoInfo()
+        
+//        showRestPlanetInfo()
         
         
 //        setupInternalEvents()
+    }
+    
+    private func checkRealmCredentials()
+    {
+        if let credentials = dbDataProvider.getCredentials() {
+            self.coordinator?.processEvent(with: .loginToFeedEvent(User(fullName : credentials.email, avatarPath : "avatar", status : "initial")))
+
+        }
     }
     
     private func checkFirebaseCurrentUser()
@@ -300,45 +312,66 @@ class LogInViewController: UIViewController, Coordinating {
                       return
                   }
 
-            if self.logInMode == .logIn {
-                let loginEmail = self.emailOrPhoneTextFieldView.text ?? ""
-                let loginPassword = self.passwordTextFieldView.text ?? ""
-    
-                guard !loginEmail.isEmpty,
-                      !loginPassword.isEmpty else {
-                    uiDirector.processEvent(with: .loginToFeedEvent(nil))
-                    return
-                }
+            let loginEmail = self.emailOrPhoneTextFieldView.text ?? ""
+            let loginPassword = self.passwordTextFieldView.text ?? ""
 
-                FirebaseAuth.Auth.auth().signIn(withEmail: loginEmail, password: loginPassword, completion: { [weak self] result, error in
-                        guard let strongSelf = self else {
-                            return
-                        }
-    
-                        guard error == nil else {
-                            strongSelf.showCreateAccount(email: loginEmail, password: loginPassword)
-                            return
-                        }
-                    
-                    DispatchQueue.main.async {
-                        strongSelf.logInButton.title = "Log Out"
-                        strongSelf.passwordTextFieldView.isUserInteractionEnabled = false
-                        strongSelf.emailOrPhoneTextFieldView.isUserInteractionEnabled = false
+            let checkError = self.credentialsCheckerDelegate.areCredentialsOk(
+                login: loginEmail,
+                password: loginPassword)
+            
+            if checkError == .success {
+                uiDirector.processEvent(with: .loginToFeedEvent(User(fullName : loginEmail, avatarPath : "avatar", status : "initial")))
+                
+                let dbCredentials = DbAppCredentials(email: loginEmail, password: loginPassword)
+                DispatchQueue.global().async { [weak self] in
+                    guard let self = self else {
+                        return
                     }
-                    
-                    uiDirector.processEvent(with: .loginToFeedEvent(User(fullName : loginEmail, avatarPath : "avatar", status : "initial")))
-                })
-            } else {
-                do {
-                    try FirebaseAuth.Auth.auth().signOut()
-                    self.logInMode = .logIn
-                    DispatchQueue.main.async {
-                        self.logInButton.title = "Log In"
-                        self.passwordTextFieldView.isUserInteractionEnabled = true
-                        self.emailOrPhoneTextFieldView.isUserInteractionEnabled = true
-                    }
-                }catch {}
+
+                    self.dbDataProvider.addCredentials(credentials: dbCredentials)
+                }
             }
+            
+//            if self.logInMode == .logIn {
+//                let loginEmail = self.emailOrPhoneTextFieldView.text ?? ""
+//                let loginPassword = self.passwordTextFieldView.text ?? ""
+//
+//                guard !loginEmail.isEmpty,
+//                      !loginPassword.isEmpty else {
+//                    uiDirector.processEvent(with: .loginToFeedEvent(nil))
+//                    return
+//                }
+//
+//                FirebaseAuth.Auth.auth().signIn(withEmail: loginEmail, password: loginPassword, completion: { [weak self] result, error in
+//                        guard let strongSelf = self else {
+//                            return
+//                        }
+//
+//                        guard error == nil else {
+//                            strongSelf.showCreateAccount(email: loginEmail, password: loginPassword)
+//                            return
+//                        }
+//
+//                    DispatchQueue.main.async {
+//                        strongSelf.logInButton.title = "Log Out"
+//                        strongSelf.passwordTextFieldView.isUserInteractionEnabled = false
+//                        strongSelf.emailOrPhoneTextFieldView.isUserInteractionEnabled = false
+//                    }
+//
+//                    uiDirector.processEvent(with: .loginToFeedEvent(User(fullName : loginEmail, avatarPath : "avatar", status : "initial")))
+//                })
+//            } else {
+//                do {
+//                    try FirebaseAuth.Auth.auth().signOut()
+//                    self.logInMode = .logIn
+//                    DispatchQueue.main.async {
+//                        self.logInButton.title = "Log In"
+//                        self.passwordTextFieldView.isUserInteractionEnabled = true
+//                        self.emailOrPhoneTextFieldView.isUserInteractionEnabled = true
+//                    }
+//                }catch {}
+//            }
+            
         }
         
         passwordCrackerButton.clickHandler = { [weak self] in
