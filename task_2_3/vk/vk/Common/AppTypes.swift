@@ -7,7 +7,9 @@
 
 import Foundation
 import UIKit
+import StorageService
 
+typealias BookmarkPostToDbHandler = (Post) -> Void
 typealias UiViewClickHandler = () -> Void
 typealias UserStatusChecker = (String) -> Bool
 typealias UserStatusCheckerResult = (Bool) -> Void
