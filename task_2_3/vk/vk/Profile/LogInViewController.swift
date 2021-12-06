@@ -164,7 +164,7 @@ class LogInViewController: UIViewController, Coordinating {
     
     private func checkRealmCredentials()
     {
-        if let credentials = dbDataProvider.getCredentials() {
+        if let credentials = dbDataProvider.getCredentials(userId: AppCommon.userId) {
             self.coordinator?.processEvent(with: .loginToFeedEvent(User(fullName : credentials.email, avatarPath : "avatar", status : "initial")))
 
         }
@@ -322,7 +322,10 @@ class LogInViewController: UIViewController, Coordinating {
             if checkError == .success {
                 uiDirector.processEvent(with: .loginToFeedEvent(User(fullName : loginEmail, avatarPath : "avatar", status : "initial")))
                 
-                let dbCredentials = DbAppCredentials(email: loginEmail, password: loginPassword)
+                let dbCredentials = DbAppCredentials(
+                    id : AppCommon.userId,
+                    email: loginEmail,
+                    password: loginPassword)
                 DispatchQueue.global().async { [weak self] in
                     guard let self = self else {
                         return

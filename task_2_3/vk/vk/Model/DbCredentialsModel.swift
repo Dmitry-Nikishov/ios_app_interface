@@ -9,15 +9,22 @@ import Foundation
 import RealmSwift
 
 @objcMembers class DbAppCredentialsCached: Object {
+    dynamic var id: String?
     dynamic var email: String?
     dynamic var password: String?
+    
+    override static func primaryKey() -> String? {
+        return "id"
+    }
 }
 
 final class DbAppCredentials {
+    let id: String
     let email: String
     let password: String
     
-    init(email: String, password: String) {
+    init(id: String, email: String, password: String) {
+        self.id = id
         self.email = email
         self.password = password
     }
@@ -26,18 +33,17 @@ final class DbAppCredentials {
 class DbDataProvider {
     private var realm: Realm? {
         var config = Realm.Configuration()
-        config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("credentials.realm")
+        config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("app_user_credentials.realm")
         return try? Realm(configuration: config)
     }
     
-    func getCredentials() -> DbAppCredentials? {
-        let ret : [DbAppCredentials] = realm?.objects(DbAppCredentialsCached.self).compactMap {
-            guard let email = $0.email, let password = $0.password else { return nil }
-            return DbAppCredentials(email: email, password: password)
-        } ?? []
-        
-        if ret.count != 0 {
-            return ret[0]
+    func getCredentials(userId : String) -> DbAppCredentials? {
+        let credentials = realm?.object(ofType: DbAppCredentialsCached.self, forPrimaryKey: userId)
+        if let credentials = credentials {
+            let ret = DbAppCredentials(id: credentials.id ?? "",
+                                       email: credentials.email ?? "",
+                                       password: credentials.password ?? "")
+            return ret
         } else {
             return nil
         }
@@ -45,6 +51,7 @@ class DbDataProvider {
     
     func addCredentials(credentials: DbAppCredentials) {
         let cachedCredentials = DbAppCredentialsCached()
+        cachedCredentials.id = credentials.id
         cachedCredentials.email = credentials.email
         cachedCredentials.password = credentials.password
         
