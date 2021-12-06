@@ -26,3 +26,7 @@ enum LoginMode {
     case logIn
     case logOut
 }
+
+enum AppCommon {
+    static let userId : String = "App_User"
+}
