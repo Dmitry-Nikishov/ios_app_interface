@@ -7,18 +7,33 @@
 
 import UIKit
 import StorageService
+import CoreData
 
 class BookmarkedViewController : UIViewController {
+    private var isInitiallyLoaded: Bool = false
+    
     private let stack: CoreDataStack
     
+    private lazy var fetchResultsController: NSFetchedResultsController<PostDb> = {
+                
+        let request: NSFetchRequest<PostDb> = PostDb.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "author", ascending: false)]
+       let controller = NSFetchedResultsController(
+        fetchRequest: request,
+        managedObjectContext: stack.getViewContext(),
+        sectionNameKeyPath: nil,
+        cacheName: nil
+       )
+        controller.delegate = self
+        return controller
+    }()
+
     private let tableView : UITableView = {
         let view = UITableView(frame: .zero, style: .plain)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private var dbData : [PostDb] = []
-
     private func setupTableView() {
         view.addSubview(tableView)
 
@@ -106,16 +121,47 @@ class BookmarkedViewController : UIViewController {
         setupFilterButtons()
     }
     
-    func syncWithDb()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if !isInitiallyLoaded {
+            isInitiallyLoaded = true
+            stack.getViewContext().perform {
+                do {
+                    try self.fetchResultsController.performFetch()
+                    self.tableView.reloadData()
+                } catch {
+                    print(error)
+                }
+            }
+        }
+    }
+
+    private func syncWithDb()
     {
-        self.dbData = self.stack.fetchDbPosts()
-        self.tableView.reloadData()
+        stack.getViewContext().perform {
+            self.fetchResultsController.fetchRequest.predicate = nil
+            do {
+                try self.fetchResultsController.performFetch()
+                self.tableView.reloadData()
+            } catch {
+                print(error)
+            }
+        }
     }
     
-    func syncWithDbFilteredByAuthor(author : String)
+    private func syncWithDbFilteredByAuthor(author : String)
     {
-        self.dbData = self.stack.fetchDbPostsByAuthor(author: author)
-        self.tableView.reloadData()
+        stack.getViewContext().perform {
+            let predicate = NSPredicate(format: "author == %@", author)
+            self.fetchResultsController.fetchRequest.predicate = predicate
+            do {
+                try self.fetchResultsController.performFetch()
+                self.tableView.reloadData()
+            } catch {
+                print(error)
+            }
+        }
     }
 }
 
@@ -123,7 +169,8 @@ extension BookmarkedViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ProfileTableViewCell.self)) as! ProfileTableViewCell
 
-        let cellData = DbToFromDataConverter.toModel(post: dbData[indexPath.section])
+        let postItem = fetchResultsController.object(at: indexPath)
+        let cellData = DbToFromDataConverter.toModel(post:postItem)
         cell.cellData = cellData
         cell.cellImage = UIImage(named: cellData.image)
         
@@ -131,11 +178,7 @@ extension BookmarkedViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return dbData.count
+        return fetchResultsController.fetchedObjects?.count ?? 0
     }
 }
 
@@ -144,28 +187,15 @@ extension BookmarkedViewController: UITableViewDelegate {
         let action = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, success) in
             guard let this = self else { return }
             
-            let postToDelete = this.dbData.remove(at: indexPath.section)
-            this.tableView.performBatchUpdates {
-                this.tableView.deleteSections([indexPath.section], with: .automatic)
-            } completion: { (_) in
-                this.stack.remove(post: postToDelete)
-            }
+            let postToDelete = this.fetchResultsController.object(at: indexPath)
+            
+            this.stack.removeFromViewContext(post: postToDelete)
             
             success(true)
         }
         return UISwipeActionsConfiguration(actions: [action])
     }
-        
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
-    {
-        return nil
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
-    {
-        return 0
-    }
-    
+            
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         if let indexPathForSelectedRow = tableView.indexPathForSelectedRow,
              indexPathForSelectedRow == indexPath {
@@ -173,5 +203,50 @@ extension BookmarkedViewController: UITableViewDelegate {
              return nil
         }
         return indexPath
+    }
+}
+
+extension BookmarkedViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>
+    ) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(
+        _ controller: NSFetchedResultsController<NSFetchRequestResult>,
+        didChange anObject: Any,
+        at indexPath: IndexPath?,
+        for type: NSFetchedResultsChangeType,
+        newIndexPath: IndexPath?
+    ) {
+        switch type {
+            case .delete:
+                guard let indexPath = indexPath else { fallthrough }
+
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            case .insert:
+                guard let newIndexPath = newIndexPath else { fallthrough }
+                
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            case .move:
+                guard
+                    let indexPath = indexPath,
+                    let newIndexPath = newIndexPath
+                else { fallthrough }
+                
+                tableView.moveRow(at: indexPath, to: newIndexPath)
+            case .update:
+                guard let indexPath = indexPath else { fallthrough }
+                
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            @unknown default:
+                fatalError()
+        }
+    }
+    
+    func controllerDidChangeContent(
+        _ controller: NSFetchedResultsController<NSFetchRequestResult>
+    ) {
+        tableView.endUpdates()
     }
 }

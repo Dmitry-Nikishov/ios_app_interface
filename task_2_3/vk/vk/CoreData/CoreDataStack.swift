@@ -19,29 +19,44 @@ class CoreDataStack {
         return container
     }()
     
-    private var backgroundContext : NSManagedObjectContext?
+    private var backgroundContext : NSManagedObjectContext!
     
-    private var viewContext: NSManagedObjectContext?
+    private var viewContext: NSManagedObjectContext!
     
     init() {
         backgroundContext = persistentContainer.newBackgroundContext()
         viewContext = persistentContainer.viewContext
     }
+    
+    func getBackgroundContext() -> NSManagedObjectContext {
+        return backgroundContext
+    }
+    
+    func getViewContext() -> NSManagedObjectContext {
+        return viewContext
+    }
         
+    func fetchDbPostsViewContext() -> [PostDb] {
+        let request: NSFetchRequest<PostDb> = PostDb.fetchRequest()
+        do {
+            return try viewContext.fetch(request)
+        } catch {
+            fatalError("fetch view context error")
+        }
+    }
+    
     func fetchDbPosts() -> [PostDb] {
         var result : [PostDb] = []
-        
+
         DispatchQueue.global(qos: .background).sync { [weak self] in
             guard let this = self else {return}
             result = this.fetchDbPostsImpl()
         }
-        
+
         return result
     }
     
-    private func fetchDbPostsImpl() -> [PostDb] {
-        guard let backgroundContext = backgroundContext else {return []}
-        
+    func fetchDbPostsImpl() -> [PostDb] {
         var result : [PostDb] = []
         
         let request: NSFetchRequest<PostDb> = PostDb.fetchRequest()
@@ -67,10 +82,18 @@ class CoreDataStack {
         
         return result
     }
-
     
+    func fetchDbPostsByAuthorViewContext(author : String) -> [PostDb] {
+        let request: NSFetchRequest<PostDb> = PostDb.fetchRequest()
+        request.predicate = NSPredicate(format: "author == %@", author)
+        do {
+            return try viewContext.fetch(request)
+        } catch {
+            fatalError("fetch view context error")
+        }
+    }
+
     private func fetchDbPostsByAuthorImpl(author : String) -> [PostDb] {
-        guard let backgroundContext = backgroundContext else {return []}
         
         var result : [PostDb] = []
         
@@ -95,8 +118,12 @@ class CoreDataStack {
         }
     }
     
+    func removeFromViewContext(post: PostDb) {
+        viewContext.delete(post)
+        save(context: viewContext)
+    }
+    
     private func removeImpl(post: PostDb) {
-        guard let backgroundContext = backgroundContext else {return}
         backgroundContext.performAndWait {
             backgroundContext.delete(post)
             save(context: backgroundContext)
@@ -106,21 +133,23 @@ class CoreDataStack {
     func createNewPost(post : Post) {
         DispatchQueue.global(qos: .background).sync { [weak self] in
             guard let this = self else {return}
-            this.createNewPostImpl(post: post)
+            this.createNewPostImpl(post: post, context: backgroundContext)
         }
     }
-    
-    private func createNewPostImpl(post: Post) {
-        guard let backgroundContext = backgroundContext else {return}
-        
-        let newPost = PostDb(context: backgroundContext)
+
+    func createNewPostViewContext(post : Post) {
+        createNewPostImpl(post: post, context: viewContext)
+    }
+
+    private func createNewPostImpl(post: Post, context : NSManagedObjectContext) {
+        let newPost = PostDb(context: context)
         newPost.image = post.image
         newPost.author = post.author
         newPost.likes = Int32(post.likes)
         newPost.views = Int32(post.views)
         newPost.content = post.description
 
-        save(context: backgroundContext)
+        save(context: context)
     }
 
     private func save(context: NSManagedObjectContext) {

@@ -60,10 +60,10 @@ class ProfileTabBarController : UITabBarController,
     
     //MARK:- UITabBarControllerDelegate
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController)! {
-            if selectedIndex == 1 {
-                bookmarkedViewController.syncWithDb()
-            }
-        }
+//        if let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController)! {
+//            if selectedIndex == 1 {
+//                bookmarkedViewController.syncWithDb()
+//            }
+//        }
     }
 }
