@@ -40,6 +40,54 @@ class BookmarkedViewController : UIViewController {
         NSLayoutConstraint.activate(constraints)
     }
 
+    @objc
+    private func addFilterHandler()
+    {
+        var inputTextField: UITextField?;
+        let promptAlert = UIAlertController(title: "Filter bookmarked items",
+                                               message: "Enter author's name",
+                                               preferredStyle: UIAlertController.Style.alert);
+    
+        promptAlert.addAction(UIAlertAction(title: "Apply",
+                                            style: UIAlertAction.Style.default, handler: { [weak self] (action) -> Void in
+            guard let this = self else {return}
+            
+            let filterCriteria = (inputTextField?.text) ?? "";
+        
+            this.syncWithDbFilteredByAuthor(author: filterCriteria)
+        }));
+        
+        promptAlert.addTextField(configurationHandler: {(textField: UITextField!) in
+            textField.placeholder = "author's name"
+            textField.isSecureTextEntry = false
+            inputTextField = textField
+        });
+    
+        self.present(promptAlert, animated: true, completion: nil);
+    }
+    
+    @objc
+    private func removeFilterHandler()
+    {
+        self.syncWithDb()
+    }
+    
+    private func setupFilterButtons()
+    {
+        let addFilter = UIBarButtonItem(title: "Filter",
+                                        style: .plain,
+                                        target: self,
+                                        action: #selector(addFilterHandler))
+        
+        let removeFilter = UIBarButtonItem(title: "Remove Filter",
+                                           style: .plain,
+                                           target: self,
+                                           action: #selector(removeFilterHandler))
+
+        navigationItem.setLeftBarButton(addFilter, animated: false)
+        navigationItem.setRightBarButton(removeFilter, animated: false)
+    }
+    
     init(stack : CoreDataStack)
     {
         self.stack = stack
@@ -50,18 +98,24 @@ class BookmarkedViewController : UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupTableView()
         setupConstraints()
+        setupFilterButtons()
     }
     
     func syncWithDb()
     {
-        dbData = stack.fetchDbPosts()
-        tableView.reloadData()
+        self.dbData = self.stack.fetchDbPosts()
+        self.tableView.reloadData()
+    }
+    
+    func syncWithDbFilteredByAuthor(author : String)
+    {
+        self.dbData = self.stack.fetchDbPostsByAuthor(author: author)
+        self.tableView.reloadData()
     }
 }
 
@@ -86,6 +140,22 @@ extension BookmarkedViewController: UITableViewDataSource {
 }
 
 extension BookmarkedViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, success) in
+            guard let this = self else { return }
+            
+            let postToDelete = this.dbData.remove(at: indexPath.section)
+            this.tableView.performBatchUpdates {
+                this.tableView.deleteSections([indexPath.section], with: .automatic)
+            } completion: { (_) in
+                this.stack.remove(post: postToDelete)
+            }
+            
+            success(true)
+        }
+        return UISwipeActionsConfiguration(actions: [action])
+    }
+        
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
     {
         return nil
