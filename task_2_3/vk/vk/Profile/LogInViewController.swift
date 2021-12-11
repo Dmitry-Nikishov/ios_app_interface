@@ -140,7 +140,18 @@ class LogInViewController: UIViewController, Coordinating {
         return button
     }()
     
-    private let dbDataProvider = DbDataProvider()
+    private lazy var dbDataProvider : DbDataProvider = {
+        if let encryptionKey = KeychainAccessor.getCredentialsEncryptionKey() {
+            return DbDataProvider(encryptionKey: encryptionKey)
+        } else {
+            KeychainAccessor.initializeCredentialsEncryptionKey()
+            if let encryptionKey = KeychainAccessor.getCredentialsEncryptionKey() {
+                return DbDataProvider(encryptionKey: encryptionKey)
+            } else {
+                fatalError("not able to obtain encryption key for credentials db")
+            }
+        }
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -326,13 +337,8 @@ class LogInViewController: UIViewController, Coordinating {
                     id : AppCommon.userId,
                     email: loginEmail,
                     password: loginPassword)
-                DispatchQueue.global().async { [weak self] in
-                    guard let self = self else {
-                        return
-                    }
-
-                    self.dbDataProvider.addCredentials(credentials: dbCredentials)
-                }
+                
+                self.dbDataProvider.addCredentials(credentials: dbCredentials)                
             }
             
 //            if self.logInMode == .logIn {

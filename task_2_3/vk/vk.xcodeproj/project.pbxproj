@@ -57,16 +57,15 @@
 		F6E31FBB2735D33400EAE85E /* RestTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E31FBA2735D33400EAE85E /* RestTypes.swift */; };
 		F6E3207627430EE800EAE85E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F6E3207527430EE800EAE85E /* GoogleService-Info.plist */; };
 		F6E320FA27542F3D00EAE85E /* DbCredentialsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E320F927542F3D00EAE85E /* DbCredentialsModel.swift */; };
-
 		F6E320FC2756E48100EAE85E /* ProfileTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E320FB2756E48100EAE85E /* ProfileTabBarController.swift */; };
 		F6E320FE2756E6A200EAE85E /* BookmarkedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E320FD2756E6A200EAE85E /* BookmarkedViewController.swift */; };
 		F6E3211F275ACECF00EAE85E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E3211E275ACECE00EAE85E /* CoreDataStack.swift */; };
 		F6E32129275AD46600EAE85E /* DbPosts.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F6E32127275AD46600EAE85E /* DbPosts.xcdatamodeld */; };
 		F6E3212F275AE04600EAE85E /* DbToModelDataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E3212E275AE04600EAE85E /* DbToModelDataConverter.swift */; };
-
 		F6E32132275CF01700EAE85E /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F6E32131275CF01700EAE85E /* Realm */; };
 		F6E32134275CF01700EAE85E /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F6E32133275CF01700EAE85E /* RealmSwift */; };
-
+		F6E32137276419EC00EAE85E /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = F6E32136276419EC00EAE85E /* SwiftKeychainWrapper */; };
+		F6E3213A27641A1D00EAE85E /* KeychainAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E3213927641A1D00EAE85E /* KeychainAccessor.swift */; };
 		F6EAEC0026F8A641006E8B4C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EAEBFF26F8A641006E8B4C /* CustomButton.swift */; };
 		F6EC51C1273094CB0011E432 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC51C0273094CB0011E432 /* Endpoint.swift */; };
 		F6EC51C3273095790011E432 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC51C2273095790011E432 /* NetworkManager.swift */; };
@@ -171,6 +170,7 @@
 		F6E3211E275ACECE00EAE85E /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		F6E32128275AD46600EAE85E /* DbPosts.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DbPosts.xcdatamodel; sourceTree = "<group>"; };
 		F6E3212E275AE04600EAE85E /* DbToModelDataConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DbToModelDataConverter.swift; sourceTree = "<group>"; };
+		F6E3213927641A1D00EAE85E /* KeychainAccessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainAccessor.swift; sourceTree = "<group>"; };
 		F6EAEBFF26F8A641006E8B4C /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		F6EC51C0273094CB0011E432 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		F6EC51C2273095790011E432 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -199,6 +199,7 @@
 			files = (
 				F6617D7826E2D244004AB050 /* iOSIntPackage in Frameworks */,
 				F6617D6B26DFD7F4004AB050 /* StorageService.framework in Frameworks */,
+				F6E32137276419EC00EAE85E /* SwiftKeychainWrapper in Frameworks */,
 				F6E32132275CF01700EAE85E /* Realm in Frameworks */,
 				F6E32134275CF01700EAE85E /* RealmSwift in Frameworks */,
 				E829C6DA545D1EE8658FED06 /* Pods_vk.framework in Frameworks */,
@@ -316,6 +317,7 @@
 		F67144732697C94600495503 /* vk */ = {
 			isa = PBXGroup;
 			children = (
+				F6E3213827641A0300EAE85E /* Keychain */,
 				F6E32103275A355E00EAE85E /* CoreData */,
 				F6E320FF275A339200EAE85E /* Resources */,
 				F6EC51C42730959C0011E432 /* Utilities */,
@@ -393,6 +395,14 @@
 				F6E3212E275AE04600EAE85E /* DbToModelDataConverter.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		F6E3213827641A0300EAE85E /* Keychain */ = {
+			isa = PBXGroup;
+			children = (
+				F6E3213927641A1D00EAE85E /* KeychainAccessor.swift */,
+			);
+			path = Keychain;
 			sourceTree = "<group>";
 		};
 		F6EAEBFE26F8A61F006E8B4C /* CustomUI */ = {
@@ -493,6 +503,7 @@
 				F6617D7726E2D244004AB050 /* iOSIntPackage */,
 				F6E32131275CF01700EAE85E /* Realm */,
 				F6E32133275CF01700EAE85E /* RealmSwift */,
+				F6E32136276419EC00EAE85E /* SwiftKeychainWrapper */,
 			);
 			productName = vk;
 			productReference = F67144712697C94600495503 /* vk.app */;
@@ -531,6 +542,7 @@
 			packageReferences = (
 				F6617D7626E2D244004AB050 /* XCRemoteSwiftPackageReference "iOSIntPackage" */,
 				F6E32130275CF01700EAE85E /* XCRemoteSwiftPackageReference "realm-cocoa" */,
+				F6E32135276419EC00EAE85E /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
 			);
 			productRefGroup = F67144722697C94600495503 /* Products */;
 			projectDirPath = "";
@@ -634,6 +646,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6E3213A27641A1D00EAE85E /* KeychainAccessor.swift in Sources */,
 				F6E3212F275AE04600EAE85E /* DbToModelDataConverter.swift in Sources */,
 				F61D1DBD270677A0008E18BC /* AppBlocker.swift in Sources */,
 				F6E3211F275ACECF00EAE85E /* CoreDataStack.swift in Sources */,
@@ -1020,6 +1033,14 @@
 				minimumVersion = 10.20.0;
 			};
 		};
+		F6E32135276419EC00EAE85E /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jrendel/SwiftKeychainWrapper";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1037,6 +1058,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F6E32130275CF01700EAE85E /* XCRemoteSwiftPackageReference "realm-cocoa" */;
 			productName = RealmSwift;
+		};
+		F6E32136276419EC00EAE85E /* SwiftKeychainWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F6E32135276419EC00EAE85E /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
+			productName = SwiftKeychainWrapper;
 		};
 /* End XCSwiftPackageProductDependency section */
 
