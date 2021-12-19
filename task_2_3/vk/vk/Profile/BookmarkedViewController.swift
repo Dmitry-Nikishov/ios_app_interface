@@ -221,22 +221,22 @@ extension BookmarkedViewController: NSFetchedResultsControllerDelegate {
     ) {
         switch type {
             case .delete:
-                guard let indexPath = indexPath else { fallthrough }
+                guard let indexPath = indexPath else { return }
 
                 tableView.deleteRows(at: [indexPath], with: .automatic)
             case .insert:
-                guard let newIndexPath = newIndexPath else { fallthrough }
+                guard let newIndexPath = newIndexPath else { return }
                 
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
             case .move:
                 guard
                     let indexPath = indexPath,
                     let newIndexPath = newIndexPath
-                else { fallthrough }
+                else { return }
                 
                 tableView.moveRow(at: indexPath, to: newIndexPath)
             case .update:
-                guard let indexPath = indexPath else { fallthrough }
+                guard let indexPath = indexPath else { return }
                 
                 tableView.reloadRows(at: [indexPath], with: .automatic)
             @unknown default:

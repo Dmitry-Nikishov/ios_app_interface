@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E829C6DA545D1EE8658FED06 /* Pods_vk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D0686B8172714CFDD7AFB33 /* Pods_vk.framework */; };
+		F61584CB276FC3130002140B /* DbDataHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61584CA276FC3130002140B /* DbDataHandlers.swift */; };
 		F61D1DB027012D5F008E18BC /* ViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D1DAF27012D5F008E18BC /* ViewModelFactory.swift */; };
 		F61D1DB5270269FF008E18BC /* AsyncImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D1DB4270269FF008E18BC /* AsyncImageProcessor.swift */; };
 		F61D1DB72703C4D9008E18BC /* PasswordCracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D1DB62703C4D9008E18BC /* PasswordCracker.swift */; };
@@ -57,16 +58,13 @@
 		F6E31FBB2735D33400EAE85E /* RestTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E31FBA2735D33400EAE85E /* RestTypes.swift */; };
 		F6E3207627430EE800EAE85E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F6E3207527430EE800EAE85E /* GoogleService-Info.plist */; };
 		F6E320FA27542F3D00EAE85E /* DbCredentialsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E320F927542F3D00EAE85E /* DbCredentialsModel.swift */; };
-
 		F6E320FC2756E48100EAE85E /* ProfileTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E320FB2756E48100EAE85E /* ProfileTabBarController.swift */; };
 		F6E320FE2756E6A200EAE85E /* BookmarkedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E320FD2756E6A200EAE85E /* BookmarkedViewController.swift */; };
 		F6E3211F275ACECF00EAE85E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E3211E275ACECE00EAE85E /* CoreDataStack.swift */; };
 		F6E32129275AD46600EAE85E /* DbPosts.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F6E32127275AD46600EAE85E /* DbPosts.xcdatamodeld */; };
 		F6E3212F275AE04600EAE85E /* DbToModelDataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E3212E275AE04600EAE85E /* DbToModelDataConverter.swift */; };
-
 		F6E32132275CF01700EAE85E /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F6E32131275CF01700EAE85E /* Realm */; };
 		F6E32134275CF01700EAE85E /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F6E32133275CF01700EAE85E /* RealmSwift */; };
-
 		F6EAEC0026F8A641006E8B4C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EAEBFF26F8A641006E8B4C /* CustomButton.swift */; };
 		F6EC51C1273094CB0011E432 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC51C0273094CB0011E432 /* Endpoint.swift */; };
 		F6EC51C3273095790011E432 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC51C2273095790011E432 /* NetworkManager.swift */; };
@@ -114,6 +112,7 @@
 /* Begin PBXFileReference section */
 		04E9A9054F92CFEBC8DA37A9 /* Pods-vk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vk.release.xcconfig"; path = "Target Support Files/Pods-vk/Pods-vk.release.xcconfig"; sourceTree = "<group>"; };
 		4D0686B8172714CFDD7AFB33 /* Pods_vk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F61584CA276FC3130002140B /* DbDataHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DbDataHandlers.swift; sourceTree = "<group>"; };
 		F61D1DAF27012D5F008E18BC /* ViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelFactory.swift; sourceTree = "<group>"; };
 		F61D1DB4270269FF008E18BC /* AsyncImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImageProcessor.swift; sourceTree = "<group>"; };
 		F61D1DB62703C4D9008E18BC /* PasswordCracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordCracker.swift; sourceTree = "<group>"; };
@@ -391,6 +390,7 @@
 			children = (
 				F6E3211E275ACECE00EAE85E /* CoreDataStack.swift */,
 				F6E3212E275AE04600EAE85E /* DbToModelDataConverter.swift */,
+				F61584CA276FC3130002140B /* DbDataHandlers.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -650,6 +650,7 @@
 				F67144752697C94600495503 /* AppDelegate.swift in Sources */,
 				F66024CB26EABB49004F4B5D /* CurrentUserService.swift in Sources */,
 				F66024D226EEB121004F4B5D /* LoginChecker.swift in Sources */,
+				F61584CB276FC3130002140B /* DbDataHandlers.swift in Sources */,
 				F6EC51C1273094CB0011E432 /* Endpoint.swift in Sources */,
 				F66024D426EEB338004F4B5D /* CredentialsChecker.swift in Sources */,
 				F61D1DB5270269FF008E18BC /* AsyncImageProcessor.swift in Sources */,
