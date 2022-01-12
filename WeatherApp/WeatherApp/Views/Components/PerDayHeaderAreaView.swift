@@ -9,10 +9,12 @@ import UIKit
 
 class PerDayHeaderAreaView : UIView
 {
+    public var perDayDetailsHandler : UiViewClickHandler?
+    
     @objc
     private func detailsTappedHandler()
     {
-        print("details tapped")
+        perDayDetailsHandler?()
     }
     
     private let collectionViewLabel : UILabel = {

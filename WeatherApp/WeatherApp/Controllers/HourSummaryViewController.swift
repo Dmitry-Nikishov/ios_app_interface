@@ -7,10 +7,16 @@
 
 import UIKit
 
-class HourSummaryViewController : UIViewController {
+class HourSummaryViewController : UIViewController, Coordinating {
+    weak var coordinator: Coordinator?
+    
     private func setupView()
     {
         let hourSummaryView = HourSummaryView(viewFrame: self.view.frame)
+        
+        hourSummaryView.backButtonHandler = { [weak self] in
+            self?.coordinator?.processEvent(with: .hourSummaryViewToMainViewEvent)
+        }
         
         self.view = hourSummaryView
     }

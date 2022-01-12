@@ -8,6 +8,10 @@
 import UIKit
 
 class MainView : UIView {
+    public var menuClickHandler : UiViewClickHandler?
+    public var perDayClickHandler : UiViewClickHandler?
+    public var per24ClickHandler : UiViewClickHandler?
+    
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -44,8 +48,11 @@ class MainView : UIView {
         NSLayoutConstraint.activate(constraints)
     }
     
-    private let navigationArea : UIView = {
+    private lazy var navigationArea : UIView = {
         let view = NavigationView(viewFrame: .zero)
+        view.menuClickHandler = { [weak self] in
+            self?.menuClickHandler?()
+        }
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -79,8 +86,11 @@ class MainView : UIView {
         return view
     }()
     
-    private let perDayHeaderAreaView : UIView = {
+    private lazy var perDayHeaderAreaView : UIView = {
         let view = PerDayHeaderAreaView(viewFrame: .zero)
+        view.perDayDetailsHandler = { [weak self] in
+            self?.perDayClickHandler?()
+        }
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -117,8 +127,11 @@ class MainView : UIView {
         return view
     }()
     
-    private let gotoDetailed24View : UIView = {
+    private lazy var gotoDetailed24View : UIView = {
         let view = GoToDetailed24View(viewFrame: .zero)
+        view.details24Handler = { [weak self] in
+            self?.per24ClickHandler?()
+        }
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -159,6 +172,7 @@ class MainView : UIView {
     
     init(viewFrame : CGRect) {
         super.init(frame: viewFrame)
+        backgroundColor = .white
         setupViews()
     }
      

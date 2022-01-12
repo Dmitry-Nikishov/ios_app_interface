@@ -43,6 +43,20 @@
 		F6158505278C63120002140B /* HourGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158504278C63120002140B /* HourGraphView.swift */; };
 		F6158507278C660C0002140B /* HourDetailsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158506278C660C0002140B /* HourDetailsTableCell.swift */; };
 		F615850A278C99CF0002140B /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = F6158509278C99CF0002140B /* Charts */; };
+		F615850C278CE74C0002140B /* DateToStringConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615850B278CE74C0002140B /* DateToStringConverter.swift */; };
+		F615850E278CE7E90002140B /* SimDateRangeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615850D278CE7E90002140B /* SimDateRangeProvider.swift */; };
+		F6158511278D061B0002140B /* YandexGeocoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158510278D061B0002140B /* YandexGeocoding.swift */; };
+		F6158514278D07200002140B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F6158513278D07200002140B /* Alamofire */; };
+		F6158517278EF5A00002140B /* CoordinatorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158516278EF5A00002140B /* CoordinatorTypes.swift */; };
+		F6158519278EF6590002140B /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158518278EF6590002140B /* AppCoordinator.swift */; };
+		F615851B278EF6CE0002140B /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615851A278EF6CE0002140B /* OnboardingCoordinator.swift */; };
+		F615851D278EF71C0002140B /* ViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615851C278EF71C0002140B /* ViewModelFactory.swift */; };
+		F615851F278EF9020002140B /* AppAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615851E278EF9020002140B /* AppAlert.swift */; };
+		F6158521278EF92E0002140B /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158520278EF92E0002140B /* AppConstants.swift */; };
+		F6158523278F07D10002140B /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158522278F07D10002140B /* MainCoordinator.swift */; };
+		F6158525278F11880002140B /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158524278F11880002140B /* SettingsCoordinator.swift */; };
+		F6158527278F1A360002140B /* DaySummaryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158526278F1A360002140B /* DaySummaryCoordinator.swift */; };
+		F6158529278F1ACC0002140B /* HourSummaryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158528278F1ACC0002140B /* HourSummaryCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,6 +97,19 @@
 		F6158502278C62630002140B /* HourSummaryTableDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourSummaryTableDetailsView.swift; sourceTree = "<group>"; };
 		F6158504278C63120002140B /* HourGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourGraphView.swift; sourceTree = "<group>"; };
 		F6158506278C660C0002140B /* HourDetailsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourDetailsTableCell.swift; sourceTree = "<group>"; };
+		F615850B278CE74C0002140B /* DateToStringConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateToStringConverter.swift; sourceTree = "<group>"; };
+		F615850D278CE7E90002140B /* SimDateRangeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimDateRangeProvider.swift; sourceTree = "<group>"; };
+		F6158510278D061B0002140B /* YandexGeocoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexGeocoding.swift; sourceTree = "<group>"; };
+		F6158516278EF5A00002140B /* CoordinatorTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorTypes.swift; sourceTree = "<group>"; };
+		F6158518278EF6590002140B /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		F615851A278EF6CE0002140B /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
+		F615851C278EF71C0002140B /* ViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelFactory.swift; sourceTree = "<group>"; };
+		F615851E278EF9020002140B /* AppAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAlert.swift; sourceTree = "<group>"; };
+		F6158520278EF92E0002140B /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		F6158522278F07D10002140B /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		F6158524278F11880002140B /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
+		F6158526278F1A360002140B /* DaySummaryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySummaryCoordinator.swift; sourceTree = "<group>"; };
+		F6158528278F1ACC0002140B /* HourSummaryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourSummaryCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +118,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F615850A278C99CF0002140B /* Charts in Frameworks */,
+				F6158514278D07200002140B /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,6 +144,8 @@
 		F61584AA276D361E0002140B /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				F6158515278EF5130002140B /* Coordinator */,
+				F615850F278D05FE0002140B /* Geocoding */,
 				F61584C7276D51220002140B /* Common */,
 				F61584C4276D390C0002140B /* Views */,
 				F61584C3276D38F90002140B /* DB */,
@@ -168,6 +198,10 @@
 			children = (
 				F61584C8276D51390002140B /* AppTypes.swift */,
 				F61584EA278645200002140B /* LayoutAssembler.swift */,
+				F615850B278CE74C0002140B /* DateToStringConverter.swift */,
+				F615850D278CE7E90002140B /* SimDateRangeProvider.swift */,
+				F615851E278EF9020002140B /* AppAlert.swift */,
+				F6158520278EF92E0002140B /* AppConstants.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -204,6 +238,29 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		F615850F278D05FE0002140B /* Geocoding */ = {
+			isa = PBXGroup;
+			children = (
+				F6158510278D061B0002140B /* YandexGeocoding.swift */,
+			);
+			path = Geocoding;
+			sourceTree = "<group>";
+		};
+		F6158515278EF5130002140B /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				F6158516278EF5A00002140B /* CoordinatorTypes.swift */,
+				F6158518278EF6590002140B /* AppCoordinator.swift */,
+				F615851A278EF6CE0002140B /* OnboardingCoordinator.swift */,
+				F615851C278EF71C0002140B /* ViewModelFactory.swift */,
+				F6158522278F07D10002140B /* MainCoordinator.swift */,
+				F6158524278F11880002140B /* SettingsCoordinator.swift */,
+				F6158526278F1A360002140B /* DaySummaryCoordinator.swift */,
+				F6158528278F1ACC0002140B /* HourSummaryCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -222,6 +279,7 @@
 			name = WeatherApp;
 			packageProductDependencies = (
 				F6158509278C99CF0002140B /* Charts */,
+				F6158513278D07200002140B /* Alamofire */,
 			);
 			productName = WeatherApp;
 			productReference = F61584A8276D361E0002140B /* WeatherApp.app */;
@@ -253,6 +311,7 @@
 			mainGroup = F615849F276D361E0002140B;
 			packageReferences = (
 				F6158508278C99CF0002140B /* XCRemoteSwiftPackageReference "Charts" */,
+				F6158512278D07200002140B /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = F61584A9276D361E0002140B /* Products */;
 			projectDirPath = "";
@@ -281,6 +340,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F61584B6276D361E0002140B /* WeatherApp.xcdatamodeld in Sources */,
+				F615851F278EF9020002140B /* AppAlert.swift in Sources */,
+				F6158517278EF5A00002140B /* CoordinatorTypes.swift in Sources */,
 				F61584CF276FD7B10002140B /* SettingsView.swift in Sources */,
 				F61584D727714B040002140B /* DayDisplayView.swift in Sources */,
 				F6158501278C5D040002140B /* HourSummaryViewController.swift in Sources */,
@@ -288,17 +349,24 @@
 				F6158503278C62630002140B /* HourSummaryTableDetailsView.swift in Sources */,
 				F61584F52788B79C0002140B /* ForecastDetailsView.swift in Sources */,
 				F61584E2277492DF0002140B /* WeatherPerHourCell.swift in Sources */,
+				F6158511278D061B0002140B /* YandexGeocoding.swift in Sources */,
 				F61584B0276D361E0002140B /* OnboardingViewController.swift in Sources */,
+				F6158527278F1A360002140B /* DaySummaryCoordinator.swift in Sources */,
 				F61584EB278645200002140B /* LayoutAssembler.swift in Sources */,
 				F61584FD278A593E0002140B /* PaddingLabel.swift in Sources */,
+				F615851D278EF71C0002140B /* ViewModelFactory.swift in Sources */,
 				F61584D3277126B50002140B /* MainView.swift in Sources */,
 				F61584FF278C5C930002140B /* HourSummaryView.swift in Sources */,
+				F6158523278F07D10002140B /* MainCoordinator.swift in Sources */,
 				F61584F327865BBE0002140B /* DaySummarySelectorCell.swift in Sources */,
+				F615851B278EF6CE0002140B /* OnboardingCoordinator.swift in Sources */,
 				F61584E4277680CC0002140B /* PerDayHeaderAreaView.swift in Sources */,
 				F61584ED27864C430002140B /* DaySummaryController.swift in Sources */,
+				F615850C278CE74C0002140B /* DateToStringConverter.swift in Sources */,
 				F61584DB2773F29C0002140B /* GoToDetailed24View.swift in Sources */,
 				F61584FB278A50C80002140B /* SunAndMoonDetailsView.swift in Sources */,
 				F61584CD276FD77F0002140B /* SettingsViewController.swift in Sources */,
+				F6158521278EF92E0002140B /* AppConstants.swift in Sources */,
 				F61584DF27748F2B0002140B /* PerHourDataView.swift in Sources */,
 				F61584EF27864C8C0002140B /* DaySummaryView.swift in Sources */,
 				F61584F1278657B20002140B /* DaySummarySelectorView.swift in Sources */,
@@ -306,13 +374,17 @@
 				F61584F9278A50610002140B /* AirQualityDetailsView.swift in Sources */,
 				F61584C6276D39380002140B /* OnboardingView.swift in Sources */,
 				F6158505278C63120002140B /* HourGraphView.swift in Sources */,
+				F6158529278F1ACC0002140B /* HourSummaryCoordinator.swift in Sources */,
 				F61584D12771266A0002140B /* MainViewController.swift in Sources */,
 				F61584AE276D361E0002140B /* SceneDelegate.swift in Sources */,
 				F61584E827768C2B0002140B /* WeatherPerDayCell.swift in Sources */,
 				F6158507278C660C0002140B /* HourDetailsTableCell.swift in Sources */,
 				F61584C9276D51390002140B /* AppTypes.swift in Sources */,
+				F6158519278EF6590002140B /* AppCoordinator.swift in Sources */,
 				F61584E627768B300002140B /* PerDayAreaView.swift in Sources */,
+				F6158525278F11880002140B /* SettingsCoordinator.swift in Sources */,
 				F61584F7278A48450002140B /* WeatherDetailsRowView.swift in Sources */,
+				F615850E278CE7E90002140B /* SimDateRangeProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -532,6 +604,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		F6158512278D07200002140B /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -539,6 +619,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F6158508278C99CF0002140B /* XCRemoteSwiftPackageReference "Charts" */;
 			productName = Charts;
+		};
+		F6158513278D07200002140B /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F6158512278D07200002140B /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 

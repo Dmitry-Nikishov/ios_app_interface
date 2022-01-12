@@ -8,11 +8,12 @@
 import UIKit
 
 class GoToDetailed24View : UIView {
+    public var details24Handler : UiViewClickHandler?
     
     @objc
     private func clickHandler()
     {
-        print("tapped")
+        details24Handler?()
     }
     
     private lazy var gotoLabel : UILabel = {

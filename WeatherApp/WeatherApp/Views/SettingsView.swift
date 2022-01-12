@@ -174,10 +174,12 @@ class SettingsView : UIView {
                                                     handler: #selector(notificationControlValueChanged))
     }()
     
+    public var applySettingsHandler : UiViewClickHandler?
+    
     @objc
     private func applySettingsButtonClicked()
     {
-        print("apply settings")
+        applySettingsHandler?()
     }
     
     private lazy var applySettingsButton: UIButton = {

@@ -9,10 +9,12 @@ import UIKit
 
 class HourSummaryView : UIView
 {
+    public var backButtonHandler : UiViewClickHandler?
+    
     @objc
     private func backButtonClicked()
     {
-        print("back button clicked")
+        backButtonHandler?()
     }
     
     private let scrollView : UIScrollView = {
@@ -88,7 +90,7 @@ class HourSummaryView : UIView
     private let graphViewArea : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(red: 0.914, green: 0.933, blue: 0.98, alpha: 1)
+
         return view
     }()
     

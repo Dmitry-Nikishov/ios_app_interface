@@ -7,10 +7,16 @@
 
 import UIKit
 
-class DaySummaryController : UIViewController {
+class DaySummaryController : UIViewController, Coordinating {
+    weak var coordinator: Coordinator?
+    
     private func setupView()
     {
         let daySummaryView = DaySummaryView(viewFrame: self.view.frame)
+        
+        daySummaryView.backButtonHandler = { [weak self] in
+            self?.coordinator?.processEvent(with: .daySummaryViewToMainViewEvent)
+        }
         
         self.view = daySummaryView
     }

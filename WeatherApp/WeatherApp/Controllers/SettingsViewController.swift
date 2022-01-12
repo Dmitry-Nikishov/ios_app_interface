@@ -7,10 +7,16 @@
 
 import UIKit
 
-class SettingsViewController : UIViewController {
+class SettingsViewController : UIViewController, Coordinating {
+    weak var coordinator: Coordinator?
+    
     private func setupView()
     {
         let settingsView = SettingsView(viewFrame: self.view.frame)
+        
+        settingsView.applySettingsHandler = { [weak self] in
+            self?.coordinator?.processEvent(with: .settingsViewToMainViewEvent)
+        }
         
         self.view = settingsView
     }

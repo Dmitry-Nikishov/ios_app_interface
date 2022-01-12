@@ -9,17 +9,19 @@ import UIKit
 
 class NavigationView : UIView
 {
+    public var menuClickHandler : UiViewClickHandler?
+    
     @objc
-    private func menuClickHandler()
+    private func menuButtonClickHandler()
     {
-        print("menu click handler")
+        menuClickHandler?()
     }
     
     private lazy var menuButton : UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setImage(UIImage(systemName: "line.3.horizontal"), for: .normal)
-        view.addTarget(self, action: #selector(menuClickHandler), for: .touchUpInside)
+        view.addTarget(self, action: #selector(menuButtonClickHandler), for: .touchUpInside)
         view.tintColor = .black
         return view
     }()

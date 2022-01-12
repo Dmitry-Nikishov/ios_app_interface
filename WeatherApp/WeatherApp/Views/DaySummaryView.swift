@@ -9,10 +9,12 @@ import UIKit
 
 class DaySummaryView : UIView
 {
+    public var backButtonHandler : UiViewClickHandler?
+    
     @objc
     private func backButtonClicked()
     {
-        print("back button clicked")
+        backButtonHandler?()
     }
     
     private let scrollView : UIScrollView = {
