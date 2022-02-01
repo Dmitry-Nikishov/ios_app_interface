@@ -56,6 +56,8 @@ class AppCoordinator : Coordinator {
     }
     
     func start() {
+        self.navigationController?.isNavigationBarHidden = true
+                
         self.children = [
             "onboarding" : createCoordinator(type : .onboardingModel),
             "main" : createCoordinator(type : .mainViewModel),

@@ -10,6 +10,7 @@ import UIKit
 class SettingItemFactory {
     static func createControlItem(leftLabel : String,
                                   rightLabel : String,
+                                  selectedIndex : Int,
                                   target : Any?,
                                   handler : Selector
                                 ) -> UIStackView {
@@ -24,7 +25,7 @@ class SettingItemFactory {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.insertSegment(withTitle: leftLabel, at: 0, animated: false)
         view.insertSegment(withTitle: rightLabel, at: 1, animated: false)
-        view.selectedSegmentIndex = 0
+        view.selectedSegmentIndex = selectedIndex
         view.setWidth(40, forSegmentAt: 0)
         view.setWidth(40, forSegmentAt: 1)
         view.addTarget(target, action: handler, for: .valueChanged)
@@ -128,48 +129,80 @@ class SettingsView : UIView {
 
     @objc
     private func temperatureControlValueChanged(_ sender: UISegmentedControl) {
-        print("Temperature : \(sender.selectedSegmentIndex)")
+        let userDefaults = UserDefaults.standard
+        userDefaults.setValue(sender.selectedSegmentIndex == 0, forKey: UserDefaultsSettingsKeys.temperatureSettings)
     }
     
     private lazy var temperatureSwitchWrapped: UIStackView = {
+        let userDefaults = UserDefaults.standard
+        var index : Int = 0
+        if userDefaults.object(forKey: UserDefaultsSettingsKeys.temperatureSettings) != nil {
+            index = userDefaults.bool(forKey: UserDefaultsSettingsKeys.temperatureSettings) ? 0 : 1
+        }
+
         return SettingItemFactory.createControlItem(leftLabel: "C",
                                                     rightLabel: "F",
+                                                    selectedIndex: index,
                                                     target: self,
                                                     handler: #selector(temperatureControlValueChanged))
     }()
 
     @objc
     private func windSpeedControlValueChanged(_ sender: UISegmentedControl) {
-        print("Wind speed : \(sender.selectedSegmentIndex)")
+        let userDefaults = UserDefaults.standard
+        userDefaults.setValue(sender.selectedSegmentIndex == 0, forKey: UserDefaultsSettingsKeys.windSpeedSettings)
     }
 
     private lazy var windSpeedSwitchWrapped: UIStackView = {
+        let userDefaults = UserDefaults.standard
+        var index : Int = 0
+        if userDefaults.object(forKey: UserDefaultsSettingsKeys.windSpeedSettings) != nil {
+            index = userDefaults.bool(forKey: UserDefaultsSettingsKeys.windSpeedSettings) ? 0 : 1
+        }
+
         return SettingItemFactory.createControlItem(leftLabel: "Mi",
                                                     rightLabel: "Km",
+                                                    selectedIndex: index,
                                                     target: self,
                                                     handler: #selector(windSpeedControlValueChanged))
     }()
 
     @objc
     private func timeFormatControlValueChanged(_ sender: UISegmentedControl) {
-        print("Time format : \(sender.selectedSegmentIndex)")
+        let userDefaults = UserDefaults.standard
+        userDefaults.setValue(sender.selectedSegmentIndex == 0, forKey: UserDefaultsSettingsKeys.timeFormatSettings)
     }
 
     private lazy var timeFormatSwitchWrapped: UIStackView = {
+        let userDefaults = UserDefaults.standard
+        var index : Int = 0
+        if userDefaults.object(forKey: UserDefaultsSettingsKeys.timeFormatSettings) != nil {
+            index = userDefaults.bool(forKey: UserDefaultsSettingsKeys.timeFormatSettings) ? 0 : 1
+        }
+
         return SettingItemFactory.createControlItem(leftLabel: "12",
                                                     rightLabel: "24",
+                                                    selectedIndex: index,
                                                     target: self,
                                                     handler: #selector(timeFormatControlValueChanged))
     }()
     
     @objc
     private func notificationControlValueChanged(_ sender: UISegmentedControl) {
-        print("Notification : \(sender.selectedSegmentIndex)")
+        let userDefaults = UserDefaults.standard
+        userDefaults.setValue(sender.selectedSegmentIndex == 0, forKey: UserDefaultsSettingsKeys.notificationSettings)
     }
 
     private lazy var notificationSwitchWrapped: UIStackView = {
+        let userDefaults = UserDefaults.standard
+        var index : Int = 0
+        if userDefaults.object(forKey: UserDefaultsSettingsKeys.notificationSettings) != nil {
+            index = userDefaults.bool(forKey: UserDefaultsSettingsKeys.notificationSettings) ? 0 : 1
+        }
+
         return SettingItemFactory.createControlItem(leftLabel: "On",
                                                     rightLabel: "Off",
+                                                    selectedIndex: index,
                                                     target: self,
                                                     handler: #selector(notificationControlValueChanged))
     }()
@@ -281,10 +314,17 @@ class SettingsView : UIView {
         
         setupControlPanelContent()
     }
+        
+    private func updateViewFromUserDefaults()
+    {
+        let userDefaults = UserDefaults.standard
+        
+    }
     
     init(viewFrame : CGRect) {
         super.init(frame: viewFrame)
         setupViews()
+        updateViewFromUserDefaults()
     }
      
     required init?(coder: NSCoder) {

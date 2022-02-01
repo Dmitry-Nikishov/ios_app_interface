@@ -10,7 +10,48 @@ import UIKit
 class NavigationView : UIView
 {
     public var menuClickHandler : UiViewClickHandler?
+    public var addLocationClickHandler : UiViewClickHandler?
+     
+    private var geoPoints : [String] = []
     
+    public var currentGeoPoints : [String] {
+        get {
+            return geoPoints
+        }
+        
+        set(newValue) {
+            locationPageControl.numberOfPages = newValue.count
+            geoPoints = newValue
+            currentLocationLabel.text = geoPoints[locationPageControl.currentPage]
+        }
+    }
+    
+    func handleLeftSwipe()
+    {
+        if geoPoints.isEmpty == false {
+            if locationPageControl.currentPage == geoPoints.count - 1 {
+                locationPageControl.currentPage = 0
+            } else {
+                locationPageControl.currentPage = locationPageControl.currentPage + 1
+            }
+            
+            currentLocationLabel.text = geoPoints[locationPageControl.currentPage]
+        }
+    }
+    
+    func handleRightSwipe()
+    {
+        if geoPoints.isEmpty == false {
+            if locationPageControl.currentPage == 0 {
+                locationPageControl.currentPage = geoPoints.count - 1
+            } else {
+                locationPageControl.currentPage = locationPageControl.currentPage - 1
+            }
+            
+            currentLocationLabel.text = geoPoints[locationPageControl.currentPage]
+        }
+    }
+            
     @objc
     private func menuButtonClickHandler()
     {
@@ -29,7 +70,7 @@ class NavigationView : UIView
     @objc
     private func locationClickHandler()
     {
-        print("location click")
+        addLocationClickHandler?()
     }
     
     private lazy var locationButton : UIButton = {
@@ -46,14 +87,14 @@ class NavigationView : UIView
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textColor = UIColor(red : 0.154, green: 0.152, blue: 0.135, alpha: 1)
         view.font = UIFont.boldSystemFont(ofSize: 18)
-        view.text = "Moscow, Russia"
+        view.text = ""
         return view
     }()
     
     private let locationPageControl : UIPageControl = {
         let view = UIPageControl()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.numberOfPages = 2
+        view.numberOfPages = 0
         view.currentPage = 0
         view.tintColor = UIColor.black
         view.pageIndicatorTintColor = UIColor.black

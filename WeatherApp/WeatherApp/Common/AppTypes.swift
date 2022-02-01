@@ -8,3 +8,4 @@
 import Foundation
 
 typealias UiViewClickHandler = () -> Void
+typealias UiViewClickHandlerWithStringParam = (String) -> Void

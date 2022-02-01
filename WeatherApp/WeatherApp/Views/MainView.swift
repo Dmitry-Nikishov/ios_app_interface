@@ -11,6 +11,7 @@ class MainView : UIView {
     public var menuClickHandler : UiViewClickHandler?
     public var perDayClickHandler : UiViewClickHandler?
     public var per24ClickHandler : UiViewClickHandler?
+    public var addLocationClickHandler : UiViewClickHandler?
     
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -48,12 +49,40 @@ class MainView : UIView {
         NSLayoutConstraint.activate(constraints)
     }
     
-    private lazy var navigationArea : UIView = {
+    @objc
+    private func leftSwipeHandler()
+    {
+        navigationArea.handleLeftSwipe()
+    }
+
+    @objc
+    private func rightSwipeHandler()
+    {
+        navigationArea.handleRightSwipe()
+    }
+
+    private lazy var navigationArea : NavigationView = {
         let view = NavigationView(viewFrame: .zero)
         view.menuClickHandler = { [weak self] in
             self?.menuClickHandler?()
         }
+        view.addLocationClickHandler = { [weak self] in
+            self?.addLocationClickHandler?()
+        }
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.isUserInteractionEnabled = true
+        
+        let leftSwipe = UISwipeGestureRecognizer()
+        leftSwipe.direction = .left
+        leftSwipe.addTarget(self, action: #selector(leftSwipeHandler))
+
+        let rightSwipe = UISwipeGestureRecognizer()
+        rightSwipe.direction = .right
+        rightSwipe.addTarget(self, action: #selector(rightSwipeHandler))
+
+        view.addGestureRecognizer(leftSwipe)
+        view.addGestureRecognizer(rightSwipe)
+        
         return view
     }()
             
@@ -147,14 +176,30 @@ class MainView : UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    @objc
+    private func plusImageViewClickHandler()
+    {
+        addLocationClickHandler?()
+    }
+    
+    private lazy var plusImageView : UIImageView = {
+        let view = UIImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.image = UIImage(systemName: "plus")
+        view.contentMode = .scaleAspectFit
+        view.tintColor = .black
+        view.backgroundColor = .white
+        view.isUserInteractionEnabled = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(plusImageViewClickHandler))
+        view.addGestureRecognizer(tap)
+        
+        return view
+    }()
             
-    private func setupViews() {
-        self.addSubview(scrollView)
-        
-        scrollView.addSubview(scrollViewContainer)
-
-        setupScrollView()
-        
+    private func setupViewsForExistingGeoPoints(initialGeoPoints : [String])
+    {
         setupViewAreas()
         
         LayoutAssembler.fillAreaWithView(area: headerArea, filler: navigationArea)
@@ -168,12 +213,42 @@ class MainView : UIView {
         LayoutAssembler.fillAreaWithView(area: perDayHeaderArea, filler: perDayHeaderAreaView)
         
         LayoutAssembler.fillAreaWithView(area: perDayArea, filler: perDayAreaView)
+        
+        navigationArea.currentGeoPoints = initialGeoPoints
     }
     
-    init(viewFrame : CGRect) {
+    private func setupViewsForNonExistingGeoPoints()
+    {
+        scrollViewContainer.addArrangedSubview(headerArea)
+        scrollViewContainer.addArrangedSubview(plusImageView)
+        
+        let constraints = [
+            headerArea.heightAnchor.constraint(equalToConstant: 55+37),
+            plusImageView.heightAnchor.constraint(equalToConstant: self.bounds.height - 55 - 37 - 100)
+        ]
+        NSLayoutConstraint.activate(constraints)
+                
+        LayoutAssembler.fillAreaWithView(area: headerArea, filler: navigationArea)
+    }
+    
+    private func setupViews(geoItems : [String]) {
+        self.addSubview(scrollView)
+        
+        scrollView.addSubview(scrollViewContainer)
+
+        setupScrollView()
+        
+        if geoItems.isEmpty {
+            setupViewsForNonExistingGeoPoints()
+        } else {
+            setupViewsForExistingGeoPoints(initialGeoPoints: geoItems)
+        }
+    }
+    
+    init(viewFrame : CGRect, geoPoints : [String]) {
         super.init(frame: viewFrame)
         backgroundColor = .white
-        setupViews()
+        setupViews(geoItems : geoPoints)
     }
      
     required init?(coder: NSCoder) {

@@ -16,9 +16,12 @@ class MainCoordinator : Coordinator, Coordinating {
     
     private func handleMainViewDisplay(mode : OnboardingMode)
     {
-        let mainController = viewModelFactory.createViewModel(with: .mainViewModel, coordinator: self)
+        let controller = viewModelFactory.createViewModel(with: .mainViewModel, coordinator: self)
+        if let vc = controller as? MainViewController {
+            vc.setupViewForMode(mode)
+        }
         
-        navigationController?.pushViewController(mainController, animated: true)
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     func processEvent(with type: CoordinatorEvent) {
