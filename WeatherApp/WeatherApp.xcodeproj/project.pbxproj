@@ -10,7 +10,6 @@
 		F61584AC276D361E0002140B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61584AB276D361E0002140B /* AppDelegate.swift */; };
 		F61584AE276D361E0002140B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61584AD276D361E0002140B /* SceneDelegate.swift */; };
 		F61584B0276D361E0002140B /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61584AF276D361E0002140B /* OnboardingViewController.swift */; };
-		F61584B6276D361E0002140B /* WeatherApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F61584B4276D361E0002140B /* WeatherApp.xcdatamodeld */; };
 		F61584B8276D361F0002140B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F61584B7276D361F0002140B /* Assets.xcassets */; };
 		F61584BB276D361F0002140B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F61584B9276D361F0002140B /* LaunchScreen.storyboard */; };
 		F61584C6276D39380002140B /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61584C5276D39380002140B /* OnboardingView.swift */; };
@@ -68,6 +67,11 @@
 		F615854E27A8858D0002140B /* GeoPointsDb.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615854D27A8858D0002140B /* GeoPointsDb.swift */; };
 		F615855127A886B40002140B /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F615855027A886B40002140B /* Realm */; };
 		F615855327A886B40002140B /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F615855227A886B40002140B /* RealmSwift */; };
+		F615855627AB2A070002140B /* WeatherClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615855527AB2A070002140B /* WeatherClient.swift */; };
+		F615855827AB2B3A0002140B /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615855727AB2B3A0002140B /* WeatherData.swift */; };
+		F615855B27AB2CEE0002140B /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = F615855A27AB2CEE0002140B /* SwiftyJSON */; };
+		F615855D27AB2EC40002140B /* WeatherApiTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615855C27AB2EC40002140B /* WeatherApiTypes.swift */; };
+		F615855F27AB30110002140B /* WeatherApiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615855E27AB30110002140B /* WeatherApiTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,7 +89,6 @@
 		F61584AB276D361E0002140B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F61584AD276D361E0002140B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		F61584AF276D361E0002140B /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
-		F61584B5276D361E0002140B /* WeatherApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WeatherApp.xcdatamodel; sourceTree = "<group>"; };
 		F61584B7276D361F0002140B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F61584BA276D361F0002140B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F61584BC276D361F0002140B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -141,6 +144,10 @@
 		F615854927A4A4380002140B /* GeoPositionExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPositionExtractor.swift; sourceTree = "<group>"; };
 		F615854B27A4A4750002140B /* GeoPositionExtractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPositionExtractorTests.swift; sourceTree = "<group>"; };
 		F615854D27A8858D0002140B /* GeoPointsDb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPointsDb.swift; sourceTree = "<group>"; };
+		F615855527AB2A070002140B /* WeatherClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherClient.swift; sourceTree = "<group>"; };
+		F615855727AB2B3A0002140B /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
+		F615855C27AB2EC40002140B /* WeatherApiTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApiTypes.swift; sourceTree = "<group>"; };
+		F615855E27AB30110002140B /* WeatherApiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApiTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +158,7 @@
 				F615855327A886B40002140B /* RealmSwift in Frameworks */,
 				F615855127A886B40002140B /* Realm in Frameworks */,
 				F615850A278C99CF0002140B /* Charts in Frameworks */,
+				F615855B27AB2CEE0002140B /* SwiftyJSON in Frameworks */,
 				F6158514278D07200002140B /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -186,6 +194,7 @@
 		F61584AA276D361E0002140B /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				F615855427AB29E50002140B /* WeatherApi */,
 				F615854827A4A4130002140B /* Utility */,
 				F6158515278EF5130002140B /* Coordinator */,
 				F615850F278D05FE0002140B /* Geocoding */,
@@ -218,7 +227,6 @@
 		F61584C3276D38F90002140B /* DB */ = {
 			isa = PBXGroup;
 			children = (
-				F61584B4276D361E0002140B /* WeatherApp.xcdatamodeld */,
 				F615854D27A8858D0002140B /* GeoPointsDb.swift */,
 			);
 			path = DB;
@@ -314,6 +322,7 @@
 				F615853727A33D730002140B /* DateToStringConverterTests.swift */,
 				F615853F27A492D20002140B /* GeocodingTests.swift */,
 				F615854B27A4A4750002140B /* GeoPositionExtractorTests.swift */,
+				F615855E27AB30110002140B /* WeatherApiTests.swift */,
 			);
 			path = WeatherAppTests;
 			sourceTree = "<group>";
@@ -325,6 +334,16 @@
 				F615854927A4A4380002140B /* GeoPositionExtractor.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		F615855427AB29E50002140B /* WeatherApi */ = {
+			isa = PBXGroup;
+			children = (
+				F615855527AB2A070002140B /* WeatherClient.swift */,
+				F615855727AB2B3A0002140B /* WeatherData.swift */,
+				F615855C27AB2EC40002140B /* WeatherApiTypes.swift */,
+			);
+			path = WeatherApi;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -348,6 +367,7 @@
 				F6158513278D07200002140B /* Alamofire */,
 				F615855027A886B40002140B /* Realm */,
 				F615855227A886B40002140B /* RealmSwift */,
+				F615855A27AB2CEE0002140B /* SwiftyJSON */,
 			);
 			productName = WeatherApp;
 			productReference = F61584A8276D361E0002140B /* WeatherApp.app */;
@@ -403,6 +423,7 @@
 				F6158508278C99CF0002140B /* XCRemoteSwiftPackageReference "Charts" */,
 				F6158512278D07200002140B /* XCRemoteSwiftPackageReference "Alamofire" */,
 				F615854F27A886B40002140B /* XCRemoteSwiftPackageReference "realm-swift" */,
+				F615855927AB2CEE0002140B /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 			);
 			productRefGroup = F61584A9276D361E0002140B /* Products */;
 			projectDirPath = "";
@@ -438,7 +459,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F61584B6276D361E0002140B /* WeatherApp.xcdatamodeld in Sources */,
 				F615851F278EF9020002140B /* AppAlert.swift in Sources */,
 				F6158517278EF5A00002140B /* CoordinatorTypes.swift in Sources */,
 				F61584CF276FD7B10002140B /* SettingsView.swift in Sources */,
@@ -456,6 +476,7 @@
 				F61584FD278A593E0002140B /* PaddingLabel.swift in Sources */,
 				F615854727A4A25A0002140B /* YandexGeoCodingTypes.swift in Sources */,
 				F615851D278EF71C0002140B /* ViewModelFactory.swift in Sources */,
+				F615855D27AB2EC40002140B /* WeatherApiTypes.swift in Sources */,
 				F61584D3277126B50002140B /* MainView.swift in Sources */,
 				F61584FF278C5C930002140B /* HourSummaryView.swift in Sources */,
 				F615854A27A4A4380002140B /* GeoPositionExtractor.swift in Sources */,
@@ -488,8 +509,10 @@
 				F6158519278EF6590002140B /* AppCoordinator.swift in Sources */,
 				F61584E627768B300002140B /* PerDayAreaView.swift in Sources */,
 				F6158525278F11880002140B /* SettingsCoordinator.swift in Sources */,
+				F615855627AB2A070002140B /* WeatherClient.swift in Sources */,
 				F61584F7278A48450002140B /* WeatherDetailsRowView.swift in Sources */,
 				F615850E278CE7E90002140B /* SimDateRangeProvider.swift in Sources */,
+				F615855827AB2B3A0002140B /* WeatherData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,6 +521,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F615854C27A4A4750002140B /* GeoPositionExtractorTests.swift in Sources */,
+				F615855F27AB30110002140B /* WeatherApiTests.swift in Sources */,
 				F615853827A33D730002140B /* DateToStringConverterTests.swift in Sources */,
 				F615854027A492D20002140B /* GeocodingTests.swift in Sources */,
 			);
@@ -788,6 +812,14 @@
 				version = 10.20.0;
 			};
 		};
+		F615855927AB2CEE0002140B /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = exactVersion;
+				version = 5.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -811,20 +843,12 @@
 			package = F615854F27A886B40002140B /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
 		};
-/* End XCSwiftPackageProductDependency section */
-
-/* Begin XCVersionGroup section */
-		F61584B4276D361E0002140B /* WeatherApp.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				F61584B5276D361E0002140B /* WeatherApp.xcdatamodel */,
-			);
-			currentVersion = F61584B5276D361E0002140B /* WeatherApp.xcdatamodel */;
-			path = WeatherApp.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
+		F615855A27AB2CEE0002140B /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F615855927AB2CEE0002140B /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
 		};
-/* End XCVersionGroup section */
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F61584A0276D361E0002140B /* Project object */;
 }
