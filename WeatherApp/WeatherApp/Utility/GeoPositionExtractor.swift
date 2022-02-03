@@ -14,7 +14,7 @@ class GeoPositionExtractor {
         if components.count != 2 {
             return nil
         } else {
-            return GeoPosition(latitude: components[0], longitude: components[1])
+            return GeoPosition(latitude: components[1], longitude: components[0])
         }        
     }
 }

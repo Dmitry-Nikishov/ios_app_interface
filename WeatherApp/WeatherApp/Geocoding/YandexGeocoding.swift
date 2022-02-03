@@ -27,10 +27,10 @@ class YandexGeocoding {
         
         AF.request(geocoding_url, method: HTTPMethod.get, parameters: params).responseJSON(queue: DispatchQueue.global(qos: .utility) ) { [weak semaphore] response in
             switch response.result {
-            case .success:                
-                if let result = try? JSONDecoder().decode(GeoInfo.self, from: response.data!) {
-                    if let featureObject = result.response.geoObjectCollection.featureMember.first {
-                        apiResult = GeoPositionExtractor.extract(from: featureObject.geoObject.point.pos)
+            case .success:
+                if let result = try? JSONDecoder().decode(YandexGeocoderResponse.self, from: response.data!) {
+                    if let geoObject = result.response.geoObjectCollection.featureMember.first?.geoObject {
+                        apiResult = GeoPositionExtractor.extract(from: geoObject.point.pos)
                     }
                 }
             case .failure:

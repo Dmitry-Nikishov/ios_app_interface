@@ -61,7 +61,6 @@
 		F615853C27A345E50002140B /* GeoTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615853B27A345E50002140B /* GeoTypes.swift */; };
 		F615853E27A355DB0002140B /* AddNewLocationPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615853D27A355DB0002140B /* AddNewLocationPopup.swift */; };
 		F615854027A492D20002140B /* GeocodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615853F27A492D20002140B /* GeocodingTests.swift */; };
-		F615854727A4A25A0002140B /* YandexGeoCodingTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615854627A4A25A0002140B /* YandexGeoCodingTypes.swift */; };
 		F615854A27A4A4380002140B /* GeoPositionExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615854927A4A4380002140B /* GeoPositionExtractor.swift */; };
 		F615854C27A4A4750002140B /* GeoPositionExtractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615854B27A4A4750002140B /* GeoPositionExtractorTests.swift */; };
 		F615854E27A8858D0002140B /* GeoPointsDb.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615854D27A8858D0002140B /* GeoPointsDb.swift */; };
@@ -72,6 +71,7 @@
 		F615855B27AB2CEE0002140B /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = F615855A27AB2CEE0002140B /* SwiftyJSON */; };
 		F615855D27AB2EC40002140B /* WeatherApiTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615855C27AB2EC40002140B /* WeatherApiTypes.swift */; };
 		F615855F27AB30110002140B /* WeatherApiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615855E27AB30110002140B /* WeatherApiTests.swift */; };
+		F615856127AC8BEF0002140B /* YandexGeocoderPrimitives.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615856027AC8BEF0002140B /* YandexGeocoderPrimitives.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,7 +140,6 @@
 		F615853B27A345E50002140B /* GeoTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoTypes.swift; sourceTree = "<group>"; };
 		F615853D27A355DB0002140B /* AddNewLocationPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewLocationPopup.swift; sourceTree = "<group>"; };
 		F615853F27A492D20002140B /* GeocodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocodingTests.swift; sourceTree = "<group>"; };
-		F615854627A4A25A0002140B /* YandexGeoCodingTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexGeoCodingTypes.swift; sourceTree = "<group>"; };
 		F615854927A4A4380002140B /* GeoPositionExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPositionExtractor.swift; sourceTree = "<group>"; };
 		F615854B27A4A4750002140B /* GeoPositionExtractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPositionExtractorTests.swift; sourceTree = "<group>"; };
 		F615854D27A8858D0002140B /* GeoPointsDb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPointsDb.swift; sourceTree = "<group>"; };
@@ -148,6 +147,7 @@
 		F615855727AB2B3A0002140B /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		F615855C27AB2EC40002140B /* WeatherApiTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApiTypes.swift; sourceTree = "<group>"; };
 		F615855E27AB30110002140B /* WeatherApiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApiTests.swift; sourceTree = "<group>"; };
+		F615856027AC8BEF0002140B /* YandexGeocoderPrimitives.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexGeocoderPrimitives.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -296,7 +296,7 @@
 				F6158510278D061B0002140B /* YandexGeocoding.swift */,
 				F615853927A342AA0002140B /* CurrentLocationProvider.swift */,
 				F615853B27A345E50002140B /* GeoTypes.swift */,
-				F615854627A4A25A0002140B /* YandexGeoCodingTypes.swift */,
+				F615856027AC8BEF0002140B /* YandexGeocoderPrimitives.swift */,
 			);
 			path = Geocoding;
 			sourceTree = "<group>";
@@ -474,7 +474,6 @@
 				F6158527278F1A360002140B /* DaySummaryCoordinator.swift in Sources */,
 				F61584EB278645200002140B /* LayoutAssembler.swift in Sources */,
 				F61584FD278A593E0002140B /* PaddingLabel.swift in Sources */,
-				F615854727A4A25A0002140B /* YandexGeoCodingTypes.swift in Sources */,
 				F615851D278EF71C0002140B /* ViewModelFactory.swift in Sources */,
 				F615855D27AB2EC40002140B /* WeatherApiTypes.swift in Sources */,
 				F61584D3277126B50002140B /* MainView.swift in Sources */,
@@ -501,6 +500,7 @@
 				F61584D12771266A0002140B /* MainViewController.swift in Sources */,
 				F615853E27A355DB0002140B /* AddNewLocationPopup.swift in Sources */,
 				F61584AE276D361E0002140B /* SceneDelegate.swift in Sources */,
+				F615856127AC8BEF0002140B /* YandexGeocoderPrimitives.swift in Sources */,
 				F615853A27A342AA0002140B /* CurrentLocationProvider.swift in Sources */,
 				F61584E827768C2B0002140B /* WeatherPerDayCell.swift in Sources */,
 				F6158507278C660C0002140B /* HourDetailsTableCell.swift in Sources */,

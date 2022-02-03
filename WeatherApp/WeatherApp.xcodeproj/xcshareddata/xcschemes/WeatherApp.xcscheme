@@ -41,6 +41,12 @@
                <Test
                   Identifier = "GeocodingTests/testGeocodingInfoRetrieving()">
                </Test>
+               <Test
+                  Identifier = "GeocodingTests/testGeocodingMoscowInfoRetrieving()">
+               </Test>
+               <Test
+                  Identifier = "GeocodingTests/testGeocodingMunichInfoRetrieving()">
+               </Test>
             </SkippedTests>
          </TestableReference>
       </Testables>

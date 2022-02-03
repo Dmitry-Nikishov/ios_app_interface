@@ -10,7 +10,7 @@ import XCTest
 
 class GeoPositionExtractorTests: XCTestCase {
     func testScenario0() throws {
-        let result = GeoPositionExtractor.extract(from: "37.622513 55.75322")
+        let result = GeoPositionExtractor.extract(from: "55.75322 37.622513")
         XCTAssertNotNil(result)
         XCTAssertEqual(result?.latitude, Float(37.622513))
         XCTAssertEqual(result?.longitude, Float(55.75322))
