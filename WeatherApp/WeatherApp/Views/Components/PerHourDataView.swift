@@ -23,6 +23,14 @@ class PerHourDataView : UIView
         return view
     }()
     
+    private var modelData : [UiPerHourCollectionDataItem] = []
+    
+    func updateWithModelData(data : [UiPerHourCollectionDataItem])
+    {
+        modelData = data
+        weatherItemsCollection.reloadData()
+    }
+    
     private func setupViews()
     {
         self.backgroundColor = .white
@@ -55,7 +63,7 @@ extension PerHourDataView : UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return modelData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -76,6 +84,9 @@ extension PerHourDataView : UICollectionViewDataSource {
                                                 String(describing: WeatherPerHourCell.self),
                                               for: indexPath) as! WeatherPerHourCell
 
+        let modelDataItem = modelData[indexPath.row]
+        cell.temperature = modelDataItem.temperature
+        cell.time = modelDataItem.dayTime
         return cell
     }
 }

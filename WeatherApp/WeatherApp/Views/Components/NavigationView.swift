@@ -11,8 +11,24 @@ class NavigationView : UIView
 {
     public var menuClickHandler : UiViewClickHandler?
     public var addLocationClickHandler : UiViewClickHandler?
-     
+    public var updateWeatherDataRequestHandler : UiUpdateWithWeatherDataRequestHandler?
+    
+    var currentGeoPoint : String {
+        return currentGeoPointName
+    }
+    
     private var geoPoints : [String] = []
+    
+    private var currentGeoPointName : String {
+        get {
+            return currentLocationLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            currentLocationLabel.text = newValue
+            updateWeatherDataRequestHandler?(newValue)
+        }
+    }
     
     public var currentGeoPoints : [String] {
         get {
@@ -22,7 +38,7 @@ class NavigationView : UIView
         set(newValue) {
             locationPageControl.numberOfPages = newValue.count
             geoPoints = newValue
-            currentLocationLabel.text = geoPoints[locationPageControl.currentPage]
+            currentGeoPointName = geoPoints[locationPageControl.currentPage]
         }
     }
     
@@ -35,7 +51,7 @@ class NavigationView : UIView
                 locationPageControl.currentPage = locationPageControl.currentPage + 1
             }
             
-            currentLocationLabel.text = geoPoints[locationPageControl.currentPage]
+            currentGeoPointName = geoPoints[locationPageControl.currentPage]
         }
     }
     
@@ -48,7 +64,7 @@ class NavigationView : UIView
                 locationPageControl.currentPage = locationPageControl.currentPage - 1
             }
             
-            currentLocationLabel.text = geoPoints[locationPageControl.currentPage]
+            currentGeoPointName = geoPoints[locationPageControl.currentPage]
         }
     }
             

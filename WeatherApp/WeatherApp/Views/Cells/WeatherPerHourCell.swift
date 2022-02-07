@@ -11,6 +11,26 @@ class WeatherPerHourCell: UICollectionViewCell {
     private let shadowViewTag : Int = 111
     private var isViewSelected : Bool = false
     
+    public var temperature : String {
+        get {
+            return temperatureLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            temperatureLabel.text = newValue
+        }
+    }
+    
+    public var time : String {
+        get {
+            return timeLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            timeLabel.text = newValue
+        }
+    }
+    
     var isCellSelected : Bool? {
         didSet {
             if let isSelected = isCellSelected {

@@ -16,7 +16,7 @@ class SimDateRangeProvider {
         let timeIntervalIncrementStep : TimeInterval = 60*60*Double(by)
 
         for _ in stride(from: 0, to: 24, by: by) {
-            arrayOfDates.append(DateToStringConverter.convertDateToGraphRepresentation(currentDate))
+            arrayOfDates.append(UIDateDateFormatter.convertDateToGraphRepresentation(currentDate))
             currentDate.addTimeInterval(timeIntervalIncrementStep)
         }
 

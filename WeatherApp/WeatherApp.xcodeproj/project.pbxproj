@@ -42,7 +42,6 @@
 		F6158505278C63120002140B /* HourGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158504278C63120002140B /* HourGraphView.swift */; };
 		F6158507278C660C0002140B /* HourDetailsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158506278C660C0002140B /* HourDetailsTableCell.swift */; };
 		F615850A278C99CF0002140B /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = F6158509278C99CF0002140B /* Charts */; };
-		F615850C278CE74C0002140B /* DateToStringConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615850B278CE74C0002140B /* DateToStringConverter.swift */; };
 		F615850E278CE7E90002140B /* SimDateRangeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615850D278CE7E90002140B /* SimDateRangeProvider.swift */; };
 		F6158511278D061B0002140B /* YandexGeocoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158510278D061B0002140B /* YandexGeocoding.swift */; };
 		F6158514278D07200002140B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F6158513278D07200002140B /* Alamofire */; };
@@ -56,7 +55,6 @@
 		F6158525278F11880002140B /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158524278F11880002140B /* SettingsCoordinator.swift */; };
 		F6158527278F1A360002140B /* DaySummaryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158526278F1A360002140B /* DaySummaryCoordinator.swift */; };
 		F6158529278F1ACC0002140B /* HourSummaryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158528278F1ACC0002140B /* HourSummaryCoordinator.swift */; };
-		F615853827A33D730002140B /* DateToStringConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615853727A33D730002140B /* DateToStringConverterTests.swift */; };
 		F615853A27A342AA0002140B /* CurrentLocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615853927A342AA0002140B /* CurrentLocationProvider.swift */; };
 		F615853C27A345E50002140B /* GeoTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615853B27A345E50002140B /* GeoTypes.swift */; };
 		F615853E27A355DB0002140B /* AddNewLocationPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615853D27A355DB0002140B /* AddNewLocationPopup.swift */; };
@@ -72,6 +70,9 @@
 		F615855D27AB2EC40002140B /* WeatherApiTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615855C27AB2EC40002140B /* WeatherApiTypes.swift */; };
 		F615855F27AB30110002140B /* WeatherApiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615855E27AB30110002140B /* WeatherApiTests.swift */; };
 		F615856127AC8BEF0002140B /* YandexGeocoderPrimitives.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615856027AC8BEF0002140B /* YandexGeocoderPrimitives.swift */; };
+		F615856327ADD4000002140B /* UiDateTimeFormater.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615856227ADD4000002140B /* UiDateTimeFormater.swift */; };
+		F615856527ADD4EE0002140B /* UiDateTimeFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615856427ADD4EE0002140B /* UiDateTimeFormatterTests.swift */; };
+		F615856727ADD8310002140B /* WeatherUIData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615856627ADD8310002140B /* WeatherUIData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,7 +122,6 @@
 		F6158502278C62630002140B /* HourSummaryTableDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourSummaryTableDetailsView.swift; sourceTree = "<group>"; };
 		F6158504278C63120002140B /* HourGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourGraphView.swift; sourceTree = "<group>"; };
 		F6158506278C660C0002140B /* HourDetailsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourDetailsTableCell.swift; sourceTree = "<group>"; };
-		F615850B278CE74C0002140B /* DateToStringConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateToStringConverter.swift; sourceTree = "<group>"; };
 		F615850D278CE7E90002140B /* SimDateRangeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimDateRangeProvider.swift; sourceTree = "<group>"; };
 		F6158510278D061B0002140B /* YandexGeocoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexGeocoding.swift; sourceTree = "<group>"; };
 		F6158516278EF5A00002140B /* CoordinatorTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorTypes.swift; sourceTree = "<group>"; };
@@ -135,7 +135,6 @@
 		F6158526278F1A360002140B /* DaySummaryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySummaryCoordinator.swift; sourceTree = "<group>"; };
 		F6158528278F1ACC0002140B /* HourSummaryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourSummaryCoordinator.swift; sourceTree = "<group>"; };
 		F615852E27A33C800002140B /* WeatherAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F615853727A33D730002140B /* DateToStringConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateToStringConverterTests.swift; sourceTree = "<group>"; };
 		F615853927A342AA0002140B /* CurrentLocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationProvider.swift; sourceTree = "<group>"; };
 		F615853B27A345E50002140B /* GeoTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoTypes.swift; sourceTree = "<group>"; };
 		F615853D27A355DB0002140B /* AddNewLocationPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewLocationPopup.swift; sourceTree = "<group>"; };
@@ -148,6 +147,9 @@
 		F615855C27AB2EC40002140B /* WeatherApiTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApiTypes.swift; sourceTree = "<group>"; };
 		F615855E27AB30110002140B /* WeatherApiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApiTests.swift; sourceTree = "<group>"; };
 		F615856027AC8BEF0002140B /* YandexGeocoderPrimitives.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexGeocoderPrimitives.swift; sourceTree = "<group>"; };
+		F615856227ADD4000002140B /* UiDateTimeFormater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UiDateTimeFormater.swift; sourceTree = "<group>"; };
+		F615856427ADD4EE0002140B /* UiDateTimeFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UiDateTimeFormatterTests.swift; sourceTree = "<group>"; };
+		F615856627ADD8310002140B /* WeatherUIData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherUIData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -319,10 +321,10 @@
 		F615852F27A33C800002140B /* WeatherAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				F615853727A33D730002140B /* DateToStringConverterTests.swift */,
 				F615853F27A492D20002140B /* GeocodingTests.swift */,
 				F615854B27A4A4750002140B /* GeoPositionExtractorTests.swift */,
 				F615855E27AB30110002140B /* WeatherApiTests.swift */,
+				F615856427ADD4EE0002140B /* UiDateTimeFormatterTests.swift */,
 			);
 			path = WeatherAppTests;
 			sourceTree = "<group>";
@@ -330,8 +332,8 @@
 		F615854827A4A4130002140B /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				F615850B278CE74C0002140B /* DateToStringConverter.swift */,
 				F615854927A4A4380002140B /* GeoPositionExtractor.swift */,
+				F615856227ADD4000002140B /* UiDateTimeFormater.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -342,6 +344,7 @@
 				F615855527AB2A070002140B /* WeatherClient.swift */,
 				F615855727AB2B3A0002140B /* WeatherData.swift */,
 				F615855C27AB2EC40002140B /* WeatherApiTypes.swift */,
+				F615856627ADD8310002140B /* WeatherUIData.swift */,
 			);
 			path = WeatherApi;
 			sourceTree = "<group>";
@@ -484,14 +487,15 @@
 				F615851B278EF6CE0002140B /* OnboardingCoordinator.swift in Sources */,
 				F61584E4277680CC0002140B /* PerDayHeaderAreaView.swift in Sources */,
 				F61584ED27864C430002140B /* DaySummaryController.swift in Sources */,
-				F615850C278CE74C0002140B /* DateToStringConverter.swift in Sources */,
 				F61584DB2773F29C0002140B /* GoToDetailed24View.swift in Sources */,
 				F61584FB278A50C80002140B /* SunAndMoonDetailsView.swift in Sources */,
 				F61584CD276FD77F0002140B /* SettingsViewController.swift in Sources */,
 				F6158521278EF92E0002140B /* AppConstants.swift in Sources */,
 				F61584DF27748F2B0002140B /* PerHourDataView.swift in Sources */,
+				F615856727ADD8310002140B /* WeatherUIData.swift in Sources */,
 				F61584EF27864C8C0002140B /* DaySummaryView.swift in Sources */,
 				F61584F1278657B20002140B /* DaySummarySelectorView.swift in Sources */,
+				F615856327ADD4000002140B /* UiDateTimeFormater.swift in Sources */,
 				F61584AC276D361E0002140B /* AppDelegate.swift in Sources */,
 				F61584F9278A50610002140B /* AirQualityDetailsView.swift in Sources */,
 				F61584C6276D39380002140B /* OnboardingView.swift in Sources */,
@@ -521,8 +525,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F615854C27A4A4750002140B /* GeoPositionExtractorTests.swift in Sources */,
+				F615856527ADD4EE0002140B /* UiDateTimeFormatterTests.swift in Sources */,
 				F615855F27AB30110002140B /* WeatherApiTests.swift in Sources */,
-				F615853827A33D730002140B /* DateToStringConverterTests.swift in Sources */,
 				F615854027A492D20002140B /* GeocodingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -675,6 +679,7 @@
 				DEVELOPMENT_TEAM = 43BA3A7UV4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WeatherApp/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please allow geo position";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -702,6 +707,7 @@
 				DEVELOPMENT_TEAM = 43BA3A7UV4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WeatherApp/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please allow geo position";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

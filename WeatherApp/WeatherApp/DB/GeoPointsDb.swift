@@ -36,7 +36,7 @@ class DbDataProvider {
     init() {
         var config = Realm.Configuration()
         config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("geo_points.realm")
-        realm = try? Realm(configuration: config)
+        realm = try? Realm(configuration: config)        
     }
     
     func getGeoPointAmount() -> Int {

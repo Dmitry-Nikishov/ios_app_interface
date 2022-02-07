@@ -46,6 +46,16 @@ class WeatherPerDayCell: UICollectionViewCell {
         return view
     }()
     
+    public var calendarDate : String {
+        get {
+            return dateLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            dateLabel.text = newValue
+        }
+    }
+    
     private let dateLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -70,6 +80,16 @@ class WeatherPerDayCell: UICollectionViewCell {
         view.contentMode = .scaleAspectFit
         return view
     }()
+    
+    public var humidity : String {
+        get {
+            return percipitationLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            percipitationLabel.text = newValue
+        }
+    }
     
     private let percipitationLabel : UILabel = {
         let view = UILabel()
@@ -133,6 +153,16 @@ class WeatherPerDayCell: UICollectionViewCell {
         LayoutAssembler.fillAreaWithView(area: column3Area, filler: dayDetailsButton)
     }
     
+    public var forecastTemperature : String {
+        get {
+            return forecastTemperatureLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            forecastTemperatureLabel.text = newValue
+        }
+    }
+    
     private let forecastTemperatureLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -147,6 +177,16 @@ class WeatherPerDayCell: UICollectionViewCell {
         LayoutAssembler.fillAreaWithView(area: column2Area, filler: forecastTemperatureLabel)
     }
 
+    public var forecastDescription : String {
+        get {
+            return forecastLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            forecastLabel.text = newValue
+        }
+    }
+    
     private let forecastLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -170,7 +210,7 @@ class WeatherPerDayCell: UICollectionViewCell {
         
         let constraints = [
             column0Area.widthAnchor.constraint(equalToConstant: 60),
-            column2Area.widthAnchor.constraint(equalToConstant: 60),
+            column2Area.widthAnchor.constraint(equalToConstant: 80),
             column3Area.widthAnchor.constraint(equalToConstant: 20)
         ]
 

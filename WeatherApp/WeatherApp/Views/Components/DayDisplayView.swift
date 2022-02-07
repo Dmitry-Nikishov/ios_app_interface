@@ -27,6 +27,16 @@ class DayDisplayView : UIView
         return view
     }()
     
+    public var sunriseTime : String {
+        get {
+            return sunriseTimeLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            sunsetTimeLabel.text = newValue
+        }
+    }
+    
     private let sunriseTimeLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -37,6 +47,16 @@ class DayDisplayView : UIView
         return view
     }()
 
+    public var sunsetTime : String {
+        get {
+            return sunsetTimeLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            sunsetTimeLabel.text = newValue
+        }
+    }
+    
     private let sunsetTimeLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -46,6 +66,16 @@ class DayDisplayView : UIView
         view.textAlignment = .center
         return view
     }()
+    
+    public var calendarTime : String {
+        get {
+            return calendarTimeLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            calendarTimeLabel.text = newValue
+        }
+    }
     
     private let calendarTimeLabel : UILabel = {
         let view = UILabel()
@@ -57,6 +87,16 @@ class DayDisplayView : UIView
         return view
     }()
 
+    public var feelsLikeTemperature : String {
+        get {
+            return minMaxTemperatureLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            minMaxTemperatureLabel.text = newValue
+        }
+    }
+    
     private let minMaxTemperatureLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -68,6 +108,16 @@ class DayDisplayView : UIView
         return view
     }()
 
+    public var currentTemperature : String {
+        get {
+            return currentTemperatureLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            currentTemperatureLabel.text = newValue
+        }
+    }
+    
     private let currentTemperatureLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -79,6 +129,16 @@ class DayDisplayView : UIView
         return view
     }()
 
+    public var forecastDescription : String {
+        get {
+            return forecastLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            forecastLabel.text = newValue
+        }
+    }
+    
     private let forecastLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -109,6 +169,16 @@ class DayDisplayView : UIView
         return itemImageLabel
     }()
     
+    public var clouds : String {
+        get {
+            return feelTemperatureLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            feelTemperatureLabel.text = newValue
+        }
+    }
+    
     private let feelTemperatureLabel : UILabel = {
         let itemLabel = UILabel()
         itemLabel.textAlignment = .center
@@ -129,7 +199,7 @@ class DayDisplayView : UIView
         view.distribution = .fillEqually
         return view
     }()
-
+     
     private let windSpeedImage : UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "wind")
@@ -138,6 +208,16 @@ class DayDisplayView : UIView
         view.layer.zPosition = 2
         return view
     }()
+    
+    public var wind : String {
+        get {
+            return windSpeedLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            windSpeedLabel.text = newValue
+        }
+    }
     
     private let windSpeedLabel : UILabel = {
         let itemLabel = UILabel()
@@ -168,6 +248,16 @@ class DayDisplayView : UIView
         view.layer.zPosition = 2
         return view
     }()
+    
+    public var percipitation : String {
+        get {
+            return percipitationLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            percipitationLabel.text = newValue
+        }
+    }
     
     private let percipitationLabel : UILabel = {
         let itemLabel = UILabel()
@@ -261,11 +351,11 @@ class DayDisplayView : UIView
             calendarTimeLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             calendarTimeLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5),
             calendarTimeLabel.heightAnchor.constraint(equalToConstant: 20),
-            calendarTimeLabel.widthAnchor.constraint(equalToConstant: 150),
+            calendarTimeLabel.widthAnchor.constraint(equalToConstant: 180),
             
             minMaxTemperatureLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             minMaxTemperatureLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 30),
-            minMaxTemperatureLabel.widthAnchor.constraint(equalToConstant: 64),
+            minMaxTemperatureLabel.widthAnchor.constraint(equalToConstant: 80),
             minMaxTemperatureLabel.heightAnchor.constraint(equalToConstant: 20),
             
             currentTemperatureLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),

@@ -9,6 +9,7 @@ import UIKit
 
 enum AppCommonStrings {
     static let appName : String = "Weather App"
+    static let currentLocationLabel : String = "Текущее"
 }
 
 enum UserDefaultsSettingsKeys {

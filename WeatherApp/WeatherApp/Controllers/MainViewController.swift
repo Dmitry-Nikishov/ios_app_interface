@@ -18,13 +18,27 @@ class MainViewController : UIViewController, Coordinating {
         return CurrentLocationProvider()
     }()
     
-    private var currentPosition : GeoPosition = GeoPosition(latitude: 0.0,
-                                                            longitude: 0.0)
+    private var currentPosition : GeoPosition?
+    
+    private func getGeoPositionFromDb(poiName : String) -> GeoPosition?
+    {
+        if let dbGeoPoint = GeoPointsDB.shared.getGeoPoint(id: poiName) {
+            return GeoPosition(latitude: dbGeoPoint.latitude,
+                               longitude: dbGeoPoint.longitude)
+        } else {
+            return nil
+        }
+    }
+    
+    private func getCurrentGeoPositionOnceReady() -> GeoPosition? {
+        self.taskGroup.wait()
+        return currentPosition
+    }
     
     private func getGeoItemNames(mode : OnboardingMode) -> [String] {
         var geoItems : [String] = []
         if mode == .withCurrentLocation {
-            geoItems.append("Текущее")
+            geoItems.append(AppCommonStrings.currentLocationLabel)
         }
         
         let availableGeoPointsInDb = GeoPointsDB.shared.getGeoPoints()
@@ -60,26 +74,103 @@ class MainViewController : UIViewController, Coordinating {
             }
         }
         
+        mainView.updateWeatherDataRequestHandler = { [weak self] poiName in
+            self?.updateUiWithWeatherData(poiName: poiName)
+        }
+        
         self.view = mainView
+        
+        if !geoItems.isEmpty {
+            updateUiWithWeatherData(poiName: mainView.currentGeoPoint)
+        }
     }
 
+    private func getDataForGeoPositionAndUpdateUi(geoPosition : GeoPosition) {
+        DispatchQueue.global().async { [weak self] in
+            let latitudeString = "\(geoPosition.latitude)"
+            let longitudeString = "\(geoPosition.longitude)"
+
+            WeatherClient.shared.getOneDayForecast(latitude: latitudeString,
+                                                   longitude: longitudeString) { [weak self] weatherData in
+                if let weatherData = weatherData {
+                    let uiData = WeatherDataToUiRepresentationConverter.convertOneDayData(data: weatherData)
+
+                    DispatchQueue.main.async { [weak self] in
+                        if let ui = self?.view as? MainView {
+                            ui.applyModelData(dataForUi: uiData)
+                        }
+                    }
+                }
+            }
+            
+            WeatherClient.shared.getHourlyForecast(latitude: latitudeString,
+                                                   longitude: longitudeString) { [weak self] weatherData in
+                if let weatherData = weatherData {
+                    let uiData = WeatherDataToUiRepresentationConverter.convertPerHourDataToUiPerHourCollectionData(data: weatherData)
+
+                    DispatchQueue.main.async { [weak self] in
+                        if let ui = self?.view as? MainView {
+                            ui.applyModelData(dataForUi: uiData)
+                        }
+                    }
+                }
+            }
+            
+            WeatherClient.shared.getMonthlyForecast(latitude: latitudeString,
+                                                    longitude: longitudeString) { [weak self] weatherData in
+                if let weatherData = weatherData {
+                    let uiData = WeatherDataToUiRepresentationConverter.convertMonthlyDataToUiCollectionData(data: weatherData)
+
+                    DispatchQueue.main.async { [weak self] in
+                        if let ui = self?.view as? MainView {
+                            ui.applyModelData(dataForUi: uiData)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func updateUiWithWeatherData(poiName : String)
+    {
+        if poiName == AppCommonStrings.currentLocationLabel {
+            DispatchQueue.global().async { [weak self] in
+                if let geoPosition = self?.getCurrentGeoPositionOnceReady() {
+                    self?.getDataForGeoPositionAndUpdateUi(geoPosition: geoPosition)
+                }
+            }
+        } else {
+            if let geoPosition = getGeoPositionFromDb(poiName: poiName) {
+                getDataForGeoPositionAndUpdateUi(geoPosition: geoPosition)
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-     
+    
+    private let taskGroup = DispatchGroup()
+    
     func setupViewForMode(_ mode : OnboardingMode)
     {
-        geoLocations = getGeoItemNames(mode: mode)
-        setupView(geoItems: geoLocations)
-        
         if mode == .withCurrentLocation {
+            taskGroup.enter()
             currentLocationProvider.locationUpdateCallback = { [weak self] location in
+                let leaveTaskGroup = self?.currentPosition == nil
                 self?.currentPosition = GeoPosition(latitude: Float(location.coordinate.latitude),
                                                     longitude: Float(location.coordinate.longitude))
+                
+                if leaveTaskGroup {
+                    self?.taskGroup.leave()
+                }
             }
             
             currentLocationProvider.updateLocation()
         }
+
+        geoLocations = getGeoItemNames(mode: mode)
+        setupView(geoItems: geoLocations)
         
         addLocationPopup.closePopupHandler = { [weak self] newLocationName in
             guard let this = self else { return }

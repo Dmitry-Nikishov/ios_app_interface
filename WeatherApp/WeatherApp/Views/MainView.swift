@@ -12,6 +12,33 @@ class MainView : UIView {
     public var perDayClickHandler : UiViewClickHandler?
     public var per24ClickHandler : UiViewClickHandler?
     public var addLocationClickHandler : UiViewClickHandler?
+    public var updateWeatherDataRequestHandler : UiUpdateWithWeatherDataRequestHandler?
+    
+    func applyModelData(dataForUi : [UiPerDayCollectionDataItem]) {
+        perDayAreaView.updateWithModelData(data: dataForUi)
+    }
+    
+    func applyModelData(dataForUi : [UiPerHourCollectionDataItem]) {
+        perHourDataView.updateWithModelData(data: dataForUi)
+    }
+    
+    func applyModelData(dataForUi : UiWeatherDataOneDay) {
+        dayDisplayView.sunriseTime = dataForUi.sunriseTime
+        dayDisplayView.sunsetTime = dataForUi.sunsetTime
+        dayDisplayView.calendarTime = dataForUi.dayTimePeriod
+        dayDisplayView.feelsLikeTemperature = dataForUi.feelsLikeTemperature
+        dayDisplayView.currentTemperature = dataForUi.temperature
+        dayDisplayView.forecastDescription = dataForUi.description
+        dayDisplayView.clouds = dataForUi.clouds
+        dayDisplayView.wind = dataForUi.windSpeed
+        dayDisplayView.percipitation = dataForUi.humidity
+    }
+    
+    var currentGeoPoint : String {
+        get {
+            return navigationArea.currentGeoPoint
+        }
+    }
     
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -69,6 +96,11 @@ class MainView : UIView {
         view.addLocationClickHandler = { [weak self] in
             self?.addLocationClickHandler?()
         }
+        
+        view.updateWeatherDataRequestHandler = { [weak self] poiName in
+            self?.updateWeatherDataRequestHandler?(poiName)
+        }
+        
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isUserInteractionEnabled = true
         
@@ -115,7 +147,7 @@ class MainView : UIView {
         return view
     }()
     
-    private lazy var perDayHeaderAreaView : UIView = {
+    private lazy var perDayHeaderAreaView : PerDayHeaderAreaView = {
         let view = PerDayHeaderAreaView(viewFrame: .zero)
         view.perDayDetailsHandler = { [weak self] in
             self?.perDayClickHandler?()
@@ -150,7 +182,7 @@ class MainView : UIView {
         NSLayoutConstraint.activate(constraints)
     }
     
-    private let dayDisplayView : UIView = {
+    private let dayDisplayView : DayDisplayView = {
         let view = DayDisplayView(viewFrame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -165,13 +197,13 @@ class MainView : UIView {
         return view
     }()
         
-    private let perHourDataView : UIView = {
+    private let perHourDataView : PerHourDataView = {
         let view = PerHourDataView(viewFrame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private let perDayAreaView : UIView = {
+    private let perDayAreaView : PerDayAreaView = {
         let view = PerDayAreaView(viewFrame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view

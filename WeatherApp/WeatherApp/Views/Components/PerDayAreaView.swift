@@ -23,6 +23,13 @@ class PerDayAreaView : UIView
         return view
     }()
     
+    private var modelData : [UiPerDayCollectionDataItem] = []
+    
+    func updateWithModelData(data : [UiPerDayCollectionDataItem]) {
+        modelData = data
+        dayItemsCollection.reloadData()
+    }
+    
     private func setupViews()
     {
         self.backgroundColor = .white
@@ -55,7 +62,7 @@ extension PerDayAreaView : UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return modelData.count
     }
         
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -64,6 +71,11 @@ extension PerDayAreaView : UICollectionViewDataSource {
                                                 String(describing: WeatherPerDayCell.self),
                                               for: indexPath) as! WeatherPerDayCell
 
+        let modelItem = modelData[indexPath.row]
+        cell.calendarDate = modelItem.calendarDate
+        cell.humidity = modelItem.humidity
+        cell.forecastTemperature = modelItem.forecastTemperature
+        cell.forecastDescription = modelItem.description
         return cell
     }
 }
