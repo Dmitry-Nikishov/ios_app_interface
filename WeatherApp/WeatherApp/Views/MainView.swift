@@ -14,6 +14,15 @@ class MainView : UIView {
     public var addLocationClickHandler : UiViewClickHandler?
     public var updateWeatherDataRequestHandler : UiUpdateWithWeatherDataRequestHandler?
     
+    func addNewCity(cityName : String)
+    {
+        var geoPoints = navigationArea.currentGeoPoints
+        if !geoPoints.contains(cityName) {
+            geoPoints.append(cityName)
+            navigationArea.currentGeoPoints = geoPoints
+        }
+    }
+    
     func applyModelData(dataForUi : [UiPerDayCollectionDataItem]) {
         perDayAreaView.updateWithModelData(data: dataForUi)
     }

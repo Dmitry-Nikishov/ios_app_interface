@@ -73,25 +73,17 @@ class DbDataProvider {
         cachedGeoPoint.latitude = geoPoint.latitude
         cachedGeoPoint.longitude = geoPoint.longitude
         
-        try? realm?.write {
-            realm?.add(cachedGeoPoint)
-        }
-    }
-    
-    func updateGeoPoint(geoPoint : DbGeoPoint)
-    {
         if isGeoPointExist(id: geoPoint.id) {
-            let cachedGeoPoint = DbGeoPointCached()
-            cachedGeoPoint.id = geoPoint.id
-            cachedGeoPoint.latitude = geoPoint.latitude
-            cachedGeoPoint.longitude = geoPoint.longitude
-            
             try? realm?.write {
                 realm?.add(cachedGeoPoint, update: .modified)
             }
+        } else {
+            try? realm?.write {
+                realm?.add(cachedGeoPoint)
+            }
         }
     }
-    
+        
     func isGeoPointExist(id: String) -> Bool {
         return realm?.object(ofType: DbGeoPointCached.self, forPrimaryKey: id) != nil
     }
@@ -118,12 +110,7 @@ class GeoPointsDB {
     func addGeoPoint(geoPoint: DbGeoPoint) {
         dbDataProvider.addGeoPoint(geoPoint: geoPoint)
     }
-    
-    func updateGeoPoint(geoPoint : DbGeoPoint)
-    {
-        dbDataProvider.updateGeoPoint(geoPoint: geoPoint)
-    }
-    
+        
     func getGeoPoints() -> [DbGeoPoint] {
         return dbDataProvider.getGeoPoints()
     }

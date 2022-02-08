@@ -57,7 +57,6 @@
 		F6158529278F1ACC0002140B /* HourSummaryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158528278F1ACC0002140B /* HourSummaryCoordinator.swift */; };
 		F615853A27A342AA0002140B /* CurrentLocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615853927A342AA0002140B /* CurrentLocationProvider.swift */; };
 		F615853C27A345E50002140B /* GeoTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615853B27A345E50002140B /* GeoTypes.swift */; };
-		F615853E27A355DB0002140B /* AddNewLocationPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615853D27A355DB0002140B /* AddNewLocationPopup.swift */; };
 		F615854027A492D20002140B /* GeocodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615853F27A492D20002140B /* GeocodingTests.swift */; };
 		F615854A27A4A4380002140B /* GeoPositionExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615854927A4A4380002140B /* GeoPositionExtractor.swift */; };
 		F615854C27A4A4750002140B /* GeoPositionExtractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615854B27A4A4750002140B /* GeoPositionExtractorTests.swift */; };
@@ -73,6 +72,9 @@
 		F615856327ADD4000002140B /* UiDateTimeFormater.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615856227ADD4000002140B /* UiDateTimeFormater.swift */; };
 		F615856527ADD4EE0002140B /* UiDateTimeFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615856427ADD4EE0002140B /* UiDateTimeFormatterTests.swift */; };
 		F615856727ADD8310002140B /* WeatherUIData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615856627ADD8310002140B /* WeatherUIData.swift */; };
+		F615856927B325F20002140B /* WeatherDataOneDayDb.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615856827B325F20002140B /* WeatherDataOneDayDb.swift */; };
+		F615856B27B32B370002140B /* WeatherDataHourlyDb.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615856A27B32B370002140B /* WeatherDataHourlyDb.swift */; };
+		F615856D27B32EF00002140B /* WeatherDataMonthlyDb.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615856C27B32EF00002140B /* WeatherDataMonthlyDb.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,7 +139,6 @@
 		F615852E27A33C800002140B /* WeatherAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F615853927A342AA0002140B /* CurrentLocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationProvider.swift; sourceTree = "<group>"; };
 		F615853B27A345E50002140B /* GeoTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoTypes.swift; sourceTree = "<group>"; };
-		F615853D27A355DB0002140B /* AddNewLocationPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewLocationPopup.swift; sourceTree = "<group>"; };
 		F615853F27A492D20002140B /* GeocodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocodingTests.swift; sourceTree = "<group>"; };
 		F615854927A4A4380002140B /* GeoPositionExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPositionExtractor.swift; sourceTree = "<group>"; };
 		F615854B27A4A4750002140B /* GeoPositionExtractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPositionExtractorTests.swift; sourceTree = "<group>"; };
@@ -150,6 +151,9 @@
 		F615856227ADD4000002140B /* UiDateTimeFormater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UiDateTimeFormater.swift; sourceTree = "<group>"; };
 		F615856427ADD4EE0002140B /* UiDateTimeFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UiDateTimeFormatterTests.swift; sourceTree = "<group>"; };
 		F615856627ADD8310002140B /* WeatherUIData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherUIData.swift; sourceTree = "<group>"; };
+		F615856827B325F20002140B /* WeatherDataOneDayDb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataOneDayDb.swift; sourceTree = "<group>"; };
+		F615856A27B32B370002140B /* WeatherDataHourlyDb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataHourlyDb.swift; sourceTree = "<group>"; };
+		F615856C27B32EF00002140B /* WeatherDataMonthlyDb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataMonthlyDb.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,7 +225,6 @@
 				F61584D02771266A0002140B /* MainViewController.swift */,
 				F61584EC27864C430002140B /* DaySummaryController.swift */,
 				F6158500278C5D040002140B /* HourSummaryViewController.swift */,
-				F615853D27A355DB0002140B /* AddNewLocationPopup.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -230,6 +233,9 @@
 			isa = PBXGroup;
 			children = (
 				F615854D27A8858D0002140B /* GeoPointsDb.swift */,
+				F615856827B325F20002140B /* WeatherDataOneDayDb.swift */,
+				F615856A27B32B370002140B /* WeatherDataHourlyDb.swift */,
+				F615856C27B32EF00002140B /* WeatherDataMonthlyDb.swift */,
 			);
 			path = DB;
 			sourceTree = "<group>";
@@ -482,6 +488,7 @@
 				F61584D3277126B50002140B /* MainView.swift in Sources */,
 				F61584FF278C5C930002140B /* HourSummaryView.swift in Sources */,
 				F615854A27A4A4380002140B /* GeoPositionExtractor.swift in Sources */,
+				F615856D27B32EF00002140B /* WeatherDataMonthlyDb.swift in Sources */,
 				F6158523278F07D10002140B /* MainCoordinator.swift in Sources */,
 				F61584F327865BBE0002140B /* DaySummarySelectorCell.swift in Sources */,
 				F615851B278EF6CE0002140B /* OnboardingCoordinator.swift in Sources */,
@@ -493,6 +500,7 @@
 				F6158521278EF92E0002140B /* AppConstants.swift in Sources */,
 				F61584DF27748F2B0002140B /* PerHourDataView.swift in Sources */,
 				F615856727ADD8310002140B /* WeatherUIData.swift in Sources */,
+				F615856B27B32B370002140B /* WeatherDataHourlyDb.swift in Sources */,
 				F61584EF27864C8C0002140B /* DaySummaryView.swift in Sources */,
 				F61584F1278657B20002140B /* DaySummarySelectorView.swift in Sources */,
 				F615856327ADD4000002140B /* UiDateTimeFormater.swift in Sources */,
@@ -502,8 +510,8 @@
 				F6158505278C63120002140B /* HourGraphView.swift in Sources */,
 				F6158529278F1ACC0002140B /* HourSummaryCoordinator.swift in Sources */,
 				F61584D12771266A0002140B /* MainViewController.swift in Sources */,
-				F615853E27A355DB0002140B /* AddNewLocationPopup.swift in Sources */,
 				F61584AE276D361E0002140B /* SceneDelegate.swift in Sources */,
+				F615856927B325F20002140B /* WeatherDataOneDayDb.swift in Sources */,
 				F615856127AC8BEF0002140B /* YandexGeocoderPrimitives.swift in Sources */,
 				F615853A27A342AA0002140B /* CurrentLocationProvider.swift in Sources */,
 				F61584E827768C2B0002140B /* WeatherPerDayCell.swift in Sources */,

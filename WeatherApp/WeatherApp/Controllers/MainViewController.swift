@@ -10,9 +10,7 @@ import UIKit
 class MainViewController : UIViewController, Coordinating {
     weak var coordinator: Coordinator?
     
-    private var geoLocations : [String] = []
-    
-    private let addLocationPopup : AddNewLocationPopup = AddNewLocationPopup()
+//    private let addLocationPopup : AddNewLocationPopup = AddNewLocationPopup()
     
     private(set) lazy var currentLocationProvider: CurrentLocationProvider = {
         return CurrentLocationProvider()
@@ -31,22 +29,50 @@ class MainViewController : UIViewController, Coordinating {
     }
     
     private func getCurrentGeoPositionOnceReady() -> GeoPosition? {
-        self.taskGroup.wait()
         return currentPosition
     }
     
     private func getGeoItemNames(mode : OnboardingMode) -> [String] {
-        var geoItems : [String] = []
-        if mode == .withCurrentLocation {
-            geoItems.append(AppCommonStrings.currentLocationLabel)
-        }
-        
         let availableGeoPointsInDb = GeoPointsDB.shared.getGeoPoints()
-        if availableGeoPointsInDb.count > 0 {
-            geoItems.append(contentsOf: availableGeoPointsInDb.compactMap{$0.id} )
+
+        if mode == .withoutCurrentLocation {
+            return availableGeoPointsInDb.compactMap{$0.id}.filter{$0 != AppCommonStrings.currentLocationLabel}
+        } else {
+            return availableGeoPointsInDb.compactMap{$0.id}
+        }
+    }
+    
+    private func showAddNewPoiDialog()
+    {
+        let alert = UIAlertController(title: "Добавить город", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Добавить", style: .default) { action in
+            if let cityName = alert.textFields?.first?.text {
+                let geoCode = YandexGeocoding.shared.getGeoCode(geocode: cityName)
+                if let geoPosition = geoCode {
+                    let dbGeoPoint = DbGeoPoint(id: cityName,
+                                                latitude: geoPosition.latitude,
+                                                longitude: geoPosition.longitude)
+                    GeoPointsDB.shared.addGeoPoint(geoPoint: dbGeoPoint)
+                    
+                    DispatchQueue.main.async { [weak self] in
+                        if let ui = self?.view as? MainView {
+                            ui.addNewCity(cityName: cityName)
+                        }
+                    }
+                }
+            }
         }
         
-        return geoItems
+        let cancel = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
+        
+        alert.addTextField { alertTextField in
+            alertTextField.placeholder = "введите название города"
+        }
+        
+        alert.addAction(action)
+        alert.addAction(cancel)
+        
+        present(alert, animated: true, completion: nil)
     }
     
     private func setupView(geoItems : [String])
@@ -67,21 +93,17 @@ class MainViewController : UIViewController, Coordinating {
         }
         
         mainView.addLocationClickHandler = { [weak self] in
-            if let popUp = self?.addLocationPopup {
-                popUp.modalPresentationStyle = .overCurrentContext
-                popUp.modalTransitionStyle = .crossDissolve
-                self?.present(popUp, animated: true, completion: nil)
-            }
+            self?.showAddNewPoiDialog()
         }
         
         mainView.updateWeatherDataRequestHandler = { [weak self] poiName in
-            self?.updateUiWithWeatherData(poiName: poiName)
+//            self?.updateUiWithWeatherData(poiName: poiName)
         }
         
         self.view = mainView
         
         if !geoItems.isEmpty {
-            updateUiWithWeatherData(poiName: mainView.currentGeoPoint)
+//            updateUiWithWeatherData(poiName: mainView.currentGeoPoint)
         }
     }
 
@@ -150,32 +172,28 @@ class MainViewController : UIViewController, Coordinating {
         super.viewDidLoad()
     }
     
-    private let taskGroup = DispatchGroup()
-    
     func setupViewForMode(_ mode : OnboardingMode)
     {
-        if mode == .withCurrentLocation {
-            taskGroup.enter()
-            currentLocationProvider.locationUpdateCallback = { [weak self] location in
-                let leaveTaskGroup = self?.currentPosition == nil
-                self?.currentPosition = GeoPosition(latitude: Float(location.coordinate.latitude),
-                                                    longitude: Float(location.coordinate.longitude))
-                
-                if leaveTaskGroup {
-                    self?.taskGroup.leave()
-                }
-            }
-            
-            currentLocationProvider.updateLocation()
-        }
-
-        geoLocations = getGeoItemNames(mode: mode)
+        let geoLocations = getGeoItemNames(mode: mode)
         setupView(geoItems: geoLocations)
         
-        addLocationPopup.closePopupHandler = { [weak self] newLocationName in
-            guard let this = self else { return }
-            this.geoLocations.append(newLocationName)
-            this.setupView(geoItems: this.geoLocations)
+        if mode == .withCurrentLocation {
+            currentLocationProvider.locationUpdateCallback = { location in
+
+                let dbGeoPoint = DbGeoPoint(id: AppCommonStrings.currentLocationLabel,
+                                        latitude: Float(location.coordinate.latitude),
+                                        longitude: Float(location.coordinate.longitude))
+
+                GeoPointsDB.shared.addGeoPoint(geoPoint: dbGeoPoint)
+
+                DispatchQueue.main.async { [weak self] in
+                    if let ui = self?.view as? MainView {
+                        ui.addNewCity(cityName: AppCommonStrings.currentLocationLabel)
+                    }
+                }
+            }
+
+            currentLocationProvider.updateLocation()
         }
     }
 }

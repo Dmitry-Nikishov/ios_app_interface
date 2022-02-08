@@ -30,7 +30,7 @@ class CurrentLocationProvider : NSObject, CLLocationManagerDelegate
     
     func updateLocation()
     {
-        locationManager?.startUpdatingLocation()
+        locationManager?.requestLocation()
     }
         
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
