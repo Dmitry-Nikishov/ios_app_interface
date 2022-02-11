@@ -8,6 +8,35 @@
 import Foundation
 import SwiftUI
 
+class UiPerHourChartDataItem {
+    var temperature : Double = 0
+    var humidity : Double = 0
+    var dayTime : String = ""
+}
+
+class UiPerHourChartData {
+    var items : [UiPerHourChartDataItem] = []
+}
+
+class UiPerHourDetailsItem {
+    var calendarDate : String = ""
+    var dayTime : String = ""
+    var temperature : String = ""
+    var temperatureDescription : String = ""
+    var windDescription : String = ""
+    var humidity : String = ""
+    var cloudy : String = ""
+}
+
+class UiPerHourDetails {
+    var items : [UiPerHourDetailsItem] = []
+}
+
+class UiPerHourDetailsData {
+    var details : UiPerHourDetails = UiPerHourDetails()
+    var chartData : UiPerHourChartData = UiPerHourChartData()
+}
+
 class UiWeatherDataOneDay {
     var temperature : String = ""
     var feelsLikeTemperature : String = ""
@@ -85,6 +114,48 @@ class WeatherDataToUiRepresentationConverter {
         result.dayTimePeriod = UIDateDateFormatter.formatDayTimePeriod(date: date as Date)
         
         result.feelsLikeTemperature = "\(data.feelsLike)° / \(data.temperature)°"
+        
+        return result
+    }
+    
+    private static func weatherHourlyItemToChartRepresentation(dataItem : WeatherDataHourDetails) -> UiPerHourChartDataItem
+    {
+        let result = UiPerHourChartDataItem()
+        result.temperature = Double(dataItem.temperature)
+        result.humidity = Double(dataItem.humidity)
+        let currentDate = NSDate(timeIntervalSince1970: dataItem.date)
+        result.dayTime = UIDateDateFormatter.convertDateToGraphRepresentation(currentDate as Date)
+        return result
+    }
+    
+    private static func weatherHourlyItemToViewRepresentation(dataItem : WeatherDataHourDetails) -> UiPerHourDetailsItem
+    {
+        let result = UiPerHourDetailsItem()
+        let currentDate = NSDate(timeIntervalSince1970: dataItem.date)
+        result.dayTime = UIDateDateFormatter.formatTimeOfDay(date: currentDate as Date)
+        result.humidity = "\(dataItem.humidity)%"
+        result.temperature = "\(dataItem.temperature)°"
+        result.temperatureDescription = "Преимущественно \(dataItem.temperature)°. Ощущается как \(dataItem.feelsLike)°"
+        result.calendarDate = UIDateDateFormatter.formatForCalendarDate(date: currentDate as Date)
+        result.cloudy = "\(dataItem.clouds)"
+        result.windDescription = "\(dataItem.windSpeed)"
+        
+        return result
+    }
+    
+    public static func convertHourlyDataToHourlyControllerFormat(dataForUi : WeatherDataHourly?) -> UiPerHourDetailsData
+    {
+        let result = UiPerHourDetailsData()
+        
+        if let data = dataForUi {
+            let chartData = UiPerHourChartData()
+            chartData.items = data.hourly.enumerated().compactMap { index, element in index % 3 == 0 ? weatherHourlyItemToChartRepresentation(dataItem: element) : nil }
+            result.chartData = chartData
+
+            let details = UiPerHourDetails()
+            details.items = data.hourly.enumerated().compactMap { index, element in index % 3 == 0 ? weatherHourlyItemToViewRepresentation(dataItem: element) : nil }
+            result.details = details
+        }
         
         return result
     }

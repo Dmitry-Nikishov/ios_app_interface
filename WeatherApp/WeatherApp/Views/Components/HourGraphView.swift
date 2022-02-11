@@ -10,6 +10,32 @@ import Charts
 
 class HourGraphView : UIView
 {
+    func applyChartData(chartData : UiPerHourChartData)
+    {
+        hours = chartData.items.compactMap{$0.dayTime}
+        let tempValues = chartData.items.compactMap{$0.temperature}
+        let humidValues = chartData.items.compactMap{$0.humidity}
+
+        var tempPoints: [ChartDataEntry] = []
+        var humidPoints: [ChartDataEntry] = []
+
+        for count in (0..<hours.count) {
+            tempPoints.append(ChartDataEntry.init(x: Double(count), y: tempValues[count]))
+            humidPoints.append(ChartDataEntry.init(x: Double(count), y: humidValues[count], icon: #imageLiteral(resourceName: "humidity")))
+        }
+
+        let temprSet = LineChartDataSet(entries: tempPoints, label: nil)
+        temprSet.lineWidth = 0.3
+        temprSet.circleRadius = 3
+        temprSet.setColor(.systemBlue)
+        temprSet.setCircleColor(.white)
+
+        let humidSet = ScatterChartDataSet(entries: humidPoints, label: nil)
+        
+        temperatureChartView.data = LineChartData(dataSets: [temprSet])
+        humidityChartView.data = ScatterChartData(dataSets: [humidSet])
+    }
+    
     private var hours = [String]()
     
     private lazy var temperatureChartView: LineChartView = {
@@ -86,39 +112,12 @@ class HourGraphView : UIView
         LayoutAssembler.fillAreaWithView(area: temperatureChartArea, filler: temperatureChartView)
         LayoutAssembler.fillAreaWithView(area: humidityChartArea, filler: humidityChartView)
     }
-    
-    private func configureChart()
-    {
-        hours = SimDateRangeProvider.getDayRangeByHourInterval(3)
-        let tempValues = SimDateRangeProvider.getTemperatureData(hours.count)
-        let humidValues = SimDateRangeProvider.getHumidityData(hours.count)
-
-        var tempPoints: [ChartDataEntry] = []
-        var humidPoints: [ChartDataEntry] = []
-
-        for count in (0..<hours.count) {
-            tempPoints.append(ChartDataEntry.init(x: Double(count), y: tempValues[count]))
-            humidPoints.append(ChartDataEntry.init(x: Double(count), y: humidValues[count], icon: #imageLiteral(resourceName: "humidity")))
-        }
-
-        let temprSet = LineChartDataSet(entries: tempPoints, label: nil)
-        temprSet.lineWidth = 0.3
-        temprSet.circleRadius = 3
-        temprSet.setColor(.systemBlue)
-        temprSet.setCircleColor(.white)
-
-        let humidSet = ScatterChartDataSet(entries: humidPoints, label: nil)
         
-        temperatureChartView.data = LineChartData(dataSets: [temprSet])
-        humidityChartView.data = ScatterChartData(dataSets: [humidSet])
-    }
-    
     init(viewFrame : CGRect)
     {
         super.init(frame: viewFrame)
         
         setupView()
-        configureChart()
     }
     
     required init?(coder: NSCoder) {

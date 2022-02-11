@@ -11,6 +11,13 @@ class HourSummaryView : UIView
 {
     public var backButtonHandler : UiViewClickHandler?
     
+    func applyUiData(poiName : String?, uiData : UiPerHourDetailsData)
+    {
+        cityLabel.text = poiName
+        graphView.applyChartData(chartData: uiData.chartData)
+        detailsTable.applyDataForView(uiData: uiData.details)
+    }
+    
     @objc
     private func backButtonClicked()
     {
@@ -41,7 +48,6 @@ class HourSummaryView : UIView
     private let cityLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Moscow, Russia"
         label.font = UIFont.boldSystemFont(ofSize: 18)
         label.textAlignment = .center
         return label

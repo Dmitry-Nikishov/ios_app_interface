@@ -8,6 +8,16 @@
 import UIKit
 
 class HourDetailsTableCell: UITableViewCell {
+    var calendarDate : String {
+        get {
+            return dateLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            dateLabel.text = newValue
+        }
+    }
+    
     private let dateLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -16,6 +26,16 @@ class HourDetailsTableCell: UITableViewCell {
         return view
     }()
     
+    var dayTime : String {
+        get {
+            return timeLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            timeLabel.text = newValue
+        }
+    }
+
     private let timeLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -25,6 +45,16 @@ class HourDetailsTableCell: UITableViewCell {
         return view
     }()
     
+    var temperature : String {
+        get {
+            return degreeLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            degreeLabel.text = newValue
+        }
+    }
+
     private let degreeLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -65,6 +95,16 @@ class HourDetailsTableCell: UITableViewCell {
         return view
     }()
     
+    var temperatureDescription : String {
+        get {
+            return row0Label.text ?? ""
+        }
+        
+        set(newValue) {
+            row0Label.text = newValue
+        }
+    }
+
     private let row0Label : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -98,6 +138,16 @@ class HourDetailsTableCell: UITableViewCell {
         return view
     }()
     
+    var windDescription : String {
+        get {
+            return windLabel.text ?? ""
+        }
+        
+        set(newLabel) {
+            windLabel.text = newLabel
+        }
+    }
+    
     private let windLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -107,6 +157,16 @@ class HourDetailsTableCell: UITableViewCell {
         return view
     }()
 
+    var humidity : String {
+        get {
+            return percipitationLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            percipitationLabel.text = newValue
+        }
+    }
+
     private let percipitationLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -115,6 +175,16 @@ class HourDetailsTableCell: UITableViewCell {
         view.textColor = UIColor(red: 0.604, green: 0.587, blue: 0.587, alpha: 1)
         return view
     }()
+    
+    var cloudy : String {
+        get {
+            return cloudyLabel.text ?? ""
+        }
+        
+        set(newLabel) {
+            cloudyLabel.text = newLabel
+        }
+    }
     
     private let cloudyLabel : UILabel = {
         let view = UILabel()

@@ -21,6 +21,15 @@ class HourSummaryViewController : UIViewController, Coordinating {
         self.view = hourSummaryView
     }
 
+    func applyUiSettings(poiName : String?, dataForUi : WeatherDataHourly?)
+    {
+        let uiData = WeatherDataToUiRepresentationConverter.convertHourlyDataToHourlyControllerFormat(dataForUi: dataForUi)
+        
+        if let ui = self.view as? HourSummaryView {
+            ui.applyUiData(poiName: poiName, uiData: uiData)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()

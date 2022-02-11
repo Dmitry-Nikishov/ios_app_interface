@@ -19,7 +19,7 @@ enum CoordinatorEvent {
     case settingsViewToMainViewEvent
     case mainViewToDaySummaryViewEvent
     case daySummaryViewToMainViewEvent
-    case mainViewToHourSummaryViewEvent
+    case mainViewToHourSummaryViewEvent(String?, WeatherDataHourly?)
     case hourSummaryViewToMainViewEvent
 }
 

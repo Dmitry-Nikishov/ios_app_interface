@@ -9,6 +9,14 @@ import UIKit
 
 class HourSummaryTableDetailsView : UIView
 {
+    private var modelData = UiPerHourDetails()
+    
+    func applyDataForView(uiData : UiPerHourDetails)
+    {
+        modelData = uiData
+        tableView.reloadData()
+    }
+    
     private let tableView : UITableView = {
         let view = UITableView(frame: .zero, style: .plain)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -48,6 +56,15 @@ extension HourSummaryTableDetailsView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: HourDetailsTableCell.self)) as! HourDetailsTableCell
 
+        let dataItem = modelData.items[indexPath.section]
+        cell.calendarDate = dataItem.calendarDate
+        cell.dayTime = dataItem.dayTime
+        cell.temperature = dataItem.temperature
+        cell.temperatureDescription = dataItem.temperatureDescription
+        cell.windDescription = dataItem.windDescription
+        cell.humidity = dataItem.humidity
+        cell.cloudy = dataItem.cloudy
+
         return cell
     }
     
@@ -60,7 +77,7 @@ extension HourSummaryTableDetailsView: UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 7
+        return modelData.items.count
     }
 }
 

@@ -9,28 +9,10 @@ import UIKit
 
 class MainViewController : UIViewController, Coordinating {
     weak var coordinator: Coordinator?
-    
-//    private let addLocationPopup : AddNewLocationPopup = AddNewLocationPopup()
-    
+
     private(set) lazy var currentLocationProvider: CurrentLocationProvider = {
         return CurrentLocationProvider()
     }()
-    
-    private var currentPosition : GeoPosition?
-    
-    private func getGeoPositionFromDb(poiName : String) -> GeoPosition?
-    {
-        if let dbGeoPoint = GeoPointsDB.shared.getGeoPoint(id: poiName) {
-            return GeoPosition(latitude: dbGeoPoint.latitude,
-                               longitude: dbGeoPoint.longitude)
-        } else {
-            return nil
-        }
-    }
-    
-    private func getCurrentGeoPositionOnceReady() -> GeoPosition? {
-        return currentPosition
-    }
     
     private func getGeoItemNames(mode : OnboardingMode) -> [String] {
         let availableGeoPointsInDb = GeoPointsDB.shared.getGeoPoints()
@@ -89,7 +71,7 @@ class MainViewController : UIViewController, Coordinating {
         }
         
         mainView.per24ClickHandler = { [weak self] in
-            self?.coordinator?.processEvent(with: .mainViewToHourSummaryViewEvent)
+            self?.coordinator?.processEvent(with: .mainViewToHourSummaryViewEvent(self?.latestPoiName, self?.latestHourlyData))
         }
         
         mainView.addLocationClickHandler = { [weak self] in
@@ -106,57 +88,16 @@ class MainViewController : UIViewController, Coordinating {
             updateUiWithWeatherData(poiName: mainView.currentGeoPoint)
         }
     }
-
-    private func getDataForGeoPositionAndUpdateUi(geoPosition : GeoPosition) {
-        DispatchQueue.global().async { [weak self] in
-            let latitudeString = "\(geoPosition.latitude)"
-            let longitudeString = "\(geoPosition.longitude)"
-
-            WeatherClient.shared.getOneDayForecast(latitude: latitudeString,
-                                                   longitude: longitudeString) { [weak self] weatherData in
-                if let weatherData = weatherData {
-                    let uiData = WeatherDataToUiRepresentationConverter.convertOneDayData(data: weatherData)
-
-                    DispatchQueue.main.async { [weak self] in
-                        if let ui = self?.view as? MainView {
-                            ui.applyModelData(dataForUi: uiData)
-                        }
-                    }
-                }
-            }
-            
-            WeatherClient.shared.getHourlyForecast(latitude: latitudeString,
-                                                   longitude: longitudeString) { [weak self] weatherData in
-                if let weatherData = weatherData {
-                    let uiData = WeatherDataToUiRepresentationConverter.convertPerHourDataToUiPerHourCollectionData(data: weatherData)
-
-                    DispatchQueue.main.async { [weak self] in
-                        if let ui = self?.view as? MainView {
-                            ui.applyModelData(dataForUi: uiData)
-                        }
-                    }
-                }
-            }
-            
-            WeatherClient.shared.getMonthlyForecast(latitude: latitudeString,
-                                                    longitude: longitudeString) { [weak self] weatherData in
-                if let weatherData = weatherData {
-                    let uiData = WeatherDataToUiRepresentationConverter.convertMonthlyDataToUiCollectionData(data: weatherData)
-
-                    DispatchQueue.main.async { [weak self] in
-                        if let ui = self?.view as? MainView {
-                            ui.applyModelData(dataForUi: uiData)
-                        }
-                    }
-                }
-            }
-        }
-    }
     
     private let weatherDataProvider = WeatherDataProvider.shared
     
+    private var latestHourlyData : WeatherDataHourly?
+    private var latestPoiName : String?
+    
     private func updateUiWithWeatherData(poiName : String)
     {
+        latestPoiName = poiName
+        
         weatherDataProvider.getOneDayData(poi: poiName) { weatherData in
             if let weatherData = weatherData {
                 let uiData = WeatherDataToUiRepresentationConverter.convertOneDayData(data: weatherData)
@@ -169,7 +110,8 @@ class MainViewController : UIViewController, Coordinating {
             }
         }
         
-        weatherDataProvider.getHourlyData(poi: poiName) { weatherData in
+        weatherDataProvider.getHourlyData(poi: poiName) { [weak self] weatherData in
+            self?.latestHourlyData = weatherData
             if let weatherData = weatherData {
                 let uiData = WeatherDataToUiRepresentationConverter.convertPerHourDataToUiPerHourCollectionData(data: weatherData)
 
