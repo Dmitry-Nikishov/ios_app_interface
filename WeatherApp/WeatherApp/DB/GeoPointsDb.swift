@@ -30,13 +30,13 @@ final class DbGeoPoint {
     }
 }
 
-class DbDataProvider {
+class GeoPointsDbProvider {
     private var realm: Realm?
     
     init() {
         var config = Realm.Configuration()
-        config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("geo_points.realm")
-        realm = try? Realm(configuration: config)        
+        config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent(AppCommonStrings.appRealmDbName)
+        realm = try? Realm(configuration: config)
     }
     
     func getGeoPointAmount() -> Int {
@@ -90,7 +90,7 @@ class DbDataProvider {
 }
 
 class GeoPointsDB {
-    private let dbDataProvider : DbDataProvider = DbDataProvider()
+    private let dbDataProvider : GeoPointsDbProvider = GeoPointsDbProvider()
     
     static var shared: GeoPointsDB = {
         let instance = GeoPointsDB()

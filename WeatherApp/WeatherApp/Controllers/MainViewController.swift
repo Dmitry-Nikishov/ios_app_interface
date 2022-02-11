@@ -97,13 +97,13 @@ class MainViewController : UIViewController, Coordinating {
         }
         
         mainView.updateWeatherDataRequestHandler = { [weak self] poiName in
-//            self?.updateUiWithWeatherData(poiName: poiName)
+            self?.updateUiWithWeatherData(poiName: poiName)
         }
         
         self.view = mainView
         
         if !geoItems.isEmpty {
-//            updateUiWithWeatherData(poiName: mainView.currentGeoPoint)
+            updateUiWithWeatherData(poiName: mainView.currentGeoPoint)
         }
     }
 
@@ -153,19 +153,46 @@ class MainViewController : UIViewController, Coordinating {
         }
     }
     
+    private let weatherDataProvider = WeatherDataProvider.shared
+    
     private func updateUiWithWeatherData(poiName : String)
     {
-        if poiName == AppCommonStrings.currentLocationLabel {
-            DispatchQueue.global().async { [weak self] in
-                if let geoPosition = self?.getCurrentGeoPositionOnceReady() {
-                    self?.getDataForGeoPositionAndUpdateUi(geoPosition: geoPosition)
+        weatherDataProvider.getOneDayData(poi: poiName) { weatherData in
+            if let weatherData = weatherData {
+                let uiData = WeatherDataToUiRepresentationConverter.convertOneDayData(data: weatherData)
+
+                DispatchQueue.main.async { [weak self] in
+                    if let ui = self?.view as? MainView {
+                        ui.applyModelData(dataForUi: uiData)
+                    }
                 }
             }
-        } else {
-            if let geoPosition = getGeoPositionFromDb(poiName: poiName) {
-                getDataForGeoPositionAndUpdateUi(geoPosition: geoPosition)
+        }
+        
+        weatherDataProvider.getHourlyData(poi: poiName) { weatherData in
+            if let weatherData = weatherData {
+                let uiData = WeatherDataToUiRepresentationConverter.convertPerHourDataToUiPerHourCollectionData(data: weatherData)
+
+                DispatchQueue.main.async { [weak self] in
+                    if let ui = self?.view as? MainView {
+                        ui.applyModelData(dataForUi: uiData)
+                    }
+                }
             }
         }
+
+        weatherDataProvider.getMonthlyData(poi: poiName) { weatherData in
+            if let weatherData = weatherData {
+                let uiData = WeatherDataToUiRepresentationConverter.convertMonthlyDataToUiCollectionData(data: weatherData)
+
+                DispatchQueue.main.async { [weak self] in
+                    if let ui = self?.view as? MainView {
+                        ui.applyModelData(dataForUi: uiData)
+                    }
+                }
+            }
+        }
+
     }
     
     override func viewDidLoad() {
@@ -173,7 +200,7 @@ class MainViewController : UIViewController, Coordinating {
     }
     
     func setupViewForMode(_ mode : OnboardingMode)
-    {
+    {                
         let geoLocations = getGeoItemNames(mode: mode)
         setupView(geoItems: geoLocations)
         

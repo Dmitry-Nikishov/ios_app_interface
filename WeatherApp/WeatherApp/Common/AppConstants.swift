@@ -10,6 +10,7 @@ import UIKit
 enum AppCommonStrings {
     static let appName : String = "Weather App"
     static let currentLocationLabel : String = "Текущее"
+    static let appRealmDbName = "weather_app_cache.realm"
 }
 
 enum UserDefaultsSettingsKeys {

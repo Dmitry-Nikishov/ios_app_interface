@@ -23,6 +23,24 @@ class WeatherDataOneDay {
     var clouds: Int = 0
     var lon: Float = 0.0
     var lat: Float = 0.0
+    
+    func printSelf()
+    {
+        print("temperature : \(temperature)")
+        print("temperatureDescription : \(temperatureDescription)")
+        print("condition : \(condition)")
+        print("city : \(city)")
+        print("weatherIconName : \(weatherIconName)")
+        print("sunset : \(sunset)")
+        print("sunrise : \(sunrise)")
+        print("humidity : \(humidity)")
+        print("windSpeed : \(windSpeed)")
+        print("date : \(date)")
+        print("feelsLike : \(feelsLike)")
+        print("clouds : \(clouds)")
+        print("lon : \(lon)")
+        print("lat : \(lat)")
+    }
 }
 
 class WeatherDataHourDetails {

@@ -1,34 +1,46 @@
-//
-//  WeatherDataOneDayDb.swift
-//  WeatherApp
-//
-//  Created by Дмитрий Никишов on 09.02.2022.
-//
-
 import Foundation
 import RealmSwift
 
-@objcMembers class WeatherDataOneDayCached: Object {
-    dynamic var poi: String?
+class WeatherDataOneDayCached: Object {
+    @objc dynamic var poi: String = ""
     
-    dynamic var temperature: Int?
-    dynamic var temperatureDescription: String?
-    dynamic var condition: Int?
-    dynamic var city: String?
-    dynamic var weatherIconName: String?
-    dynamic var sunset: Double?
-    dynamic var sunrise: Double?
-    dynamic var humidity: Int?
-    dynamic var windSpeed: Float?
-    dynamic var date: Double?
-    dynamic var feelsLike: Int?
-    dynamic var clouds: Int?
-    dynamic var lon: Float?
-    dynamic var lat: Float?
+    @objc dynamic var temperature: Int = 0
+    @objc dynamic var temperatureDescription: String = ""
+    @objc dynamic var condition: Int = 0
+    @objc dynamic var city: String = ""
+    @objc dynamic var weatherIconName: String = ""
+    @objc dynamic var sunset: Double = 0
+    @objc dynamic var sunrise: Double = 0
+    @objc dynamic var humidity: Int = 0
+    @objc dynamic var windSpeed: Float = 0
+    @objc dynamic var date: Double = 0
+    @objc dynamic var feelsLike: Int = 0
+    @objc dynamic var clouds: Int = 0
+    @objc dynamic var lon: Float = 0
+    @objc dynamic var lat: Float = 0
 
     override static func primaryKey() -> String? {
         return "poi"
     }
+    
+    func printSelf()
+    {
+        print("temperature : \(temperature)")
+        print("temperatureDescription : \(temperatureDescription)")
+        print("condition : \(condition)")
+        print("city : \(city)")
+        print("weatherIconName : \(weatherIconName)")
+        print("sunset : \(sunset)")
+        print("sunrise : \(sunrise)")
+        print("humidity : \(humidity)")
+        print("windSpeed : \(windSpeed)")
+        print("date : \(date)")
+        print("feelsLike : \(feelsLike)")
+        print("clouds : \(clouds)")
+        print("lon : \(lon)")
+        print("lat : \(lat)")
+    }
+
 }
 
 class WeatherDataOneDayDbProvider {
@@ -36,7 +48,7 @@ class WeatherDataOneDayDbProvider {
     
     init() {
         var config = Realm.Configuration()
-        config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("weather_data_one_day.realm")
+        config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent(AppCommonStrings.appRealmDbName)
         realm = try? Realm(configuration: config)
     }
             
@@ -44,21 +56,21 @@ class WeatherDataOneDayDbProvider {
         let weatherData = realm?.object(ofType: WeatherDataOneDayCached.self, forPrimaryKey: poi)
         if let weatherData = weatherData {
             let result = WeatherDataOneDay()
-            result.temperature = weatherData.temperature ?? 0
-            result.temperatureDescription = weatherData.temperatureDescription ?? ""
-            result.condition = weatherData.condition ?? 0
-            result.city = weatherData.city ?? ""
-            result.weatherIconName = weatherData.weatherIconName ?? ""
-            result.sunset = weatherData.sunset ?? 0.0
-            result.sunrise = weatherData.sunrise ?? 0.0
-            result.humidity = weatherData.humidity ?? 0
-            result.windSpeed = weatherData.windSpeed ?? 0.0
-            result.date = weatherData.date ?? 0.0
-            result.feelsLike = weatherData.feelsLike ?? 0
-            result.clouds = weatherData.clouds ?? 0
-            result.lon = weatherData.lon ?? 0.0
-            result.lat = weatherData.lat ?? 0.0
-
+            result.temperature = weatherData.temperature
+            result.temperatureDescription = weatherData.temperatureDescription
+            result.condition = weatherData.condition
+            result.city = weatherData.city
+            result.weatherIconName = weatherData.weatherIconName
+            result.sunset = weatherData.sunset
+            result.sunrise = weatherData.sunrise
+            result.humidity = weatherData.humidity
+            result.windSpeed = weatherData.windSpeed
+            result.date = weatherData.date
+            result.feelsLike = weatherData.feelsLike
+            result.clouds = weatherData.clouds
+            result.lon = weatherData.lon
+            result.lat = weatherData.lat
+            
             return result
         } else {
             return nil
@@ -83,10 +95,10 @@ class WeatherDataOneDayDbProvider {
         cachedWeatherData.clouds = weatherData.clouds
         cachedWeatherData.lon = weatherData.lon
         cachedWeatherData.lat = weatherData.lat
-        
+                
         if isWeatherDataExist(poi: poi) {
             try? realm?.write {
-                realm?.add(cachedWeatherData, update: .modified)
+                realm?.add(cachedWeatherData, update: .all)
             }
         } else {
             try? realm?.write {

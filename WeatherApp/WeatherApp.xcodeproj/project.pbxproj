@@ -75,6 +75,7 @@
 		F615856927B325F20002140B /* WeatherDataOneDayDb.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615856827B325F20002140B /* WeatherDataOneDayDb.swift */; };
 		F615856B27B32B370002140B /* WeatherDataHourlyDb.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615856A27B32B370002140B /* WeatherDataHourlyDb.swift */; };
 		F615856D27B32EF00002140B /* WeatherDataMonthlyDb.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615856C27B32EF00002140B /* WeatherDataMonthlyDb.swift */; };
+		F615856F27B598190002140B /* WeatherDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615856E27B598190002140B /* WeatherDataProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,6 +155,7 @@
 		F615856827B325F20002140B /* WeatherDataOneDayDb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataOneDayDb.swift; sourceTree = "<group>"; };
 		F615856A27B32B370002140B /* WeatherDataHourlyDb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataHourlyDb.swift; sourceTree = "<group>"; };
 		F615856C27B32EF00002140B /* WeatherDataMonthlyDb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataMonthlyDb.swift; sourceTree = "<group>"; };
+		F615856E27B598190002140B /* WeatherDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -351,6 +353,7 @@
 				F615855727AB2B3A0002140B /* WeatherData.swift */,
 				F615855C27AB2EC40002140B /* WeatherApiTypes.swift */,
 				F615856627ADD8310002140B /* WeatherUIData.swift */,
+				F615856E27B598190002140B /* WeatherDataProvider.swift */,
 			);
 			path = WeatherApi;
 			sourceTree = "<group>";
@@ -475,6 +478,7 @@
 				F6158501278C5D040002140B /* HourSummaryViewController.swift in Sources */,
 				F61584D5277143A50002140B /* NavigationView.swift in Sources */,
 				F6158503278C62630002140B /* HourSummaryTableDetailsView.swift in Sources */,
+				F615856F27B598190002140B /* WeatherDataProvider.swift in Sources */,
 				F61584F52788B79C0002140B /* ForecastDetailsView.swift in Sources */,
 				F615853C27A345E50002140B /* GeoTypes.swift in Sources */,
 				F61584E2277492DF0002140B /* WeatherPerHourCell.swift in Sources */,

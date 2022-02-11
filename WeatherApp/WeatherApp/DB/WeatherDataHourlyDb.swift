@@ -8,19 +8,19 @@
 import Foundation
 import RealmSwift
 
-@objcMembers class WeatherDataHourDetailsCached: Object {
-    dynamic var date: Double = 0
-    dynamic var temperature: Int = 0
-    dynamic var feelsLike: Int = 0
-    dynamic var windSpeed: Float = 0.0
-    dynamic var humidity: Int = 0
-    dynamic var clouds: Int = 0
+class WeatherDataHourDetailsCached: Object {
+    @objc dynamic var date: Double = 0
+    @objc dynamic var temperature: Int = 0
+    @objc dynamic var feelsLike: Int = 0
+    @objc dynamic var windSpeed: Float = 0.0
+    @objc dynamic var humidity: Int = 0
+    @objc dynamic var clouds: Int = 0
 }
 
-@objcMembers class WeatherDataHourlyCached: Object {
-    dynamic var poi: String?
-    dynamic var lon: Float?
-    dynamic var lat: Float?
+class WeatherDataHourlyCached: Object {
+    @objc dynamic var poi: String = ""
+    @objc dynamic var lon: Float = 0
+    @objc dynamic var lat: Float = 0
     
     let hourly = RealmSwift.List<WeatherDataHourDetailsCached>()
 
@@ -34,7 +34,7 @@ class WeatherDataHourlyDbProvider {
     
     init() {
         var config = Realm.Configuration()
-        config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("weather_data_hourly.realm")
+        config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent(AppCommonStrings.appRealmDbName)
         realm = try? Realm(configuration: config)
     }
             

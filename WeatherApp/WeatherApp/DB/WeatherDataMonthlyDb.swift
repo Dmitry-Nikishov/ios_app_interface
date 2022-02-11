@@ -8,26 +8,25 @@
 import Foundation
 import RealmSwift
 
-@objcMembers class WeatherDataDayDetailsCached: Object {
-    dynamic var date: Double?
-    dynamic var temperatureDay: Int?
-    dynamic var temperatureNight: Int?
-    dynamic var feelsLikeDay: Int?
-    dynamic var feelsLikeNight: Int?
-    dynamic var windSpeed: Float?
-    dynamic var humidity: Int?
-    dynamic var clouds: Int?
-    dynamic var weatherDescription: String?
-    dynamic var moonset: Double?
-    dynamic var moonrise: Double?
-    dynamic var sunset: Double?
+class WeatherDataDayDetailsCached: Object {
+    @objc dynamic var date: Double = 0
+    @objc dynamic var temperatureDay: Int = 0
+    @objc dynamic var temperatureNight: Int = 0
+    @objc dynamic var feelsLikeDay: Int = 0
+    @objc dynamic var feelsLikeNight: Int = 0
+    @objc dynamic var windSpeed: Float = 0
+    @objc dynamic var humidity: Int = 0
+    @objc dynamic var clouds: Int = 0
+    @objc dynamic var weatherDescription: String = ""
+    @objc dynamic var moonset: Double = 0
+    @objc dynamic var moonrise: Double = 0
+    @objc dynamic var sunset: Double = 0
 }
 
-
-@objcMembers class WeatherDataMonthlyCached: Object {
-    dynamic var poi: String?
-    dynamic var lon: Float?
-    dynamic var lat: Float?
+class WeatherDataMonthlyCached: Object {
+    @objc dynamic var poi: String = ""
+    @objc dynamic var lon: Float = 0
+    @objc dynamic var lat: Float = 0
     
     let days = RealmSwift.List<WeatherDataDayDetailsCached>()
 
@@ -41,7 +40,7 @@ class WeatherDataMonthlyDbProvider {
     
     init() {
         var config = Realm.Configuration()
-        config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("weather_data_monthly.realm")
+        config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent(AppCommonStrings.appRealmDbName)
         realm = try? Realm(configuration: config)
     }
             
