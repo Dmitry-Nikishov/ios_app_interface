@@ -355,7 +355,7 @@ class DayDisplayView : UIView
             
             minMaxTemperatureLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             minMaxTemperatureLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 30),
-            minMaxTemperatureLabel.widthAnchor.constraint(equalToConstant: 80),
+            minMaxTemperatureLabel.widthAnchor.constraint(equalToConstant: 100),
             minMaxTemperatureLabel.heightAnchor.constraint(equalToConstant: 20),
             
             currentTemperatureLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),

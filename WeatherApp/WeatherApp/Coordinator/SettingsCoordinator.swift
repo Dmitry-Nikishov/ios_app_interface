@@ -21,13 +21,21 @@ class SettingsCoordinator : Coordinator, Coordinating {
         navigationController?.pushViewController(settingsController, animated: true)
     }
     
+    private func handlerSwitchToMainViewFromSettings()
+    {
+        navigationController?.popViewController(animated: true)
+        if let vc = navigationController?.topViewController as? MainViewController{
+            vc.refreshAfterSettingsChange()
+        }
+    }
+    
     func processEvent(with type: CoordinatorEvent) {
         switch type {
         case .mainViewToSettingsViewEvent :
             handleSwitchFromMainViewToSettingsView()
             
         case .settingsViewToMainViewEvent :
-            navigationController?.popViewController(animated: true)
+            handlerSwitchToMainViewFromSettings()
         
         default :
             showUnexpectedCoordinatorEventAlert()

@@ -26,7 +26,16 @@ class UIDateDateFormatter {
         
         return timeFormatter.string(from: date)
     }
-    
+
+    public static func formatTimeOfDay12Format(date : Date) -> String
+    {
+        let timeFormatter = DateFormatter()
+        timeFormatter.locale = Locale(identifier: "ru_RU")
+        timeFormatter.dateFormat = "hh:mm a"
+        
+        return timeFormatter.string(from: date)
+    }
+
     public static func formatForCalendarDate(date : Date) -> String
     {
         let timeFormatter = DateFormatter()
@@ -50,4 +59,13 @@ class UIDateDateFormatter {
         dayTimePeriodFormatter.dateFormat = "HH:mm, EE dd MMMM"
         return dayTimePeriodFormatter.string(from: date)
     }
+    
+    public static func formatDayTimePeriod12Format(date : Date) -> String
+    {
+        let dayTimePeriodFormatter = DateFormatter()
+        dayTimePeriodFormatter.locale = Locale(identifier: "ru_RU")
+        dayTimePeriodFormatter.dateFormat = "hh:mm a, EE dd MMMM"
+        return dayTimePeriodFormatter.string(from: date)
+    }
+
 }

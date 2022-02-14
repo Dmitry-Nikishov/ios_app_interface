@@ -131,10 +131,22 @@ class AirQualityEstimator {
 class WeatherDataToUiRepresentationConverter {
     private static func weatherHourlyItemToUiRepresentation(dataItem : WeatherDataHourDetails) -> UiPerHourCollectionDataItem {
         let result = UiPerHourCollectionDataItem()
-        
+        let isFormat12Hour = UserDefaults.standard.bool(forKey: UserDefaultsSettingsKeys.timeFormatSettings)
+        let isTemperatureInFah = UserDefaults.standard.bool(forKey: UserDefaultsSettingsKeys.temperatureSettings) == false
+
         let currentDate = NSDate(timeIntervalSince1970: dataItem.date)
-        result.dayTime = UIDateDateFormatter.formatTimeOfDay(date: currentDate as Date)
-        result.temperature = "\(dataItem.temperature)°"
+        
+        if isFormat12Hour == true {
+            result.dayTime = UIDateDateFormatter.formatTimeOfDay12Format(date: currentDate as Date)
+        } else {
+            result.dayTime = UIDateDateFormatter.formatTimeOfDay(date: currentDate as Date)
+        }
+        
+        if isTemperatureInFah {
+            result.temperature = "\(CelciusToFahrConverter.toFahr(cel: Float(dataItem.temperature)))°"
+        } else {
+            result.temperature = "\(dataItem.temperature)°"
+        }
         
         return result
     }
@@ -158,8 +170,11 @@ class WeatherDataToUiRepresentationConverter {
     public static func convertOneDayData(data : WeatherDataOneDay) -> UiWeatherDataOneDay
     {
         let result = UiWeatherDataOneDay()
-        
-        result.temperature = "\(data.temperature)°"
+        let userDefaults = UserDefaults.standard
+        let isWindSpeedInMiles = userDefaults.bool(forKey: UserDefaultsSettingsKeys.windSpeedSettings)
+        let isFormat12Hour = userDefaults.bool(forKey: UserDefaultsSettingsKeys.timeFormatSettings)
+        let isTemperatureInFah = userDefaults.bool(forKey: UserDefaultsSettingsKeys.temperatureSettings) == false
+
         result.description = data.temperatureDescription.firstCapitalized
         
         let sunsetDate = NSDate(timeIntervalSince1970: data.sunset)
@@ -169,14 +184,32 @@ class WeatherDataToUiRepresentationConverter {
         result.sunriseTime = UIDateDateFormatter.formatTimeOfDay(date: sunriseDate as Date)
         
         result.humidity = "\(data.humidity) %"
-        result.windSpeed = "\(Int(data.windSpeed.rounded(.up))) м/с"
+        if isWindSpeedInMiles {
+            result.windSpeed = "\(KmToMlConverter.toMl(km: Float(data.windSpeed.rounded(.up)))) мили/ч"
+        } else {
+            result.windSpeed = "\(Int(data.windSpeed.rounded(.up))) м/с"
+        }
         
         result.clouds = "\(data.clouds)"
 
         let date = NSDate(timeIntervalSince1970: data.date)
-        result.dayTimePeriod = UIDateDateFormatter.formatDayTimePeriod(date: date as Date)
+        if isFormat12Hour == true {
+            result.dayTimePeriod = UIDateDateFormatter.formatDayTimePeriod12Format(date: date as Date)
+        } else {
+            result.dayTimePeriod = UIDateDateFormatter.formatDayTimePeriod(date: date as Date)
+        }
         
-        result.feelsLikeTemperature = "\(data.feelsLike)° / \(data.temperature)°"
+        if isTemperatureInFah {
+            let temperatureInFh = CelciusToFahrConverter.toFahr(cel: Float(data.temperature))
+            let feelsLikeTemperatureInFh = CelciusToFahrConverter.toFahr(cel: Float(data.feelsLike))
+
+            result.feelsLikeTemperature = "\(feelsLikeTemperatureInFh)°F / \(temperatureInFh)°F"
+            result.temperature = "\(temperatureInFh)°F"
+        } else {
+            result.feelsLikeTemperature = "\(data.feelsLike)° / \(data.temperature)°"
+            result.temperature = "\(data.temperature)°"
+        }
+        
         
         return result
     }
@@ -194,14 +227,38 @@ class WeatherDataToUiRepresentationConverter {
     private static func weatherHourlyItemToViewRepresentation(dataItem : WeatherDataHourDetails) -> UiPerHourDetailsItem
     {
         let result = UiPerHourDetailsItem()
+        let userDefaults = UserDefaults.standard
+        let isWindSpeedInMiles = userDefaults.bool(forKey: UserDefaultsSettingsKeys.windSpeedSettings)
+        let isFormat12Hour = userDefaults.bool(forKey: UserDefaultsSettingsKeys.timeFormatSettings)
+        let isTemperatureInFah = userDefaults.bool(forKey: UserDefaultsSettingsKeys.temperatureSettings) == false
+
         let currentDate = NSDate(timeIntervalSince1970: dataItem.date)
-        result.dayTime = UIDateDateFormatter.formatTimeOfDay(date: currentDate as Date)
+        if isFormat12Hour == true {
+            result.dayTime = UIDateDateFormatter.formatTimeOfDay12Format(date: currentDate as Date)
+        } else {
+            result.dayTime = UIDateDateFormatter.formatTimeOfDay(date: currentDate as Date)
+        }
+        
         result.humidity = "\(dataItem.humidity)%"
-        result.temperature = "\(dataItem.temperature)°"
-        result.temperatureDescription = "Преимущественно \(dataItem.temperature)°. Ощущается как \(dataItem.feelsLike)°"
+        
+        if isTemperatureInFah {
+            let temperatureInFh = CelciusToFahrConverter.toFahr(cel: Float(dataItem.temperature))
+            let feelsLikeTemperatureInFh = CelciusToFahrConverter.toFahr(cel: Float(dataItem.feelsLike))
+            
+            result.temperature = "\(temperatureInFh)°"
+            result.temperatureDescription = "Преимущественно \(temperatureInFh)°. Ощущается как \(feelsLikeTemperatureInFh)°"
+        } else {
+            result.temperature = "\(dataItem.temperature)°"
+            result.temperatureDescription = "Преимущественно \(dataItem.temperature)°. Ощущается как \(dataItem.feelsLike)°"
+        }
+        
         result.calendarDate = UIDateDateFormatter.formatForCalendarDate(date: currentDate as Date)
         result.cloudy = "\(dataItem.clouds)"
-        result.windDescription = "\(dataItem.windSpeed)"
+        if isWindSpeedInMiles {
+            result.windDescription = "\(KmToMlConverter.toMl(km: dataItem.windSpeed))"
+        } else {
+            result.windDescription = "\(dataItem.windSpeed)"
+        }
         
         return result
     }
@@ -226,6 +283,12 @@ class WeatherDataToUiRepresentationConverter {
     public static func convertMonthlyDataToUiRepresentation(weatherData : WeatherDataMonthly) -> UiMonthlyData
     {
         let result = UiMonthlyData()
+        let userDefaults = UserDefaults.standard
+        
+        let isFormat12Hour = userDefaults.bool(forKey: UserDefaultsSettingsKeys.timeFormatSettings)
+        let isWindSpeedInMiles = userDefaults.bool(forKey: UserDefaultsSettingsKeys.windSpeedSettings)
+        let isTemperatureInFah = userDefaults.bool(forKey: UserDefaultsSettingsKeys.temperatureSettings)
+        
         result.calendarDays.items = weatherData.days.compactMap { item in
             let result = UiDayItem()
             
@@ -239,9 +302,20 @@ class WeatherDataToUiRepresentationConverter {
             let result = UiMonthlyDayNightDetails()
             result.cloudy = "\(item.clouds)"
             result.humidity = "\(item.humidity)%"
-            result.windSpeed = "\(item.windSpeed)"
-            result.temperature = "\(item.temperatureDay)°"
-            result.feelsLikeTemperature = "\(item.feelsLikeDay)°"
+            if isWindSpeedInMiles {
+                result.windSpeed = "\(KmToMlConverter.toMl(km: item.windSpeed))"
+            } else {
+                result.windSpeed = "\(item.windSpeed)"
+            }
+            
+            if isTemperatureInFah == true {
+                result.temperature = "\(CelciusToFahrConverter.toFahr(cel: Float(item.temperatureDay)))°F"
+                
+                result.feelsLikeTemperature = "\(CelciusToFahrConverter.toFahr(cel: Float(item.feelsLikeDay)))°F"
+            } else {
+                result.temperature = "\(item.temperatureDay)°"
+                result.feelsLikeTemperature = "\(item.feelsLikeDay)°"
+            }
             result.ufIndex = "\(item.uvi)"
             result.description = item.weatherDescription
             return result
@@ -251,9 +325,20 @@ class WeatherDataToUiRepresentationConverter {
             let result = UiMonthlyDayNightDetails()
             result.cloudy = "\(item.clouds)"
             result.humidity = "\(item.humidity)%"
-            result.windSpeed = "\(item.windSpeed)"
-            result.temperature = "\(item.temperatureNight)°"
-            result.feelsLikeTemperature = "\(item.feelsLikeNight)°"
+            if isWindSpeedInMiles {
+                result.windSpeed = "\(KmToMlConverter.toMl(km: item.windSpeed))"
+            } else {
+                result.windSpeed = "\(item.windSpeed)"
+            }
+
+            if isTemperatureInFah == true {
+                result.temperature = "\(CelciusToFahrConverter.toFahr(cel: Float(item.temperatureDay)))°F"
+                
+                result.feelsLikeTemperature = "\(CelciusToFahrConverter.toFahr(cel: Float(item.feelsLikeDay)))°F"
+            } else {
+                result.temperature = "\(item.temperatureNight)°"
+                result.feelsLikeTemperature = "\(item.feelsLikeNight)°"
+            }
             result.ufIndex = "\(item.uvi)"
             result.description = item.weatherDescription
             return result
@@ -265,18 +350,28 @@ class WeatherDataToUiRepresentationConverter {
             let moonSetDate = NSDate(timeIntervalSince1970: item.moonset) as Date
             let moonRiseDate = NSDate(timeIntervalSince1970: item.moonrise) as Date
             let moonDuration = moonSetDate.distance(to: moonRiseDate)
-            
-            result.moonSet = UIDateDateFormatter.formatTimeOfDay(date: moonSetDate)
-            result.moonRise = UIDateDateFormatter.formatTimeOfDay(date: moonRiseDate)
-            result.moonDuration = UIDateDateFormatter.formatTimeOfDay(date: NSDate(timeIntervalSinceReferenceDate: moonDuration) as Date)
-            
+
             let sunSetDate = NSDate(timeIntervalSince1970: item.sunset) as Date
             let sunRiseDate = NSDate(timeIntervalSince1970: item.sunrise) as Date
             let sunDuration = sunSetDate.distance(to: sunRiseDate)
-            
-            result.sunSet = UIDateDateFormatter.formatTimeOfDay(date: sunSetDate)
-            result.sunRise = UIDateDateFormatter.formatTimeOfDay(date: sunRiseDate)
-            result.sunDuration = UIDateDateFormatter.formatTimeOfDay(date: NSDate(timeIntervalSinceReferenceDate: sunDuration) as Date)
+
+            if isFormat12Hour == true {
+                result.moonSet = UIDateDateFormatter.formatTimeOfDay12Format(date: moonSetDate)
+                result.moonRise = UIDateDateFormatter.formatTimeOfDay12Format(date: moonRiseDate)
+                result.moonDuration = UIDateDateFormatter.formatTimeOfDay12Format(date: NSDate(timeIntervalSinceReferenceDate: moonDuration) as Date)
+
+                result.sunSet = UIDateDateFormatter.formatTimeOfDay12Format(date: sunSetDate)
+                result.sunRise = UIDateDateFormatter.formatTimeOfDay12Format(date: sunRiseDate)
+                result.sunDuration = UIDateDateFormatter.formatTimeOfDay12Format(date: NSDate(timeIntervalSinceReferenceDate: sunDuration) as Date)
+            } else {
+                result.moonSet = UIDateDateFormatter.formatTimeOfDay(date: moonSetDate)
+                result.moonRise = UIDateDateFormatter.formatTimeOfDay(date: moonRiseDate)
+                result.moonDuration = UIDateDateFormatter.formatTimeOfDay(date: NSDate(timeIntervalSinceReferenceDate: moonDuration) as Date)
+
+                result.sunSet = UIDateDateFormatter.formatTimeOfDay(date: sunSetDate)
+                result.sunRise = UIDateDateFormatter.formatTimeOfDay(date: sunRiseDate)
+                result.sunDuration = UIDateDateFormatter.formatTimeOfDay(date: NSDate(timeIntervalSinceReferenceDate: sunDuration) as Date)
+            }
 
             return result
         }

@@ -106,50 +106,67 @@ class MainViewController : UIViewController, Coordinating {
     
     private var latestHourlyData : WeatherDataHourly?
     private var latestMonthlyData : WeatherDataMonthly?
+    private var latestOneDayData : WeatherDataOneDay?
+    
     private var latestPoiName : String?
+    
+    private func updateOneDayView()
+    {
+        if let weatherData = latestOneDayData {
+            let uiData = WeatherDataToUiRepresentationConverter.convertOneDayData(data: weatherData)
+
+            DispatchQueue.main.async { [weak self] in
+                if let ui = self?.view as? MainView {
+                    ui.applyModelData(dataForUi: uiData)
+                }
+            }
+        }
+    }
+    
+    private func updateHourlyView()
+    {
+        if let weatherData = latestHourlyData {
+            let uiData = WeatherDataToUiRepresentationConverter.convertPerHourDataToUiPerHourCollectionData(data: weatherData)
+
+            DispatchQueue.main.async { [weak self] in
+                if let ui = self?.view as? MainView {
+                    ui.applyModelData(dataForUi: uiData)
+                }
+            }
+        }
+    }
+    
+    private func updateMonthlyView()
+    {
+        if let weatherData = latestMonthlyData {
+            let uiData = WeatherDataToUiRepresentationConverter.convertMonthlyDataToUiCollectionData(data: weatherData)
+
+            DispatchQueue.main.async { [weak self] in
+                if let ui = self?.view as? MainView {
+                    ui.applyModelData(dataForUi: uiData)
+                }
+            }
+        }
+    }
     
     private func updateUiWithWeatherData(poiName : String)
     {
         latestPoiName = poiName
         
-        weatherDataProvider.getOneDayData(poi: poiName) { weatherData in
-            if let weatherData = weatherData {
-                let uiData = WeatherDataToUiRepresentationConverter.convertOneDayData(data: weatherData)
-
-                DispatchQueue.main.async { [weak self] in
-                    if let ui = self?.view as? MainView {
-                        ui.applyModelData(dataForUi: uiData)
-                    }
-                }
-            }
+        weatherDataProvider.getOneDayData(poi: poiName) { [weak self] weatherData in
+            self?.latestOneDayData = weatherData
+            self?.updateOneDayView()
         }
         
         weatherDataProvider.getHourlyData(poi: poiName) { [weak self] weatherData in
             self?.latestHourlyData = weatherData
-            if let weatherData = weatherData {
-                let uiData = WeatherDataToUiRepresentationConverter.convertPerHourDataToUiPerHourCollectionData(data: weatherData)
-
-                DispatchQueue.main.async { [weak self] in
-                    if let ui = self?.view as? MainView {
-                        ui.applyModelData(dataForUi: uiData)
-                    }
-                }
-            }
+            self?.updateHourlyView()
         }
 
         weatherDataProvider.getMonthlyData(poi: poiName) { [weak self] weatherData in
             self?.latestMonthlyData = weatherData
-            if let weatherData = weatherData {
-                let uiData = WeatherDataToUiRepresentationConverter.convertMonthlyDataToUiCollectionData(data: weatherData)
-
-                DispatchQueue.main.async { [weak self] in
-                    if let ui = self?.view as? MainView {
-                        ui.applyModelData(dataForUi: uiData)
-                    }
-                }
-            }
+            self?.updateMonthlyView()
         }
-
     }
     
     override func viewDidLoad() {
@@ -190,6 +207,13 @@ class MainViewController : UIViewController, Coordinating {
     func setupViewForMode(_ mode : OnboardingMode)
     {
         self.setupMode = mode
+    }
+
+    public func refreshAfterSettingsChange()
+    {
+        updateOneDayView()
+        updateHourlyView()
+        updateMonthlyView()
     }
 }
 

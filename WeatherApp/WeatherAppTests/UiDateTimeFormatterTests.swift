@@ -23,13 +23,27 @@ class UiDateTimeFormatterTests: XCTestCase {
         XCTAssertEqual(testDateString, expectedTestDateString)
     }
 
+    func testTimeOfDayFormatter12Hour() throws {
+        let testDate = NSDate(timeIntervalSince1970: 0)
+        let testDateString = UIDateDateFormatter.formatTimeOfDay12Format(date: testDate as Date)
+        let expectedTestDateString = "03:00 AM"
+        XCTAssertEqual(testDateString, expectedTestDateString)
+    }
+
     func testDayTimePeriodFormatter() throws {
         let testDate = NSDate(timeIntervalSince1970: 0)
         let testDateString = UIDateDateFormatter.formatDayTimePeriod(date: testDate as Date)
         let expectedTestDateString = "03:00, Чт 01 января"
         XCTAssertEqual(testDateString, expectedTestDateString)
     }
-    
+
+    func testDayTimePeriodFormatter12Format() throws {
+        let testDate = NSDate(timeIntervalSince1970: 0)
+        let testDateString = UIDateDateFormatter.formatDayTimePeriod12Format(date: testDate as Date)
+        let expectedTestDateString = "03:00 AM, Чт 01 января"
+        XCTAssertEqual(testDateString, expectedTestDateString)
+    }
+
     func testFormatForCalendarDate() throws {
         let testDate = NSDate(timeIntervalSince1970: 0)
         let testDateString = UIDateDateFormatter.formatForCalendarDate(date: testDate as Date)
