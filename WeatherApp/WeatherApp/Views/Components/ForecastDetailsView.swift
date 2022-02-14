@@ -48,6 +48,7 @@ class ForecastDetailsView : UIView
         view.translatesAutoresizingMaskIntoConstraints = false
         view.text = "Ливень"
         view.font = UIFont.boldSystemFont(ofSize: 18)
+        view.backgroundColor = .yellow
         return view
     }()
     
@@ -261,7 +262,7 @@ class ForecastDetailsView : UIView
             weatherStatusLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 62),
             weatherStatusLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             weatherStatusLabel.heightAnchor.constraint(equalToConstant: 22),
-            weatherStatusLabel.widthAnchor.constraint(equalToConstant: 200)
+            weatherStatusLabel.widthAnchor.constraint(equalToConstant: 160)
         ]
         
         NSLayoutConstraint.activate(constraints)

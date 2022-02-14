@@ -71,6 +71,8 @@ class WeatherDataDayDetails {
     var moonset: Double = 0
     var moonrise: Double = 0
     var sunset: Double = 0
+    var sunrise : Double = 0
+    var uvi : Int = 0
 }
 
 class WeatherDataMonthly {

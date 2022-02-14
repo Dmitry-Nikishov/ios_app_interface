@@ -24,10 +24,26 @@ class MainViewController : UIViewController, Coordinating {
         }
     }
     
+    private func updateViewAfterAddingNewPoi(poiName : String)
+    {
+        DispatchQueue.main.async { [weak self] in
+            guard let this = self else {return}
+            
+            if let ui = this.view as? MainView {
+                if ui.existingGeoPoints == 0 {
+                    this.setupView(geoItems: [poiName])
+                    this.view.layoutIfNeeded()
+                } else {
+                    ui.addNewCity(cityName: poiName)
+                }
+            }
+        }
+    }
+    
     private func showAddNewPoiDialog()
     {
         let alert = UIAlertController(title: "Добавить город", message: "", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Добавить", style: .default) { action in
+        let action = UIAlertAction(title: "Добавить", style: .default) { [weak self] action in
             if let cityName = alert.textFields?.first?.text {
                 let geoCode = YandexGeocoding.shared.getGeoCode(geocode: cityName)
                 if let geoPosition = geoCode {
@@ -36,11 +52,7 @@ class MainViewController : UIViewController, Coordinating {
                                                 longitude: geoPosition.longitude)
                     GeoPointsDB.shared.addGeoPoint(geoPoint: dbGeoPoint)
                     
-                    DispatchQueue.main.async { [weak self] in
-                        if let ui = self?.view as? MainView {
-                            ui.addNewCity(cityName: cityName)
-                        }
-                    }
+                    self?.updateViewAfterAddingNewPoi(poiName: cityName)
                 }
             }
         }
@@ -142,31 +154,42 @@ class MainViewController : UIViewController, Coordinating {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadViewInternals()
     }
     
-    func setupViewForMode(_ mode : OnboardingMode)
-    {                
-        let geoLocations = getGeoItemNames(mode: mode)
+    private var isGeoPointReceived : Bool = false
+    private var setupMode : OnboardingMode = .withoutCurrentLocation
+    
+    private func loadViewInternals()
+    {
+        let geoLocations = getGeoItemNames(mode: self.setupMode)
         setupView(geoItems: geoLocations)
-        
-        if mode == .withCurrentLocation {
-            currentLocationProvider.locationUpdateCallback = { location in
 
-                let dbGeoPoint = DbGeoPoint(id: AppCommonStrings.currentLocationLabel,
-                                        latitude: Float(location.coordinate.latitude),
-                                        longitude: Float(location.coordinate.longitude))
+        if self.setupMode == .withCurrentLocation {
+            currentLocationProvider.locationUpdateCallback = { [weak self] location in
+                guard let this = self else { return }
+                
+                if this.isGeoPointReceived == false {
+                    let dbGeoPoint = DbGeoPoint(id: AppCommonStrings.currentLocationLabel,
+                                            latitude: Float(location.coordinate.latitude),
+                                            longitude: Float(location.coordinate.longitude))
 
-                GeoPointsDB.shared.addGeoPoint(geoPoint: dbGeoPoint)
-
-                DispatchQueue.main.async { [weak self] in
-                    if let ui = self?.view as? MainView {
-                        ui.addNewCity(cityName: AppCommonStrings.currentLocationLabel)
-                    }
+                    GeoPointsDB.shared.addGeoPoint(geoPoint: dbGeoPoint)
+                    
+                    self?.updateViewAfterAddingNewPoi(poiName: AppCommonStrings.currentLocationLabel)
+                    
+                    this.isGeoPointReceived = true
                 }
             }
 
             currentLocationProvider.updateLocation()
         }
+    }
+    
+    func setupViewForMode(_ mode : OnboardingMode)
+    {
+        self.setupMode = mode
     }
 }
 

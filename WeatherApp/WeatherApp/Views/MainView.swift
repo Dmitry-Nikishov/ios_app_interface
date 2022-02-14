@@ -13,7 +13,7 @@ class MainView : UIView {
     public var per24ClickHandler : UiViewClickHandler?
     public var addLocationClickHandler : UiViewClickHandler?
     public var updateWeatherDataRequestHandler : UiUpdateWithWeatherDataRequestHandler?
-    
+     
     func addNewCity(cityName : String)
     {
         var geoPoints = navigationArea.currentGeoPoints
@@ -46,6 +46,12 @@ class MainView : UIView {
     var currentGeoPoint : String {
         get {
             return navigationArea.currentGeoPoint
+        }
+    }
+    
+    var existingGeoPoints : Int {
+        get {
+            return navigationArea.currentGeoPoints.count
         }
     }
     

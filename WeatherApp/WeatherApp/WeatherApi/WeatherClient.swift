@@ -40,6 +40,8 @@ class WeatherClient {
             day.moonset = item["moonset"].doubleValue
             day.moonrise = item["moonrise"].doubleValue
             day.sunset = item["sunset"].doubleValue
+            day.sunrise = item["sunrise"].doubleValue
+            day.uvi = item["uvi"].intValue
             res.days.append(day)
         }
 

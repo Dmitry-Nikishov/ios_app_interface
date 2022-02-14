@@ -37,6 +37,7 @@ class UiMonthlyDayNightDetails {
     var humidity : String = ""
     var cloudy : String = ""
     var ufIndex : String = ""
+    var description : String = ""
 }
 
 class UiMonthlyData {
@@ -241,7 +242,8 @@ class WeatherDataToUiRepresentationConverter {
             result.windSpeed = "\(item.windSpeed)"
             result.temperature = "\(item.temperatureDay)°"
             result.feelsLikeTemperature = "\(item.feelsLikeDay)°"
-            result.ufIndex = "\(Int.random(in: 0...10))"
+            result.ufIndex = "\(item.uvi)"
+            result.description = item.weatherDescription
             return result
         }
 
@@ -252,7 +254,8 @@ class WeatherDataToUiRepresentationConverter {
             result.windSpeed = "\(item.windSpeed)"
             result.temperature = "\(item.temperatureNight)°"
             result.feelsLikeTemperature = "\(item.feelsLikeNight)°"
-            result.ufIndex = "\(Int.random(in: 0...10))"
+            result.ufIndex = "\(item.uvi)"
+            result.description = item.weatherDescription
             return result
         }
 
@@ -268,7 +271,7 @@ class WeatherDataToUiRepresentationConverter {
             result.moonDuration = UIDateDateFormatter.formatTimeOfDay(date: NSDate(timeIntervalSinceReferenceDate: moonDuration) as Date)
             
             let sunSetDate = NSDate(timeIntervalSince1970: item.sunset) as Date
-            let sunRiseDate = NSDate(timeIntervalSince1970: item.moonset) as Date
+            let sunRiseDate = NSDate(timeIntervalSince1970: item.sunrise) as Date
             let sunDuration = sunSetDate.distance(to: sunRiseDate)
             
             result.sunSet = UIDateDateFormatter.formatTimeOfDay(date: sunSetDate)
