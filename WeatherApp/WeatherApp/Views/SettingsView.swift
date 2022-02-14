@@ -317,7 +317,7 @@ class SettingsView : UIView {
         
     private func updateViewFromUserDefaults()
     {
-        let userDefaults = UserDefaults.standard
+//        let userDefaults = UserDefaults.standard
         
     }
     

@@ -10,6 +10,17 @@ import UIKit
 class DaySummaryController : UIViewController, Coordinating {
     weak var coordinator: Coordinator?
     
+    func applyUiSettings(poiName : String?, weatherData : WeatherDataMonthly?)
+    {
+        if let dataForUi = weatherData {
+            let uiData = WeatherDataToUiRepresentationConverter.convertMonthlyDataToUiRepresentation(weatherData: dataForUi)
+
+            if let ui = self.view as? DaySummaryView {
+                ui.applyUiSettings(poiName: poiName, uiData: uiData)
+            }
+        }
+    }
+    
     private func setupView()
     {
         let daySummaryView = DaySummaryView(viewFrame: self.view.frame)
@@ -24,6 +35,6 @@ class DaySummaryController : UIViewController, Coordinating {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-    }
+    }    
 }
 

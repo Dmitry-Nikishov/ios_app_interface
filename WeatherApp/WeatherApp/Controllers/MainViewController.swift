@@ -67,7 +67,8 @@ class MainViewController : UIViewController, Coordinating {
         }
         
         mainView.perDayClickHandler = { [weak self] in
-            self?.coordinator?.processEvent(with: .mainViewToDaySummaryViewEvent)
+            self?.coordinator?.processEvent(with:
+                    .mainViewToDaySummaryViewEvent(self?.latestPoiName, self?.latestMonthlyData))
         }
         
         mainView.per24ClickHandler = { [weak self] in
@@ -92,6 +93,7 @@ class MainViewController : UIViewController, Coordinating {
     private let weatherDataProvider = WeatherDataProvider.shared
     
     private var latestHourlyData : WeatherDataHourly?
+    private var latestMonthlyData : WeatherDataMonthly?
     private var latestPoiName : String?
     
     private func updateUiWithWeatherData(poiName : String)
@@ -123,7 +125,8 @@ class MainViewController : UIViewController, Coordinating {
             }
         }
 
-        weatherDataProvider.getMonthlyData(poi: poiName) { weatherData in
+        weatherDataProvider.getMonthlyData(poi: poiName) { [weak self] weatherData in
+            self?.latestMonthlyData = weatherData
             if let weatherData = weatherData {
                 let uiData = WeatherDataToUiRepresentationConverter.convertMonthlyDataToUiCollectionData(data: weatherData)
 

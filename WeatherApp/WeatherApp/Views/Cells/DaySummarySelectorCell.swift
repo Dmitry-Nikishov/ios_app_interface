@@ -34,6 +34,16 @@ class DaySummarySelectorCell: UICollectionViewCell {
         return view
     }()
 
+    var dateLabelValue : String {
+        get {
+            return dateLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            dateLabel.text = newValue
+        }
+    }
+    
     private let dateLabel : UILabel = {
         let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 18)

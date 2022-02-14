@@ -34,7 +34,15 @@ class UIDateDateFormatter {
         timeFormatter.locale = Locale(identifier: "ru_RU")
         return timeFormatter.string(from: date)
     }
-    
+
+    public static func formatForCalendarDateWithDay(date : Date) -> String
+    {
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "dd/MM E"
+        timeFormatter.locale = Locale(identifier: "ru_RU")
+        return timeFormatter.string(from: date)
+    }
+
     public static func formatDayTimePeriod(date : Date) -> String
     {
         let dayTimePeriodFormatter = DateFormatter()

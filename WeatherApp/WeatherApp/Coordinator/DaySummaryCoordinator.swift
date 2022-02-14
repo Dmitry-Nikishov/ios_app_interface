@@ -14,17 +14,21 @@ class DaySummaryCoordinator : Coordinator, Coordinating {
     
     private let viewModelFactory : ViewModelFactory
     
-    private func handleSwitchFromMainViewToDaySummaryView()
+    private func handleSwitchFromMainViewToDaySummaryView(poiName : String?, weatherData : WeatherDataMonthly?)
     {
         let daySummaryController = viewModelFactory.createViewModel(with: .daySummaryViewModel, coordinator: self)
 
+        if let vc = daySummaryController as? DaySummaryController {
+            vc.applyUiSettings(poiName: poiName, weatherData: weatherData)
+        }
+        
         navigationController?.pushViewController(daySummaryController, animated: true)
     }
     
     func processEvent(with type: CoordinatorEvent) {
         switch type {
-        case .mainViewToDaySummaryViewEvent :
-            handleSwitchFromMainViewToDaySummaryView()
+        case .mainViewToDaySummaryViewEvent(let poiName, let weatherData) :
+            handleSwitchFromMainViewToDaySummaryView(poiName: poiName, weatherData: weatherData)
             
         case .daySummaryViewToMainViewEvent :
             navigationController?.popViewController(animated: true)

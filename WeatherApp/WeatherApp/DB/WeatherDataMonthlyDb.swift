@@ -48,22 +48,22 @@ class WeatherDataMonthlyDbProvider {
         let weatherData = realm?.object(ofType: WeatherDataMonthlyCached.self, forPrimaryKey: poi)
         if let weatherData = weatherData {
             let result = WeatherDataMonthly()
-            result.lat = weatherData.lat ?? 0.0
-            result.lon = weatherData.lon ?? 0.0
+            result.lat = weatherData.lat
+            result.lon = weatherData.lon
             result.days = weatherData.days.map { item in
                 let result = WeatherDataDayDetails()
-                result.date = item.date ?? 0.0
-                result.temperatureDay = item.temperatureDay ?? 0
-                result.temperatureNight = item.temperatureNight ?? 0
-                result.feelsLikeDay = item.feelsLikeDay ?? 0
-                result.feelsLikeNight = item.feelsLikeNight ?? 0
-                result.windSpeed = item.windSpeed ?? 0.0
-                result.humidity = item.humidity ?? 0
-                result.clouds = item.clouds ?? 0
-                result.weatherDescription = item.weatherDescription ?? ""
-                result.moonset = item.moonset ?? 0.0
-                result.moonrise = item.moonrise ?? 0.0
-                result.sunset = item.sunset ?? 0.0
+                result.date = item.date
+                result.temperatureDay = item.temperatureDay
+                result.temperatureNight = item.temperatureNight
+                result.feelsLikeDay = item.feelsLikeDay
+                result.feelsLikeNight = item.feelsLikeNight
+                result.windSpeed = item.windSpeed
+                result.humidity = item.humidity
+                result.clouds = item.clouds
+                result.weatherDescription = item.weatherDescription
+                result.moonset = item.moonset
+                result.moonrise = item.moonrise
+                result.sunset = item.sunset
                 return result
             }
             return result

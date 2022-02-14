@@ -21,11 +21,9 @@ class ForecastDetailsView : UIView
         }
     }
     
-    public var DegreeValue : Int? {
+    public var DegreeValue : String? {
         didSet {
-            if let value = DegreeValue {
-                degreeLabel.text = "\(value)°"
-            }
+            degreeLabel.text = DegreeValue
         }
     }
     
@@ -113,6 +111,16 @@ class ForecastDetailsView : UIView
         return view
     }()
 
+    var feelsLikeTemperature : String {
+        get {
+            return row1DetailView.RowLabel ?? ""
+        }
+        
+        set(newValue) {
+            row1DetailView.RowData = newValue
+        }
+    }
+    
     private let row1DetailView : WeatherDetailRowView = {
         let view = WeatherDetailRowView(viewFrame: .zero)
         view.RowImage = UIImage(named: "thermometer")
@@ -122,6 +130,16 @@ class ForecastDetailsView : UIView
         return view;
     }()
 
+    var windSpeed : String {
+        get {
+            return row2DetailView.RowData ?? ""
+        }
+        
+        set(newValue) {
+            row2DetailView.RowData = newValue
+        }
+    }
+    
     private let row2DetailView : WeatherDetailRowView = {
         let view = WeatherDetailRowView(viewFrame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -130,6 +148,16 @@ class ForecastDetailsView : UIView
         view.RowData = "5 m/s ЗЮЗ"
         return view;
     }()
+
+    var ufIndex : String {
+        get {
+            return row3DetailView.RowData ?? ""
+        }
+        
+        set(newValue) {
+            row3DetailView.RowData = newValue
+        }
+    }
 
     private let row3DetailView : WeatherDetailRowView = {
         let view = WeatherDetailRowView(viewFrame: .zero)
@@ -140,6 +168,16 @@ class ForecastDetailsView : UIView
         return view;
     }()
 
+    var humidity : String {
+        get {
+            return row4DetailView.RowData ?? ""
+        }
+        
+        set(newValue) {
+            row4DetailView.RowData = newValue
+        }
+    }
+
     private let row4DetailView : WeatherDetailRowView = {
         let view = WeatherDetailRowView(viewFrame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -148,6 +186,16 @@ class ForecastDetailsView : UIView
         view.RowData = "55%"
         return view;
     }()
+
+    var cloudy : String {
+        get {
+            return row5DetailView.RowData ?? ""
+        }
+        
+        set(newValue) {
+            row5DetailView.RowData = newValue
+        }
+    }
 
     private let row5DetailView : WeatherDetailRowView = {
         let view = WeatherDetailRowView(viewFrame: .zero)
@@ -213,7 +261,7 @@ class ForecastDetailsView : UIView
             weatherStatusLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 62),
             weatherStatusLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             weatherStatusLabel.heightAnchor.constraint(equalToConstant: 22),
-            weatherStatusLabel.widthAnchor.constraint(equalToConstant: 60)
+            weatherStatusLabel.widthAnchor.constraint(equalToConstant: 200)
         ]
         
         NSLayoutConstraint.activate(constraints)

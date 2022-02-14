@@ -10,3 +10,4 @@ import Foundation
 typealias UiViewClickHandler = () -> Void
 typealias UiUpdateWithWeatherDataRequestHandler = (String) -> Void
 typealias UiViewClickHandlerWithStringParam = (String) -> Void
+typealias UiSelectedDayChangedHandler = (Int) -> Void

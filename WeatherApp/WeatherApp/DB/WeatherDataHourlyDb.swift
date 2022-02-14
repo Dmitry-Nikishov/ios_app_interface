@@ -42,8 +42,8 @@ class WeatherDataHourlyDbProvider {
         let weatherData = realm?.object(ofType: WeatherDataHourlyCached.self, forPrimaryKey: poi)
         if let weatherData = weatherData {
             let result = WeatherDataHourly()
-            result.lat = weatherData.lat ?? 0.0
-            result.lon = weatherData.lon ?? 0.0
+            result.lat = weatherData.lat
+            result.lon = weatherData.lon
             result.hourly = weatherData.hourly.map { item in
                 let result = WeatherDataHourDetails()
                 result.clouds = item.clouds

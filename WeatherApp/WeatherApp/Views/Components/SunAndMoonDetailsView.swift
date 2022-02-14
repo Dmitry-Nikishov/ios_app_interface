@@ -154,6 +154,16 @@ class SunAndMoonDetailsView : UIView
         return view
     }()
     
+    var sunDurationTime : String {
+        get {
+            return sunDurationLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            sunDurationLabel.text = newValue
+        }
+    }
+
     private let sunDurationLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -190,6 +200,16 @@ class SunAndMoonDetailsView : UIView
         return view
     }()
 
+    var sunRiseTime : String {
+        get {
+            return column0Row1RightLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            column0Row1RightLabel.text = newValue
+        }
+    }
+
     private let column0Row1RightLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -223,6 +243,16 @@ class SunAndMoonDetailsView : UIView
         return view
     }()
 
+    var sunSetTime : String {
+        get {
+            return column0Row2RightLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            column0Row2RightLabel.text = newValue
+        }
+    }
+    
     private let column0Row2RightLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -262,6 +292,16 @@ class SunAndMoonDetailsView : UIView
         return view
     }()
     
+    var moonDurationTime : String {
+        get {
+            return moonDurationLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            moonDurationLabel.text = newValue
+        }
+    }
+    
     private let moonDurationLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -298,6 +338,16 @@ class SunAndMoonDetailsView : UIView
         return view
     }()
 
+    var moonRise : String {
+        get {
+            return column1Row1RightLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            column1Row1RightLabel.text = newValue
+        }
+    }
+    
     private let column1Row1RightLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -330,6 +380,16 @@ class SunAndMoonDetailsView : UIView
         view.textColor = UIColor(red: 0.604, green: 0.587, blue: 0.587, alpha: 1)
         return view
     }()
+
+    var moonSet : String {
+        get {
+            return column1Row2RightLabel.text ?? ""
+        }
+        
+        set(newValue) {
+            column1Row2RightLabel.text = newValue
+        }
+    }
 
     private let column1Row2RightLabel : UILabel = {
         let view = UILabel()

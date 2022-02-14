@@ -9,6 +9,23 @@ import UIKit
 
 class DaySummarySelectorView : UIView
 {
+    private var modelData : [UiDayItem] = []
+    
+    var selectedDayChanged : UiSelectedDayChangedHandler?
+    
+    func applyModelData(calendarDays : [UiDayItem])
+    {
+        modelData = calendarDays
+        dayItemsCollection.reloadData()
+        
+        let indexPath = IndexPath(item: 0, section: 0)
+        DispatchQueue.main.async { [weak self] in
+            guard let this = self else {return}
+            this.dayItemsCollection.selectItem(at: indexPath, animated: false, scrollPosition: .centeredHorizontally)
+            this.collectionView(this.dayItemsCollection, didSelectItemAt: indexPath)
+        }
+    }
+        
     private lazy var dayItemsCollection : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -46,12 +63,13 @@ extension DaySummarySelectorView : UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 7
+        return modelData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = dayItemsCollection.cellForItem(at: indexPath) as? DaySummarySelectorCell {
             cell.isCellSelected = true
+            selectedDayChanged?(indexPath.row)
         }
     }
     
@@ -66,6 +84,8 @@ extension DaySummarySelectorView : UICollectionViewDataSource {
         dayItemsCollection.dequeueReusableCell(withReuseIdentifier:
                                                 String(describing: DaySummarySelectorCell.self),
                                               for: indexPath) as! DaySummarySelectorCell
+
+        cell.dateLabelValue = modelData[indexPath.row].calendarDate
 
         return cell
     }

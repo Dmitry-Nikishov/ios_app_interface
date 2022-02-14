@@ -11,6 +11,22 @@ class DaySummaryView : UIView
 {
     public var backButtonHandler : UiViewClickHandler?
     
+    private var dayDetailsModelData : [UiMonthlyDayNightDetails] = []
+    private var nightDetailsModelData : [UiMonthlyDayNightDetails] = []
+    private var airQualityModelData : [UiMonthlyAirQuality] = []
+    private var moonAndSunDetailsModelData : [UiMonthlySunAndMoonDetails] = []
+
+    func applyUiSettings(poiName : String?, uiData : UiMonthlyData)
+    {
+        cityLabel.text = poiName
+        dayDetailsModelData = uiData.dayDetails
+        nightDetailsModelData = uiData.nightDetails
+        airQualityModelData = uiData.airQuality
+        moonAndSunDetailsModelData = uiData.moonAndSunDetails
+
+        daySelectorViewItem.applyModelData(calendarDays: uiData.calendarDays.items)
+    }
+        
     @objc
     private func backButtonClicked()
     {
@@ -93,8 +109,37 @@ class DaySummaryView : UIView
         return view
     }()
     
-    private let daySelectorViewItem : UIView = {
+    private lazy var daySelectorViewItem : DaySummarySelectorView = {
         let view = DaySummarySelectorView(viewFrame: .zero)
+        view.selectedDayChanged = { [weak self] dayIndex in
+            guard let this = self else {return}
+            
+            this.dayDetailsView.DegreeValue = this.dayDetailsModelData[dayIndex].temperature
+            this.dayDetailsView.WeatherStatusLabel = "Ощущается как \(this.dayDetailsModelData[dayIndex].feelsLikeTemperature)"
+            this.dayDetailsView.windSpeed = this.dayDetailsModelData[dayIndex].windSpeed
+            this.dayDetailsView.humidity = this.dayDetailsModelData[dayIndex].humidity
+            this.dayDetailsView.ufIndex = this.dayDetailsModelData[dayIndex].ufIndex
+            this.dayDetailsView.cloudy = this.dayDetailsModelData[dayIndex].cloudy
+            
+            this.nightDetailsView.DegreeValue = this.nightDetailsModelData[dayIndex].temperature
+            this.nightDetailsView.WeatherStatusLabel = "Ощущается как \(this.nightDetailsModelData[dayIndex].feelsLikeTemperature)"
+            this.nightDetailsView.windSpeed = this.nightDetailsModelData[dayIndex].windSpeed
+            this.nightDetailsView.humidity = this.nightDetailsModelData[dayIndex].humidity
+            this.nightDetailsView.ufIndex = this.nightDetailsModelData[dayIndex].ufIndex
+            this.nightDetailsView.cloudy = this.nightDetailsModelData[dayIndex].cloudy
+
+            this.sunAndMoonDetailsView.moonDurationTime = this.moonAndSunDetailsModelData[dayIndex].moonDuration
+            this.sunAndMoonDetailsView.moonRise = this.moonAndSunDetailsModelData[dayIndex].moonRise
+            this.sunAndMoonDetailsView.moonSet = this.moonAndSunDetailsModelData[dayIndex].moonSet
+            
+            this.sunAndMoonDetailsView.sunDurationTime = this.moonAndSunDetailsModelData[dayIndex].sunDuration
+            
+            this.sunAndMoonDetailsView.sunRiseTime = this.moonAndSunDetailsModelData[dayIndex].sunRise
+            this.sunAndMoonDetailsView.sunSetTime = this.moonAndSunDetailsModelData[dayIndex].sunSet
+            
+            this.airQualityDetailsView.AirQuality = this.airQualityModelData[dayIndex].value
+            this.airQualityDetailsView.AirQualityEstimation = this.airQualityModelData[dayIndex].estimation
+        }
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -111,20 +156,20 @@ class DaySummaryView : UIView
         return view
     }()
     
-    private let dayDetailsView : UIView = {
+    private let dayDetailsView : ForecastDetailsView = {
         let view = ForecastDetailsView(viewFrame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.ViewLabel = "День"
         view.WeatherStatusLabel = "Ливни"
-        view.DegreeValue = 13
+        view.DegreeValue = "13°"
         return view
     }()
 
-    private let nightDetailsView : UIView = {
+    private let nightDetailsView : ForecastDetailsView = {
         let view = ForecastDetailsView(viewFrame: .zero)
         view.ViewLabel = "Ночь"
         view.WeatherStatusLabel = "Ливни"
-        view.DegreeValue = 0
+        view.DegreeValue = "0°"
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

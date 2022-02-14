@@ -17,7 +17,7 @@ enum CoordinatorEvent {
     case onboardingViewToMainViewEvent(OnboardingMode)
     case mainViewToSettingsViewEvent
     case settingsViewToMainViewEvent
-    case mainViewToDaySummaryViewEvent
+    case mainViewToDaySummaryViewEvent(String?, WeatherDataMonthly?)
     case daySummaryViewToMainViewEvent
     case mainViewToHourSummaryViewEvent(String?, WeatherDataHourly?)
     case hourSummaryViewToMainViewEvent

@@ -36,4 +36,11 @@ class UiDateTimeFormatterTests: XCTestCase {
         let expectedTestDateString = "01/01"
         XCTAssertEqual(testDateString, expectedTestDateString)
     }
+    
+    func testFormatForCalendarDateWithDay() throws {
+        let testDate = NSDate(timeIntervalSince1970: 0)
+        let testDateString = UIDateDateFormatter.formatForCalendarDateWithDay(date: testDate as Date)
+        let expectedTestDateString = "01/01 Чт"
+        XCTAssertEqual(testDateString, expectedTestDateString)
+    }
 }

@@ -9,11 +9,15 @@ import UIKit
 
 class AirQualityDetailsView : UIView
 {
-    public var AirQuality : Int? {
+    public var AirQuality : String? {
         didSet {
-            if let value = AirQuality {
-                qualityLabel.text = "\(value)"
-            }
+            qualityLabel.text = AirQuality
+        }
+    }
+    
+    public var AirQualityEstimation : String? {
+        didSet {
+            qualityEstimationLabel.text = AirQualityEstimation
         }
     }
     
