@@ -102,7 +102,7 @@ extension ProfileViewController: UITableViewDataSource {
                 cell.cellImage = self.processedImages[indexPath.section - 1]
                 cell.bookmarkHandler = { [weak self] postData in
                     guard let this = self else { return }
-                    this.stack.createNewPost(post: postData)
+                    this.stack.createNewPostViewContext(post: postData)
                 }
             return cell
         } else {
