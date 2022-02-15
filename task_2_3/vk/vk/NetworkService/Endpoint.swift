@@ -67,3 +67,13 @@ public final class GetPlanetsEndpoint: ObjectResponseEndpoint<String> {
     }
 }
 
+public final class GetTodoEndpoint: ObjectResponseEndpoint<String> {
+    
+    override public var method: RequestType { return .get }
+    override public var path: String { "/todos/5" }
+    
+    override public init() {
+        super.init()
+    }
+}
+
