@@ -19,3 +19,8 @@ enum ApiError : Error {
     case success
     case failure
 }
+
+enum LoginMode {
+    case logIn
+    case logOut
+}
