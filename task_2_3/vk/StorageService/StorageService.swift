@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Data {
+public struct StorageData {
     public static let dataToDisplay = [
         Post(author: "vedmak.official",
              description: "Новые кадры со съемок фильма \"Ведьмак\"",

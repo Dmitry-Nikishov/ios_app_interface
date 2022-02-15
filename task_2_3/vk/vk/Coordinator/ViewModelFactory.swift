@@ -25,9 +25,9 @@ class ViewModelFactoryImpl : ViewModelFactory {
             return PhotosViewController()
             
         case .feedViewModel(let usr) :
-            let profileViewController = ProfileViewController(statusModel: UserStatusModel(policy : .onlyLettersPossible))
-            profileViewController.setUser(user: usr)
-            return profileViewController
+            let profileTabViewController = ProfileTabBarController()
+            profileTabViewController.setUserIdentity(userIdentity: usr)
+            return profileTabViewController
         }
     }
     

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LogInViewController: UIViewController, Coordinating {
     weak var coordinator: Coordinator?
@@ -17,6 +18,8 @@ class LogInViewController: UIViewController, Coordinating {
     private lazy var passwordCracker = PasswordCracker(executor: self.executionQueue)
     
     private var appBlocker : AppBlocker?
+    
+    private var logInMode : LoginMode = .logIn
     
     init(credentialsChecker : CredentialsChecker) {
         credentialsCheckerDelegate = credentialsChecker
@@ -68,10 +71,30 @@ class LogInViewController: UIViewController, Coordinating {
         view.autocapitalizationType = .none
         view.tintColor = UIColor(named: "myColor")
         view.backgroundColor = .systemGray6
+        view.leftViewMode = .always
+        view.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         
         return view
     }()
     
+    private let infoLabel : UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        view.numberOfLines = 0
+        view.lineBreakMode = .byWordWrapping
+        return view
+    }()
+
+    private let planetInfoLabel : UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        view.numberOfLines = 0
+        view.lineBreakMode = .byWordWrapping
+        return view
+    }()
+
     private let expiryLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -92,6 +115,8 @@ class LogInViewController: UIViewController, Coordinating {
         view.tintColor = UIColor(named: "myColor")
         view.isSecureTextEntry = true
         view.backgroundColor = .systemGray6
+        view.leftViewMode = .always
+        view.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
 
         return view
     }()
@@ -114,6 +139,19 @@ class LogInViewController: UIViewController, Coordinating {
         button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
         return button
     }()
+    
+    private lazy var dbDataProvider : DbDataProvider = {
+        if let encryptionKey = KeychainAccessor.getCredentialsEncryptionKey() {
+            return DbDataProvider(encryptionKey: encryptionKey)
+        } else {
+            KeychainAccessor.initializeCredentialsEncryptionKey()
+            if let encryptionKey = KeychainAccessor.getCredentialsEncryptionKey() {
+                return DbDataProvider(encryptionKey: encryptionKey)
+            } else {
+                fatalError("not able to obtain encryption key for credentials db")
+            }
+        }
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,9 +159,96 @@ class LogInViewController: UIViewController, Coordinating {
         view.backgroundColor = .white
         safeArea = view.layoutMarginsGuide
 
+//        checkFirebaseCurrentUser()
+        
         setupViews()
         
+        checkRealmCredentials()
+        
+//        showRestToDoInfo()
+        
+//        showRestPlanetInfo()
+        
+        
 //        setupInternalEvents()
+    }
+    
+    private func checkRealmCredentials()
+    {
+        if let credentials = dbDataProvider.getCredentials(userId: AppCommon.userId) {
+            self.coordinator?.processEvent(with: .loginToFeedEvent(User(fullName : credentials.email, avatarPath : "avatar", status : "initial")))
+
+        }
+    }
+    
+    private func checkFirebaseCurrentUser()
+    {
+        let fbUser = FirebaseAuth.Auth.auth().currentUser
+        if fbUser != nil {
+            self.logInMode = .logOut
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.logInButton.title = "Log Out"
+                self.emailOrPhoneTextFieldView.isUserInteractionEnabled = false
+                self.passwordTextFieldView.isUserInteractionEnabled = false
+            }
+        }
+    }
+    
+    private func showRestPlanetInfo()
+    {
+        let dataHandler : RestDataHandler = { data in
+            guard let responseData = data else {
+                return
+            }
+            
+            do {
+                let planetData = try JSONDecoder().decode(PlanetData.self, from: responseData)
+                
+                DispatchQueue.main.async {
+                    self.planetInfoLabel.text = "orbital_period = \(planetData.orbitalPeriod)"
+                }
+            }catch{}
+        }
+
+        NetworkManager.execute(masterServerUrl: "https://swapi.dev",
+                               endpointConfig: AppConfiguration.planets,
+                               dataHandler: dataHandler)
+    }
+    
+    private func showRestToDoInfo()
+    {
+        let dataHandler : RestDataHandler = { data in
+            guard let responseData = data else {
+                return
+            }
+             
+            do {
+                  guard let json = try JSONSerialization.jsonObject(with: responseData, options: [])
+                    as? [String: Any] else {
+                      return
+                  }
+                
+                if let userId = json["userId"] as? Int,
+                   let id = json["id"] as? Int,
+                   let title = json["title"] as? String,
+                   let completed = json["completed"] as? Bool
+                {
+                    let result = ToDoData(userId: userId,
+                                          id: id,
+                                          title: title,
+                                          completed: completed)
+                    
+                    DispatchQueue.main.async {
+                        self.infoLabel.text = result.title
+                    }
+                }
+            } catch  {}
+        }
+
+        NetworkManager.execute(masterServerUrl: "https://jsonplaceholder.typicode.com",
+                               endpointConfig: AppConfiguration.todos,
+                               dataHandler: dataHandler)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -155,6 +280,33 @@ class LogInViewController: UIViewController, Coordinating {
         appBlocker?.start(appBlockTimeInSeconds: 10)
     }
     
+    private func showCreateAccount(email : String, password : String) {
+        let alert = UIAlertController(title: "Create Firebase Account",
+                                      message: "Would you like to create an account",
+                                      preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Continue",
+                                      style: .default,
+                                      handler: { _ in
+            FirebaseAuth.Auth.auth().createUser(withEmail: email,
+                                                password: password,
+                                                completion: { result, error in
+                guard error == nil else {
+                    print("Account creation failure : \(error)")
+                    return
+                }
+            })
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel",
+                                      style: .cancel,
+                                      handler: { _ in
+            
+        }))
+        
+        present(alert, animated: true)
+    }
+    
     private func setupViews()
     {
         view.addSubview(scrollView)
@@ -163,29 +315,72 @@ class LogInViewController: UIViewController, Coordinating {
         containerView.addSubview(emailOrPhoneTextFieldView)
         containerView.addSubview(passwordTextFieldView)
         containerView.addSubview(expiryLabel)
+        containerView.addSubview(planetInfoLabel)
         
         logInButton.clickHandler = { [weak self] in
-            guard let self = self else {
-                return
+            guard let self = self,
+                  let uiDirector = self.coordinator else {
+                      return
+                  }
+
+            let loginEmail = self.emailOrPhoneTextFieldView.text ?? ""
+            let loginPassword = self.passwordTextFieldView.text ?? ""
+
+            let checkError = self.credentialsCheckerDelegate.areCredentialsOk(
+                login: loginEmail,
+                password: loginPassword)
+            
+            if checkError == .success {
+                uiDirector.processEvent(with: .loginToFeedEvent(User(fullName : loginEmail, avatarPath : "avatar", status : "initial")))
+                
+                let dbCredentials = DbAppCredentials(
+                    id : AppCommon.userId,
+                    email: loginEmail,
+                    password: loginPassword)
+                
+                self.dbDataProvider.addCredentials(credentials: dbCredentials)                
             }
             
-            guard let uiDirector = self.coordinator else {
-                return
-            }
+//            if self.logInMode == .logIn {
+//                let loginEmail = self.emailOrPhoneTextFieldView.text ?? ""
+//                let loginPassword = self.passwordTextFieldView.text ?? ""
+//
+//                guard !loginEmail.isEmpty,
+//                      !loginPassword.isEmpty else {
+//                    uiDirector.processEvent(with: .loginToFeedEvent(nil))
+//                    return
+//                }
+//
+//                FirebaseAuth.Auth.auth().signIn(withEmail: loginEmail, password: loginPassword, completion: { [weak self] result, error in
+//                        guard let strongSelf = self else {
+//                            return
+//                        }
+//
+//                        guard error == nil else {
+//                            strongSelf.showCreateAccount(email: loginEmail, password: loginPassword)
+//                            return
+//                        }
+//
+//                    DispatchQueue.main.async {
+//                        strongSelf.logInButton.title = "Log Out"
+//                        strongSelf.passwordTextFieldView.isUserInteractionEnabled = false
+//                        strongSelf.emailOrPhoneTextFieldView.isUserInteractionEnabled = false
+//                    }
+//
+//                    uiDirector.processEvent(with: .loginToFeedEvent(User(fullName : loginEmail, avatarPath : "avatar", status : "initial")))
+//                })
+//            } else {
+//                do {
+//                    try FirebaseAuth.Auth.auth().signOut()
+//                    self.logInMode = .logIn
+//                    DispatchQueue.main.async {
+//                        self.logInButton.title = "Log In"
+//                        self.passwordTextFieldView.isUserInteractionEnabled = true
+//                        self.emailOrPhoneTextFieldView.isUserInteractionEnabled = true
+//                    }
+//                }catch {}
+//            }
             
-            let loginToVerify = self.emailOrPhoneTextFieldView.text ?? ""
-            let passwordToVerify = self.passwordTextFieldView.text ?? ""
-            
-            let verificationResult = self.credentialsCheckerDelegate.areCredentialsOk(
-                                            login: loginToVerify,
-                                            password: passwordToVerify)
-            
-            switch verificationResult {
-                case .success:
-                    uiDirector.processEvent(with: .loginToFeedEvent(User(fullName : loginToVerify, avatarPath : "avatar", status : "initial")))
-                case .failure:
-                    uiDirector.processEvent(with: .loginToFeedEvent(nil))
-            }
         }
         
         passwordCrackerButton.clickHandler = { [weak self] in
@@ -213,6 +408,7 @@ class LogInViewController: UIViewController, Coordinating {
         containerView.addSubview(logInButton)
         containerView.addSubview(passwordCrackerButton)
         containerView.addSubview(activitySpinner)
+        containerView.addSubview(infoLabel)
 
         scrollView.addSubview(containerView)
 
@@ -263,9 +459,19 @@ class LogInViewController: UIViewController, Coordinating {
             expiryLabel.topAnchor.constraint(equalTo: passwordCrackerButton.bottomAnchor, constant: 16),
             expiryLabel.leadingAnchor.constraint(equalTo: passwordCrackerButton.leadingAnchor),
             expiryLabel.trailingAnchor.constraint(equalTo: passwordCrackerButton.trailingAnchor),
-            expiryLabel.heightAnchor.constraint(equalToConstant: 50),
+            expiryLabel.heightAnchor.constraint(equalToConstant: 25),
 
-            expiryLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+            infoLabel.topAnchor.constraint(equalTo: expiryLabel.bottomAnchor, constant: 16),
+            infoLabel.leadingAnchor.constraint(equalTo: expiryLabel.leadingAnchor),
+            infoLabel.trailingAnchor.constraint(equalTo: expiryLabel.trailingAnchor),
+            infoLabel.heightAnchor.constraint(equalToConstant: 50),
+
+            planetInfoLabel.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 16),
+            planetInfoLabel.leadingAnchor.constraint(equalTo: infoLabel.leadingAnchor),
+            planetInfoLabel.trailingAnchor.constraint(equalTo: infoLabel.trailingAnchor),
+            planetInfoLabel.heightAnchor.constraint(equalToConstant: 25),
+
+            planetInfoLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ]
         
         NSLayoutConstraint.activate(constraints)

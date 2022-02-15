@@ -11,12 +11,16 @@ import StorageService
 
 class ProfileTableViewCell: UITableViewCell {
     
+    public var bookmarkHandler : BookmarkPostToDbHandler?
+    
     var cellData : Post? {
         didSet {
-            authorView.text = cellData!.author
-            postDescriptionView.text = cellData!.description
-            likesView.text = "Likes: \(cellData!.likes)"
-            viewsView.text = "Views: \(cellData!.views)"
+            if let data = cellData {
+                authorView.text = data.author
+                postDescriptionView.text = data.description
+                likesView.text = "Likes: \(data.likes)"
+                viewsView.text = "Views: \(data.views)"
+            }
         }
     }
     
@@ -65,10 +69,26 @@ class ProfileTableViewCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+
+    @objc
+    private func doubleClickHandler()
+    {
+        if let postData = cellData {
+            bookmarkHandler?(postData)
+        }
+    }
+    
+    private func setupGestureRecognizer()
+    {
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubleClickHandler))
+        gestureRecognizer.numberOfTapsRequired = 2
+        contentView.addGestureRecognizer(gestureRecognizer)
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
+        setupGestureRecognizer()
     }
     
     required init?(coder: NSCoder) {

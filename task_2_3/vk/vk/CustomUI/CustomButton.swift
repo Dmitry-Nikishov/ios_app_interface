@@ -10,6 +10,16 @@ import UIKit
 class CustomButton : UIButton {
     public var clickHandler : UiViewClickHandler?
     
+    public var title : String {
+        set(newValue){
+            self.setTitle(newValue, for: .normal)
+        }
+        
+        get {
+            return self.title
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.translatesAutoresizingMaskIntoConstraints = false

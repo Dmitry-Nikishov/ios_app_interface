@@ -7,7 +7,9 @@
 
 import Foundation
 import UIKit
+import StorageService
 
+typealias BookmarkPostToDbHandler = (Post) -> Void
 typealias UiViewClickHandler = () -> Void
 typealias UserStatusChecker = (String) -> Bool
 typealias UserStatusCheckerResult = (Bool) -> Void
@@ -16,8 +18,15 @@ typealias PasswordCrackerNotificationHandler = (Result<String, ApiError>) -> Voi
 typealias AppBlockerEvent = (Int) -> Void
 
 enum ApiError : Error {
-    case incorrectPasswordError
-    case bruteForceNotAbleToCrackError
+    case success
+    case failure
 }
 
-typealias InternalApiResult = Result<Void, ApiError>
+enum LoginMode {
+    case logIn
+    case logOut
+}
+
+enum AppCommon {
+    static let userId : String = "App_User"
+}
