@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LogInViewController: UIViewController, Coordinating {
     weak var coordinator: Coordinator?
@@ -17,6 +18,8 @@ class LogInViewController: UIViewController, Coordinating {
     private lazy var passwordCracker = PasswordCracker(executor: self.executionQueue)
     
     private var appBlocker : AppBlocker?
+    
+    private var logInMode : LoginMode = .logIn
     
     init(credentialsChecker : CredentialsChecker) {
         credentialsCheckerDelegate = credentialsChecker
@@ -68,6 +71,8 @@ class LogInViewController: UIViewController, Coordinating {
         view.autocapitalizationType = .none
         view.tintColor = UIColor(named: "myColor")
         view.backgroundColor = .systemGray6
+        view.leftViewMode = .always
+        view.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         
         return view
     }()
@@ -110,6 +115,8 @@ class LogInViewController: UIViewController, Coordinating {
         view.tintColor = UIColor(named: "myColor")
         view.isSecureTextEntry = true
         view.backgroundColor = .systemGray6
+        view.leftViewMode = .always
+        view.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
 
         return view
     }()
@@ -139,13 +146,30 @@ class LogInViewController: UIViewController, Coordinating {
         view.backgroundColor = .white
         safeArea = view.layoutMarginsGuide
 
+        checkFirebaseCurrentUser()
+        
         setupViews()
         
         showRestToDoInfo()
         
         showRestPlanetInfo()
         
+        
 //        setupInternalEvents()
+    }
+    
+    private func checkFirebaseCurrentUser()
+    {
+        let fbUser = FirebaseAuth.Auth.auth().currentUser
+        if fbUser != nil {
+            self.logInMode = .logOut
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.logInButton.title = "Log Out"
+                self.emailOrPhoneTextFieldView.isUserInteractionEnabled = false
+                self.passwordTextFieldView.isUserInteractionEnabled = false
+            }
+        }
     }
     
     private func showRestPlanetInfo()
@@ -233,6 +257,33 @@ class LogInViewController: UIViewController, Coordinating {
         appBlocker?.start(appBlockTimeInSeconds: 10)
     }
     
+    private func showCreateAccount(email : String, password : String) {
+        let alert = UIAlertController(title: "Create Firebase Account",
+                                      message: "Would you like to create an account",
+                                      preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Continue",
+                                      style: .default,
+                                      handler: { _ in
+            FirebaseAuth.Auth.auth().createUser(withEmail: email,
+                                                password: password,
+                                                completion: { result, error in
+                guard error == nil else {
+                    print("Account creation failure : \(error)")
+                    return
+                }
+            })
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel",
+                                      style: .cancel,
+                                      handler: { _ in
+            
+        }))
+        
+        present(alert, animated: true)
+    }
+    
     private func setupViews()
     {
         view.addSubview(scrollView)
@@ -244,26 +295,49 @@ class LogInViewController: UIViewController, Coordinating {
         containerView.addSubview(planetInfoLabel)
         
         logInButton.clickHandler = { [weak self] in
-            guard let self = self else {
-                return
-            }
-            
-            guard let uiDirector = self.coordinator else {
-                return
-            }
-            
-            let loginToVerify = self.emailOrPhoneTextFieldView.text ?? ""
-            let passwordToVerify = self.passwordTextFieldView.text ?? ""
-            
-            let verificationResult = self.credentialsCheckerDelegate.areCredentialsOk(
-                                            login: loginToVerify,
-                                            password: passwordToVerify)
-            
-            switch verificationResult {
-                case .success:
-                    uiDirector.processEvent(with: .loginToFeedEvent(User(fullName : loginToVerify, avatarPath : "avatar", status : "initial")))
-                case .failure:
+            guard let self = self,
+                  let uiDirector = self.coordinator else {
+                      return
+                  }
+
+            if self.logInMode == .logIn {
+                let loginEmail = self.emailOrPhoneTextFieldView.text ?? ""
+                let loginPassword = self.passwordTextFieldView.text ?? ""
+    
+                guard !loginEmail.isEmpty,
+                      !loginPassword.isEmpty else {
                     uiDirector.processEvent(with: .loginToFeedEvent(nil))
+                    return
+                }
+
+                FirebaseAuth.Auth.auth().signIn(withEmail: loginEmail, password: loginPassword, completion: { [weak self] result, error in
+                        guard let strongSelf = self else {
+                            return
+                        }
+    
+                        guard error == nil else {
+                            strongSelf.showCreateAccount(email: loginEmail, password: loginPassword)
+                            return
+                        }
+                    
+                    DispatchQueue.main.async {
+                        strongSelf.logInButton.title = "Log Out"
+                        strongSelf.passwordTextFieldView.isUserInteractionEnabled = false
+                        strongSelf.emailOrPhoneTextFieldView.isUserInteractionEnabled = false
+                    }
+                    
+                    uiDirector.processEvent(with: .loginToFeedEvent(User(fullName : loginEmail, avatarPath : "avatar", status : "initial")))
+                })
+            } else {
+                do {
+                    try FirebaseAuth.Auth.auth().signOut()
+                    self.logInMode = .logIn
+                    DispatchQueue.main.async {
+                        self.logInButton.title = "Log In"
+                        self.passwordTextFieldView.isUserInteractionEnabled = true
+                        self.emailOrPhoneTextFieldView.isUserInteractionEnabled = true
+                    }
+                }catch {}
             }
         }
         
