@@ -72,6 +72,24 @@ class LogInViewController: UIViewController, Coordinating {
         return view
     }()
     
+    private let infoLabel : UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        view.numberOfLines = 0
+        view.lineBreakMode = .byWordWrapping
+        return view
+    }()
+
+    private let planetInfoLabel : UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        view.numberOfLines = 0
+        view.lineBreakMode = .byWordWrapping
+        return view
+    }()
+
     private let expiryLabel : UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -123,7 +141,67 @@ class LogInViewController: UIViewController, Coordinating {
 
         setupViews()
         
+        showRestToDoInfo()
+        
+        showRestPlanetInfo()
+        
 //        setupInternalEvents()
+    }
+    
+    private func showRestPlanetInfo()
+    {
+        let dataHandler : RestDataHandler = { data in
+            guard let responseData = data else {
+                return
+            }
+            
+            do {
+                let planetData = try JSONDecoder().decode(PlanetData.self, from: responseData)
+                
+                DispatchQueue.main.async {
+                    self.planetInfoLabel.text = "orbital_period = \(planetData.orbitalPeriod)"
+                }
+            }catch{}
+        }
+
+        NetworkManager.execute(masterServerUrl: "https://swapi.dev",
+                               endpointConfig: AppConfiguration.planets,
+                               dataHandler: dataHandler)
+    }
+    
+    private func showRestToDoInfo()
+    {
+        let dataHandler : RestDataHandler = { data in
+            guard let responseData = data else {
+                return
+            }
+             
+            do {
+                  guard let json = try JSONSerialization.jsonObject(with: responseData, options: [])
+                    as? [String: Any] else {
+                      return
+                  }
+                
+                if let userId = json["userId"] as? Int,
+                   let id = json["id"] as? Int,
+                   let title = json["title"] as? String,
+                   let completed = json["completed"] as? Bool
+                {
+                    let result = ToDoData(userId: userId,
+                                          id: id,
+                                          title: title,
+                                          completed: completed)
+                    
+                    DispatchQueue.main.async {
+                        self.infoLabel.text = result.title
+                    }
+                }
+            } catch  {}
+        }
+
+        NetworkManager.execute(masterServerUrl: "https://jsonplaceholder.typicode.com",
+                               endpointConfig: AppConfiguration.todos,
+                               dataHandler: dataHandler)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -163,6 +241,7 @@ class LogInViewController: UIViewController, Coordinating {
         containerView.addSubview(emailOrPhoneTextFieldView)
         containerView.addSubview(passwordTextFieldView)
         containerView.addSubview(expiryLabel)
+        containerView.addSubview(planetInfoLabel)
         
         logInButton.clickHandler = { [weak self] in
             guard let self = self else {
@@ -213,6 +292,7 @@ class LogInViewController: UIViewController, Coordinating {
         containerView.addSubview(logInButton)
         containerView.addSubview(passwordCrackerButton)
         containerView.addSubview(activitySpinner)
+        containerView.addSubview(infoLabel)
 
         scrollView.addSubview(containerView)
 
@@ -263,9 +343,19 @@ class LogInViewController: UIViewController, Coordinating {
             expiryLabel.topAnchor.constraint(equalTo: passwordCrackerButton.bottomAnchor, constant: 16),
             expiryLabel.leadingAnchor.constraint(equalTo: passwordCrackerButton.leadingAnchor),
             expiryLabel.trailingAnchor.constraint(equalTo: passwordCrackerButton.trailingAnchor),
-            expiryLabel.heightAnchor.constraint(equalToConstant: 50),
+            expiryLabel.heightAnchor.constraint(equalToConstant: 25),
 
-            expiryLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+            infoLabel.topAnchor.constraint(equalTo: expiryLabel.bottomAnchor, constant: 16),
+            infoLabel.leadingAnchor.constraint(equalTo: expiryLabel.leadingAnchor),
+            infoLabel.trailingAnchor.constraint(equalTo: expiryLabel.trailingAnchor),
+            infoLabel.heightAnchor.constraint(equalToConstant: 50),
+
+            planetInfoLabel.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 16),
+            planetInfoLabel.leadingAnchor.constraint(equalTo: infoLabel.leadingAnchor),
+            planetInfoLabel.trailingAnchor.constraint(equalTo: infoLabel.trailingAnchor),
+            planetInfoLabel.heightAnchor.constraint(equalToConstant: 25),
+
+            planetInfoLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ]
         
         NSLayoutConstraint.activate(constraints)

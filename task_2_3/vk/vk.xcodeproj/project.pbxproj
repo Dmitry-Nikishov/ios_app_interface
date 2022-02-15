@@ -54,6 +54,7 @@
 		F6890FDF269E34E70021D4E7 /* PhotoGalleryLayoutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6890FDE269E34E70021D4E7 /* PhotoGalleryLayoutSettings.swift */; };
 		F6890FE326A1ED470021D4E7 /* ProfileTableHeaderViewLayoutConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6890FE226A1ED470021D4E7 /* ProfileTableHeaderViewLayoutConstants.swift */; };
 		F6890FE526A8BE4A0021D4E7 /* ProfileTableHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6890FE426A8BE4A0021D4E7 /* ProfileTableHeaderViewDelegate.swift */; };
+		F6E31FBB2735D33400EAE85E /* RestTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E31FBA2735D33400EAE85E /* RestTypes.swift */; };
 		F6EAEC0026F8A641006E8B4C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EAEBFF26F8A641006E8B4C /* CustomButton.swift */; };
 		F6EC51C1273094CB0011E432 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC51C0273094CB0011E432 /* Endpoint.swift */; };
 		F6EC51C3273095790011E432 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC51C2273095790011E432 /* NetworkManager.swift */; };
@@ -150,6 +151,7 @@
 		F6890FDE269E34E70021D4E7 /* PhotoGalleryLayoutSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGalleryLayoutSettings.swift; sourceTree = "<group>"; };
 		F6890FE226A1ED470021D4E7 /* ProfileTableHeaderViewLayoutConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableHeaderViewLayoutConstants.swift; sourceTree = "<group>"; };
 		F6890FE426A8BE4A0021D4E7 /* ProfileTableHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableHeaderViewDelegate.swift; sourceTree = "<group>"; };
+		F6E31FBA2735D33400EAE85E /* RestTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestTypes.swift; sourceTree = "<group>"; };
 		F6EAEBFF26F8A641006E8B4C /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		F6EC51C0273094CB0011E432 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		F6EC51C2273095790011E432 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -362,6 +364,7 @@
 			children = (
 				F6EC51C0273094CB0011E432 /* Endpoint.swift */,
 				F6EC51C2273095790011E432 /* NetworkManager.swift */,
+				F6E31FBA2735D33400EAE85E /* RestTypes.swift */,
 			);
 			path = NetworkService;
 			sourceTree = "<group>";
@@ -608,6 +611,7 @@
 				F66024D626EEB3EC004F4B5D /* CredentialsInspector.swift in Sources */,
 				F66024CD26EAC13E004F4B5D /* TestUserService.swift in Sources */,
 				F66024C726EAB999004F4B5D /* User.swift in Sources */,
+				F6E31FBB2735D33400EAE85E /* RestTypes.swift in Sources */,
 				F66024D826EEBA8A004F4B5D /* CredentialsCheckerFactory.swift in Sources */,
 				F6890FE526A8BE4A0021D4E7 /* ProfileTableHeaderViewDelegate.swift in Sources */,
 				F671449A2698DDEE00495503 /* ProfileTableHeaderView.swift in Sources */,

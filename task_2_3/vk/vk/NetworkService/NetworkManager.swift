@@ -7,12 +7,13 @@
 
 import Foundation
 
-typealias RestDataHandler = ([String: Any]?) -> Void
+typealias RestDataHandler = (Data?) -> Void
 
 enum AppConfiguration : CaseIterable {
     case people
     case starships
     case planets
+    case todos
     
     var endpoint : ObjectResponseEndpoint<String> {
         switch self {
@@ -22,6 +23,8 @@ enum AppConfiguration : CaseIterable {
             return GetStarshipsEndpoint()
         case .planets :
             return GetPlanetsEndpoint()
+        case .todos :
+            return GetTodoEndpoint()
         }
     }
 }
@@ -162,16 +165,12 @@ class MakeRequestOperation : Operation
 }
 
 class RestDataGetter {
-    private var masterServerUrl : String
-    private var handler : RestDataHandler
+    init() {}
     
-    init(masterServerUrl : String,
-         handler : @escaping RestDataHandler) {
-        self.masterServerUrl = masterServerUrl
-        self.handler = handler
-    }
-    
-    public func execute(executor : Executor, endpoint : Endpoint)
+    public func execute(masterServerUrl : String,
+                        executor : Executor,
+                        endpoint : Endpoint,
+                        handler : @escaping RestDataHandler)
     {
         let makeRequestUrlOp = MakeRequestUrlOperation(
             masterServerUrl : masterServerUrl,
@@ -197,39 +196,23 @@ class RestDataGetter {
             executor.addOperations([makeRequestOperation])
             
             if let request = makeRequestOperation.urlRequest {
-                session?.dataTask(with: request) { [weak self] data, response, error in
-                    print("error.localizedDescription = \(String(describing: error?.localizedDescription))")
+                session?.dataTask(with: request) { data, response, error in
+//                    print("error.localizedDescription = \(String(describing: error?.localizedDescription))")
 
                     guard let httpResponse = response as? HTTPURLResponse else {
-                        self?.handler(nil)
+                        handler(nil)
                         return
                     }
                     
-                    print("response.allHeaderFields = \(httpResponse.allHeaderFields)")
-                    print("response.statusCode = \(httpResponse.statusCode)")
+//                    print("response.allHeaderFields = \(httpResponse.allHeaderFields)")
+//                    print("response.statusCode = \(httpResponse.statusCode)")
                                         
                     guard httpResponse.statusCode == 200 else {
-                        self?.handler(nil)
+                        handler(nil)
                         return
                     }
-                    
-                    guard let responseData = data else {
-                        self?.handler(nil)
-                        return
-                    }
-                    
-                    do {
-                          guard let apiResult = try JSONSerialization.jsonObject(with: responseData, options: [])
-                            as? [String: Any] else {
-                                self?.handler(nil)
-                              return
-                          }
-                        
-                        self?.handler(apiResult)
-                        } catch  {
-                            self?.handler(nil)
-                          return
-                        }
+                                        
+                    handler(data)
                 }.resume()
             }
         }
@@ -238,19 +221,16 @@ class RestDataGetter {
 }
 
 struct NetworkManager {
-    private static let dataHandler : RestDataHandler = { data in
-        guard let data = data else {
-            return
-        }
-            
-        print("data: \(data)")
-    }
+    private static let restDataGetter = RestDataGetter()
 
-    private static let restDataGetter = RestDataGetter(masterServerUrl: "https://swapi.dev",
-                                        handler: dataHandler)
-
-    static func execute(endpointConfig : AppConfiguration) {
-        restDataGetter.execute(executor: Executor.shared, endpoint: endpointConfig.endpoint)
+    static func execute( masterServerUrl : String,
+                         endpointConfig : AppConfiguration,
+                         dataHandler : @escaping RestDataHandler) {
+        restDataGetter.execute( masterServerUrl : masterServerUrl,
+                                executor: Executor.shared,
+                                endpoint: endpointConfig.endpoint,
+                                handler : dataHandler
+        )
     }
 }
 
