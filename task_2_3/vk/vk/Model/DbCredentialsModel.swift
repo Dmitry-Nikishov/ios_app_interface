@@ -31,10 +31,14 @@ final class DbAppCredentials {
 }
 
 class DbDataProvider {
-    private var realm: Realm? {
+    private var realm: Realm?
+    
+    init(encryptionKey : Data) {
+        print("encryption key : \(encryptionKey)")
         var config = Realm.Configuration()
-        config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("app_user_credentials.realm")
-        return try? Realm(configuration: config)
+        config.encryptionKey = encryptionKey
+        config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("app_user_credentials_encrypted.realm")
+        realm = try? Realm(configuration: config)
     }
     
     func getCredentials(userId : String) -> DbAppCredentials? {
