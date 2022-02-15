@@ -11,6 +11,8 @@ import StorageService
 class ProfileViewController: UIViewController, Coordinating {
     weak var coordinator: Coordinator?
     
+    private let stack: CoreDataStack
+    
     private var statusModel : UserStatusModel
     
     private var user : User?
@@ -29,9 +31,11 @@ class ProfileViewController: UIViewController, Coordinating {
     
     private var imageProcessor : AsyncImageProcessor? = nil
     
-    init(statusModel : UserStatusModel) {
+    init(statusModel : UserStatusModel,
+         stack: CoreDataStack) {
+        self.stack = stack
         self.statusModel = statusModel
-        self.processedImages = Array(repeating: nil, count: Data.dataToDisplay.count)
+        self.processedImages = Array(repeating: nil, count: StorageData.dataToDisplay.count)
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -48,7 +52,7 @@ class ProfileViewController: UIViewController, Coordinating {
     }
         
     private func processImages() {
-        self.imageProcessor = AsyncImageProcessor(posts: Data.dataToDisplay,
+        self.imageProcessor = AsyncImageProcessor(posts: StorageData.dataToDisplay,
                                                   completion: {
                                                         self.processedImages = $0
                                                         DispatchQueue.main.async {
@@ -94,8 +98,12 @@ extension ProfileViewController: UITableViewDataSource {
         if indexPath.section != 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ProfileTableViewCell.self)) as! ProfileTableViewCell
 
-                cell.cellData = Data.dataToDisplay[indexPath.section - 1]
+                cell.cellData = StorageData.dataToDisplay[indexPath.section - 1]
                 cell.cellImage = self.processedImages[indexPath.section - 1]
+                cell.bookmarkHandler = { [weak self] postData in
+                    guard let this = self else { return }
+                    this.stack.createNewPost(post: postData)
+                }
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PhotosTableViewCell.self)) as! PhotosTableViewCell
@@ -109,7 +117,7 @@ extension ProfileViewController: UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return Data.dataToDisplay.count + 1
+        return StorageData.dataToDisplay.count + 1
     }
 }
 

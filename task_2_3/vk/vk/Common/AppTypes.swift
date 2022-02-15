@@ -7,7 +7,9 @@
 
 import Foundation
 import UIKit
+import StorageService
 
+typealias BookmarkPostToDbHandler = (Post) -> Void
 typealias UiViewClickHandler = () -> Void
 typealias UserStatusChecker = (String) -> Bool
 typealias UserStatusCheckerResult = (Bool) -> Void
@@ -23,4 +25,8 @@ enum ApiError : Error {
 enum LoginMode {
     case logIn
     case logOut
+}
+
+enum AppCommon {
+    static let userId : String = "App_User"
 }

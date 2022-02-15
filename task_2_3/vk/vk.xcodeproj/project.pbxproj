@@ -56,6 +56,17 @@
 		F6890FE526A8BE4A0021D4E7 /* ProfileTableHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6890FE426A8BE4A0021D4E7 /* ProfileTableHeaderViewDelegate.swift */; };
 		F6E31FBB2735D33400EAE85E /* RestTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E31FBA2735D33400EAE85E /* RestTypes.swift */; };
 		F6E3207627430EE800EAE85E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F6E3207527430EE800EAE85E /* GoogleService-Info.plist */; };
+		F6E320FA27542F3D00EAE85E /* DbCredentialsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E320F927542F3D00EAE85E /* DbCredentialsModel.swift */; };
+
+		F6E320FC2756E48100EAE85E /* ProfileTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E320FB2756E48100EAE85E /* ProfileTabBarController.swift */; };
+		F6E320FE2756E6A200EAE85E /* BookmarkedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E320FD2756E6A200EAE85E /* BookmarkedViewController.swift */; };
+		F6E3211F275ACECF00EAE85E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E3211E275ACECE00EAE85E /* CoreDataStack.swift */; };
+		F6E32129275AD46600EAE85E /* DbPosts.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F6E32127275AD46600EAE85E /* DbPosts.xcdatamodeld */; };
+		F6E3212F275AE04600EAE85E /* DbToModelDataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E3212E275AE04600EAE85E /* DbToModelDataConverter.swift */; };
+
+		F6E32132275CF01700EAE85E /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F6E32131275CF01700EAE85E /* Realm */; };
+		F6E32134275CF01700EAE85E /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F6E32133275CF01700EAE85E /* RealmSwift */; };
+
 		F6EAEC0026F8A641006E8B4C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EAEBFF26F8A641006E8B4C /* CustomButton.swift */; };
 		F6EC51C1273094CB0011E432 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC51C0273094CB0011E432 /* Endpoint.swift */; };
 		F6EC51C3273095790011E432 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC51C2273095790011E432 /* NetworkManager.swift */; };
@@ -154,6 +165,12 @@
 		F6890FE426A8BE4A0021D4E7 /* ProfileTableHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		F6E31FBA2735D33400EAE85E /* RestTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestTypes.swift; sourceTree = "<group>"; };
 		F6E3207527430EE800EAE85E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F6E320F927542F3D00EAE85E /* DbCredentialsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DbCredentialsModel.swift; sourceTree = "<group>"; };
+		F6E320FB2756E48100EAE85E /* ProfileTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabBarController.swift; sourceTree = "<group>"; };
+		F6E320FD2756E6A200EAE85E /* BookmarkedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedViewController.swift; sourceTree = "<group>"; };
+		F6E3211E275ACECE00EAE85E /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		F6E32128275AD46600EAE85E /* DbPosts.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DbPosts.xcdatamodel; sourceTree = "<group>"; };
+		F6E3212E275AE04600EAE85E /* DbToModelDataConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DbToModelDataConverter.swift; sourceTree = "<group>"; };
 		F6EAEBFF26F8A641006E8B4C /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		F6EC51C0273094CB0011E432 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		F6EC51C2273095790011E432 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -182,6 +199,8 @@
 			files = (
 				F6617D7826E2D244004AB050 /* iOSIntPackage in Frameworks */,
 				F6617D6B26DFD7F4004AB050 /* StorageService.framework in Frameworks */,
+				F6E32132275CF01700EAE85E /* Realm in Frameworks */,
+				F6E32134275CF01700EAE85E /* RealmSwift in Frameworks */,
 				E829C6DA545D1EE8658FED06 /* Pods_vk.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,6 +316,8 @@
 		F67144732697C94600495503 /* vk */ = {
 			isa = PBXGroup;
 			children = (
+				F6E32103275A355E00EAE85E /* CoreData */,
+				F6E320FF275A339200EAE85E /* Resources */,
 				F6EC51C42730959C0011E432 /* Utilities */,
 				F6EC51BF273094B20011E432 /* NetworkService */,
 				F61D1DB127026992008E18BC /* Processing */,
@@ -309,11 +330,8 @@
 				F671448F2697CA9A00495503 /* Profile */,
 				F67144742697C94600495503 /* AppDelegate.swift */,
 				F67144762697C94600495503 /* SceneDelegate.swift */,
-				F671447D2697C94800495503 /* Assets.xcassets */,
-				F671447F2697C94800495503 /* LaunchScreen.storyboard */,
 				F6E3207527430EE800EAE85E /* GoogleService-Info.plist */,
 				F67144822697C94800495503 /* Info.plist */,
-				F6714494269863B000495503 /* AppTypes.swift */,
 			);
 			path = vk;
 			sourceTree = "<group>";
@@ -331,6 +349,8 @@
 				F6890FDE269E34E70021D4E7 /* PhotoGalleryLayoutSettings.swift */,
 				F6890FE226A1ED470021D4E7 /* ProfileTableHeaderViewLayoutConstants.swift */,
 				F6890FE426A8BE4A0021D4E7 /* ProfileTableHeaderViewDelegate.swift */,
+				F6E320FB2756E48100EAE85E /* ProfileTabBarController.swift */,
+				F6E320FD2756E6A200EAE85E /* BookmarkedViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -340,6 +360,7 @@
 			children = (
 				F67144A6269A627700495503 /* PhotoGalery.swift */,
 				F64E03F826F9405100A01247 /* UserStatusModel.swift */,
+				F6E320F927542F3D00EAE85E /* DbCredentialsModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -347,11 +368,31 @@
 		F671449D2699083D00495503 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				F6714494269863B000495503 /* AppTypes.swift */,
 				F671449E2699085500495503 /* TextFieldWithPadding.swift */,
 				F66024CE26EE2D5C004F4B5D /* Utility.swift */,
 				F61D1DBC270677A0008E18BC /* AppBlocker.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		F6E320FF275A339200EAE85E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F671447F2697C94800495503 /* LaunchScreen.storyboard */,
+				F671447D2697C94800495503 /* Assets.xcassets */,
+				F6E32127275AD46600EAE85E /* DbPosts.xcdatamodeld */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F6E32103275A355E00EAE85E /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				F6E3211E275ACECE00EAE85E /* CoreDataStack.swift */,
+				F6E3212E275AE04600EAE85E /* DbToModelDataConverter.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		F6EAEBFE26F8A61F006E8B4C /* CustomUI */ = {
@@ -450,6 +491,8 @@
 			name = vk;
 			packageProductDependencies = (
 				F6617D7726E2D244004AB050 /* iOSIntPackage */,
+				F6E32131275CF01700EAE85E /* Realm */,
+				F6E32133275CF01700EAE85E /* RealmSwift */,
 			);
 			productName = vk;
 			productReference = F67144712697C94600495503 /* vk.app */;
@@ -487,6 +530,7 @@
 			mainGroup = F67144682697C94600495503;
 			packageReferences = (
 				F6617D7626E2D244004AB050 /* XCRemoteSwiftPackageReference "iOSIntPackage" */,
+				F6E32130275CF01700EAE85E /* XCRemoteSwiftPackageReference "realm-cocoa" */,
 			);
 			productRefGroup = F67144722697C94600495503 /* Products */;
 			projectDirPath = "";
@@ -590,9 +634,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6E3212F275AE04600EAE85E /* DbToModelDataConverter.swift in Sources */,
 				F61D1DBD270677A0008E18BC /* AppBlocker.swift in Sources */,
+				F6E3211F275ACECF00EAE85E /* CoreDataStack.swift in Sources */,
 				F61D1DB92703C5CA008E18BC /* BruteForceEngine.swift in Sources */,
 				F66024DA26EEBAE1004F4B5D /* CredentialsCheckerFactoryImpl.swift in Sources */,
+				F6E320FE2756E6A200EAE85E /* BookmarkedViewController.swift in Sources */,
 				F6EC51C3273095790011E432 /* NetworkManager.swift in Sources */,
 				F6890FDF269E34E70021D4E7 /* PhotoGalleryLayoutSettings.swift in Sources */,
 				F6461ADB26FDFBFB00598C2B /* FeedCoordinator.swift in Sources */,
@@ -610,14 +657,17 @@
 				F67144932697CADE00495503 /* ProfileViewController.swift in Sources */,
 				F67144A3269A42DF00495503 /* PhotosTableViewCell.swift in Sources */,
 				F671449C2698E42200495503 /* ProfileTableViewCell.swift in Sources */,
+				F6E320FC2756E48100EAE85E /* ProfileTabBarController.swift in Sources */,
 				F6461AD926FDFBEE00598C2B /* AppCoordinator.swift in Sources */,
 				F6461ADD26FE233700598C2B /* LoginCoordinator.swift in Sources */,
 				F66024D626EEB3EC004F4B5D /* CredentialsInspector.swift in Sources */,
 				F66024CD26EAC13E004F4B5D /* TestUserService.swift in Sources */,
+				F6E32129275AD46600EAE85E /* DbPosts.xcdatamodeld in Sources */,
 				F66024C726EAB999004F4B5D /* User.swift in Sources */,
 				F6E31FBB2735D33400EAE85E /* RestTypes.swift in Sources */,
 				F66024D826EEBA8A004F4B5D /* CredentialsCheckerFactory.swift in Sources */,
 				F6890FE526A8BE4A0021D4E7 /* ProfileTableHeaderViewDelegate.swift in Sources */,
+				F6E320FA27542F3D00EAE85E /* DbCredentialsModel.swift in Sources */,
 				F671449A2698DDEE00495503 /* ProfileTableHeaderView.swift in Sources */,
 				F61D1DB027012D5F008E18BC /* ViewModelFactory.swift in Sources */,
 				F67144772697C94600495503 /* SceneDelegate.swift in Sources */,
@@ -962,6 +1012,14 @@
 				version = 3.2.3;
 			};
 		};
+		F6E32130275CF01700EAE85E /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.20.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -970,7 +1028,30 @@
 			package = F6617D7626E2D244004AB050 /* XCRemoteSwiftPackageReference "iOSIntPackage" */;
 			productName = iOSIntPackage;
 		};
+		F6E32131275CF01700EAE85E /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F6E32130275CF01700EAE85E /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
+		};
+		F6E32133275CF01700EAE85E /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F6E32130275CF01700EAE85E /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
+		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		F6E32127275AD46600EAE85E /* DbPosts.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F6E32128275AD46600EAE85E /* DbPosts.xcdatamodel */,
+			);
+			currentVersion = F6E32128275AD46600EAE85E /* DbPosts.xcdatamodel */;
+			path = DbPosts.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = F67144692697C94600495503 /* Project object */;
 }
