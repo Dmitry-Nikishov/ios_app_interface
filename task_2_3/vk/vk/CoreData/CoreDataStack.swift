@@ -8,7 +8,9 @@
 import CoreData
 import StorageService
 
-class CoreDataStack {
+class PersistentContainer {
+    static let shared = PersistentContainer()
+
     private(set) lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "DbPosts")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -18,14 +20,26 @@ class CoreDataStack {
         })
         return container
     }()
+
+    private init() {}
     
-    private var backgroundContext : NSManagedObjectContext!
+    func getBackgroundContext() -> NSManagedObjectContext {
+        return persistentContainer.newBackgroundContext()
+    }
     
-    private var viewContext: NSManagedObjectContext!
+    func getViewContext() -> NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+}
+
+class CoreDataStack {
+    private var backgroundContext : NSManagedObjectContext
+    
+    private var viewContext: NSManagedObjectContext
     
     init() {
-        backgroundContext = persistentContainer.newBackgroundContext()
-        viewContext = persistentContainer.viewContext
+        backgroundContext = PersistentContainer.shared.getBackgroundContext()
+        viewContext = PersistentContainer.shared.getViewContext()
     }
     
     func getBackgroundContext() -> NSManagedObjectContext {
@@ -35,7 +49,7 @@ class CoreDataStack {
     func getViewContext() -> NSManagedObjectContext {
         return viewContext
     }
-        
+
     func fetchDbPostsViewContext() -> [PostDb] {
         let request: NSFetchRequest<PostDb> = PostDb.fetchRequest()
         do {
@@ -45,15 +59,11 @@ class CoreDataStack {
         }
     }
     
-    func fetchDbPosts() -> [PostDb] {
-        var result : [PostDb] = []
-
-        DispatchQueue.global(qos: .background).sync { [weak self] in
+    func fetchDbPosts(handler : @escaping DbFetchHandler) {
+        DispatchQueue.global(qos: .background).async { [weak self] in
             guard let this = self else {return}
-            result = this.fetchDbPostsImpl()
+            handler(this.fetchDbPostsImpl())
         }
-
-        return result
     }
     
     func fetchDbPostsImpl() -> [PostDb] {
@@ -72,15 +82,11 @@ class CoreDataStack {
         return result
     }
 
-    func fetchDbPostsByAuthor(author : String) -> [PostDb] {
-        var result : [PostDb] = []
-        
-        DispatchQueue.global(qos: .background).sync { [weak self] in
+    func fetchDbPostsByAuthor(author : String, handler : @escaping DbFetchHandler) {
+        DispatchQueue.global(qos: .background).async { [weak self] in
             guard let this = self else {return}
-            result = this.fetchDbPostsByAuthorImpl(author: author)
+            handler(this.fetchDbPostsByAuthorImpl(author: author))
         }
-        
-        return result
     }
     
     func fetchDbPostsByAuthorViewContext(author : String) -> [PostDb] {
@@ -94,7 +100,6 @@ class CoreDataStack {
     }
 
     private func fetchDbPostsByAuthorImpl(author : String) -> [PostDb] {
-        
         var result : [PostDb] = []
         
         let request: NSFetchRequest<PostDb> = PostDb.fetchRequest()
@@ -112,7 +117,7 @@ class CoreDataStack {
     }
 
     func remove(post : PostDb) {
-        DispatchQueue.global(qos: .background).sync { [weak self] in
+        DispatchQueue.global(qos: .background).async { [weak self] in
             guard let this = self else {return}
             this.removeImpl(post: post)
         }
@@ -131,9 +136,9 @@ class CoreDataStack {
     }
 
     func createNewPost(post : Post) {
-        DispatchQueue.global(qos: .background).sync { [weak self] in
+        DispatchQueue.global(qos: .background).async { [weak self] in
             guard let this = self else {return}
-            this.createNewPostImpl(post: post, context: backgroundContext)
+            this.createNewPostImpl(post: post, context: this.backgroundContext)
         }
     }
 
