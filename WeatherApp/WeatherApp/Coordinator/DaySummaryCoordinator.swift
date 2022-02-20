@@ -12,11 +12,11 @@ class DaySummaryCoordinator : Coordinator, Coordinating {
     
     weak var navigationController: UINavigationController?
     
-    private let viewModelFactory : ViewModelFactory
+    private let viewControllerFactory : ViewControllerFactory
     
     private func handleSwitchFromMainViewToDaySummaryView(poiName : String?, weatherData : WeatherDataMonthly?)
     {
-        let daySummaryController = viewModelFactory.createViewModel(with: .daySummaryViewModel, coordinator: self)
+        let daySummaryController = viewControllerFactory.createViewController(with: .daySummaryViewModel, coordinator: self)
 
         if let vc = daySummaryController as? DaySummaryController {
             vc.applyUiSettings(poiName: poiName, weatherData: weatherData)
@@ -40,8 +40,8 @@ class DaySummaryCoordinator : Coordinator, Coordinating {
     
     func start() {}
     
-    init(viewModelFactory : ViewModelFactory)
+    init(viewControllerFactory : ViewControllerFactory)
     {
-        self.viewModelFactory = viewModelFactory
+        self.viewControllerFactory = viewControllerFactory
     }
 }

@@ -12,11 +12,11 @@ class MainCoordinator : Coordinator, Coordinating {
     
     weak var navigationController: UINavigationController?
     
-    private let viewModelFactory : ViewModelFactory
+    private let viewControllerFactory : ViewControllerFactory
     
     private func handleMainViewDisplay(mode : OnboardingMode)
     {
-        let controller = viewModelFactory.createViewModel(with: .mainViewModel, coordinator: self)
+        let controller = viewControllerFactory.createViewController(with: .mainViewModel, coordinator: self)
         if let vc = controller as? MainViewController {
             vc.setupViewForMode(mode)
         }
@@ -41,8 +41,8 @@ class MainCoordinator : Coordinator, Coordinating {
     
     func start() {}
     
-    init(viewModelFactory : ViewModelFactory)
+    init(viewControllerFactory : ViewControllerFactory)
     {
-        self.viewModelFactory = viewModelFactory
+        self.viewControllerFactory = viewControllerFactory
     }
 }

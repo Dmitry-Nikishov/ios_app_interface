@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LayoutAssembler {
+enum LayoutAssembler {
     public static func fillAreaWithView(area : UIView, filler : UIView)
     {
         area.addSubview(filler)

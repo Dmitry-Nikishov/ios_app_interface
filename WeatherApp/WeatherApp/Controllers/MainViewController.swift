@@ -10,10 +10,20 @@ import UIKit
 class MainViewController : UIViewController, Coordinating {
     weak var coordinator: Coordinator?
 
-    private(set) lazy var currentLocationProvider: CurrentLocationProvider = {
-        return CurrentLocationProvider()
-    }()
+    private(set) lazy var currentLocationProvider = CurrentLocationProvider()
     
+    private var customView : MainView {
+        return view as! MainView
+    }
+    
+    private let weatherDataProvider = WeatherDataProvider.shared
+    
+    private var latestHourlyData : WeatherDataHourly?
+    private var latestMonthlyData : WeatherDataMonthly?
+    private var latestOneDayData : WeatherDataOneDay?
+    
+    private var latestPoiName : String?
+
     private func getGeoItemNames(mode : OnboardingMode) -> [String] {
         let availableGeoPointsInDb = GeoPointsDB.shared.getGeoPoints()
 
@@ -26,16 +36,12 @@ class MainViewController : UIViewController, Coordinating {
     
     private func updateViewAfterAddingNewPoi(poiName : String)
     {
-        DispatchQueue.main.async { [weak self] in
-            guard let this = self else {return}
-            
-            if let ui = this.view as? MainView {
-                if ui.existingGeoPoints == 0 {
-                    this.setupView(geoItems: [poiName])
-                    this.view.layoutIfNeeded()
-                } else {
-                    ui.addNewCity(cityName: poiName)
-                }
+        DispatchQueue.main.async { [unowned self] in
+            if self.customView.existingGeoPoints == 0 {
+                self.setupView(geoItems: [poiName])
+                self.view.layoutIfNeeded()
+            } else {
+                self.customView.addNewCity(cityName: poiName)
             }
         }
     }
@@ -43,7 +49,7 @@ class MainViewController : UIViewController, Coordinating {
     private func showAddNewPoiDialog()
     {
         let alert = UIAlertController(title: "Добавить город", message: "", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Добавить", style: .default) { [weak self] action in
+        let action = UIAlertAction(title: "Добавить", style: .default) { [unowned self] action in
             if let cityName = alert.textFields?.first?.text {
                 let geoCode = YandexGeocoding.shared.getGeoCode(geocode: cityName)
                 if let geoPosition = geoCode {
@@ -52,7 +58,7 @@ class MainViewController : UIViewController, Coordinating {
                                                 longitude: geoPosition.longitude)
                     GeoPointsDB.shared.addGeoPoint(geoPoint: dbGeoPoint)
                     
-                    self?.updateViewAfterAddingNewPoi(poiName: cityName)
+                    self.updateViewAfterAddingNewPoi(poiName: cityName)
                 }
             }
         }
@@ -71,28 +77,28 @@ class MainViewController : UIViewController, Coordinating {
     
     private func setupView(geoItems : [String])
     {
-        let mainView = MainView(viewFrame: self.view.frame,
+        let mainView = MainView(viewFrame: .zero,
                                 geoPoints: geoItems)
 
-        mainView.menuClickHandler = { [weak self] in
-            self?.coordinator?.processEvent(with: .mainViewToSettingsViewEvent)
+        mainView.menuClickHandler = { [unowned self] in
+            self.coordinator?.processEvent(with: .mainViewToSettingsViewEvent)
         }
         
-        mainView.perDayClickHandler = { [weak self] in
-            self?.coordinator?.processEvent(with:
-                    .mainViewToDaySummaryViewEvent(self?.latestPoiName, self?.latestMonthlyData))
+        mainView.perDayClickHandler = { [unowned self] in
+            self.coordinator?.processEvent(with:
+                    .mainViewToDaySummaryViewEvent(self.latestPoiName, self.latestMonthlyData))
         }
         
-        mainView.per24ClickHandler = { [weak self] in
-            self?.coordinator?.processEvent(with: .mainViewToHourSummaryViewEvent(self?.latestPoiName, self?.latestHourlyData))
+        mainView.per24ClickHandler = { [unowned self] in
+            self.coordinator?.processEvent(with: .mainViewToHourSummaryViewEvent(self.latestPoiName, self.latestHourlyData))
         }
         
-        mainView.addLocationClickHandler = { [weak self] in
-            self?.showAddNewPoiDialog()
+        mainView.addLocationClickHandler = { [unowned self] in
+            self.showAddNewPoiDialog()
         }
         
-        mainView.updateWeatherDataRequestHandler = { [weak self] poiName in
-            self?.updateUiWithWeatherData(poiName: poiName)
+        mainView.updateWeatherDataRequestHandler = { [unowned self] poiName in
+            self.updateUiWithWeatherData(poiName: poiName)
         }
         
         self.view = mainView
@@ -101,24 +107,14 @@ class MainViewController : UIViewController, Coordinating {
             updateUiWithWeatherData(poiName: mainView.currentGeoPoint)
         }
     }
-    
-    private let weatherDataProvider = WeatherDataProvider.shared
-    
-    private var latestHourlyData : WeatherDataHourly?
-    private var latestMonthlyData : WeatherDataMonthly?
-    private var latestOneDayData : WeatherDataOneDay?
-    
-    private var latestPoiName : String?
-    
+        
     private func updateOneDayView()
     {
         if let weatherData = latestOneDayData {
             let uiData = WeatherDataToUiRepresentationConverter.convertOneDayData(data: weatherData)
 
-            DispatchQueue.main.async { [weak self] in
-                if let ui = self?.view as? MainView {
-                    ui.applyModelData(dataForUi: uiData)
-                }
+            DispatchQueue.main.async { [unowned self] in
+                self.customView.applyModelData(dataForUi: uiData)
             }
         }
     }
@@ -128,10 +124,8 @@ class MainViewController : UIViewController, Coordinating {
         if let weatherData = latestHourlyData {
             let uiData = WeatherDataToUiRepresentationConverter.convertPerHourDataToUiPerHourCollectionData(data: weatherData)
 
-            DispatchQueue.main.async { [weak self] in
-                if let ui = self?.view as? MainView {
-                    ui.applyModelData(dataForUi: uiData)
-                }
+            DispatchQueue.main.async { [unowned self] in
+                self.customView.applyModelData(dataForUi: uiData)
             }
         }
     }
@@ -141,10 +135,8 @@ class MainViewController : UIViewController, Coordinating {
         if let weatherData = latestMonthlyData {
             let uiData = WeatherDataToUiRepresentationConverter.convertMonthlyDataToUiCollectionData(data: weatherData)
 
-            DispatchQueue.main.async { [weak self] in
-                if let ui = self?.view as? MainView {
-                    ui.applyModelData(dataForUi: uiData)
-                }
+            DispatchQueue.main.async { [unowned self] in
+                self.customView.applyModelData(dataForUi: uiData)
             }
         }
     }
@@ -153,50 +145,42 @@ class MainViewController : UIViewController, Coordinating {
     {
         latestPoiName = poiName
         
-        weatherDataProvider.getOneDayData(poi: poiName) { [weak self] weatherData in
-            self?.latestOneDayData = weatherData
-            self?.updateOneDayView()
+        weatherDataProvider.getOneDayData(poi: poiName) { [unowned self] weatherData in
+            self.latestOneDayData = weatherData
+            self.updateOneDayView()
         }
         
-        weatherDataProvider.getHourlyData(poi: poiName) { [weak self] weatherData in
-            self?.latestHourlyData = weatherData
-            self?.updateHourlyView()
+        weatherDataProvider.getHourlyData(poi: poiName) { [unowned self] weatherData in
+            self.latestHourlyData = weatherData
+            self.updateHourlyView()
         }
 
-        weatherDataProvider.getMonthlyData(poi: poiName) { [weak self] weatherData in
-            self?.latestMonthlyData = weatherData
-            self?.updateMonthlyView()
+        weatherDataProvider.getMonthlyData(poi: poiName) { [unowned self] weatherData in
+            self.latestMonthlyData = weatherData
+            self.updateMonthlyView()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        loadViewInternals()
     }
     
-    private var isGeoPointReceived : Bool = false
-    private var setupMode : OnboardingMode = .withoutCurrentLocation
-    
-    private func loadViewInternals()
-    {
+    override func loadView() {
         let geoLocations = getGeoItemNames(mode: self.setupMode)
         setupView(geoItems: geoLocations)
 
         if self.setupMode == .withCurrentLocation {
-            currentLocationProvider.locationUpdateCallback = { [weak self] location in
-                guard let this = self else { return }
-                
-                if this.isGeoPointReceived == false {
+            currentLocationProvider.locationUpdateCallback = { [unowned self] location in
+                if self.isGeoPointReceived == false {
                     let dbGeoPoint = DbGeoPoint(id: AppCommonStrings.currentLocationLabel,
                                             latitude: Float(location.coordinate.latitude),
                                             longitude: Float(location.coordinate.longitude))
 
                     GeoPointsDB.shared.addGeoPoint(geoPoint: dbGeoPoint)
                     
-                    self?.updateViewAfterAddingNewPoi(poiName: AppCommonStrings.currentLocationLabel)
+                    self.updateViewAfterAddingNewPoi(poiName: AppCommonStrings.currentLocationLabel)
                     
-                    this.isGeoPointReceived = true
+                    self.isGeoPointReceived = true
                 }
             }
 
@@ -204,6 +188,9 @@ class MainViewController : UIViewController, Coordinating {
         }
     }
     
+    private var isGeoPointReceived : Bool = false
+    private var setupMode : OnboardingMode = .withoutCurrentLocation
+        
     func setupViewForMode(_ mode : OnboardingMode)
     {
         self.setupMode = mode

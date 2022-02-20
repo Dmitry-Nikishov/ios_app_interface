@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 @objcMembers class DbGeoPointCached: Object {
-    dynamic var id: String?
+    dynamic var id: String = ""
     dynamic var latitude: Float?
     dynamic var longitude: Float?
     
@@ -46,7 +46,7 @@ class GeoPointsDbProvider {
     func getGeoPoints() -> [DbGeoPoint] {
         if let geoPoints = realm?.objects(DbGeoPointCached.self) {
             return geoPoints.compactMap { cachedItem in
-                return DbGeoPoint(id: cachedItem.id ?? "",
+                return DbGeoPoint(id: cachedItem.id,
                                   latitude: cachedItem.latitude ?? 0.0,
                                   longitude: cachedItem.longitude ?? 0.0)
             }
@@ -58,7 +58,7 @@ class GeoPointsDbProvider {
     func getGeoPoint(id : String) -> DbGeoPoint? {
         let geoPoints = realm?.object(ofType: DbGeoPointCached.self, forPrimaryKey: id)
         if let geoPoints = geoPoints {
-            let ret = DbGeoPoint(id: geoPoints.id ?? "",
+            let ret = DbGeoPoint(id: geoPoints.id,
                                  latitude: geoPoints.latitude ?? 0.0,
                                  longitude: geoPoints.longitude ?? 0.0)
             return ret

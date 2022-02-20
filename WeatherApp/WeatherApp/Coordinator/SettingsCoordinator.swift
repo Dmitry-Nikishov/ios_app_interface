@@ -12,11 +12,11 @@ class SettingsCoordinator : Coordinator, Coordinating {
     
     weak var navigationController: UINavigationController?
     
-    private let viewModelFactory : ViewModelFactory
+    private let viewControllerFactory : ViewControllerFactory
     
     private func handleSwitchFromMainViewToSettingsView()
     {
-        let settingsController = viewModelFactory.createViewModel(with: .settingsViewModel, coordinator: self)
+        let settingsController = viewControllerFactory.createViewController(with: .settingsViewModel, coordinator: self)
         
         navigationController?.pushViewController(settingsController, animated: true)
     }
@@ -44,9 +44,9 @@ class SettingsCoordinator : Coordinator, Coordinating {
     
     func start() {}
     
-    init(viewModelFactory : ViewModelFactory)
+    init(viewControllerFactory : ViewControllerFactory)
     {
-        self.viewModelFactory = viewModelFactory
+        self.viewControllerFactory = viewControllerFactory
     }
 }
 

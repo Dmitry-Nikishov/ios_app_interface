@@ -8,11 +8,11 @@
 import Foundation
 import UIKit
 
-protocol ViewModelFactory {
-    func createViewModel(with type : CoordinatingViewModelTypes, coordinator : Coordinator ) -> UIViewController & Coordinating
+protocol ViewControllerFactory {
+    func createViewController(with type : CoordinatingViewModelTypes, coordinator : Coordinator ) -> UIViewController & Coordinating
 }
 
-class ViewModelFactoryImpl : ViewModelFactory {
+class ViewControllerFactoryImpl : ViewControllerFactory {
     private func createViewModelBasedOnType(with type: CoordinatingViewModelTypes) -> UIViewController & Coordinating
     {
         switch type {
@@ -33,7 +33,7 @@ class ViewModelFactoryImpl : ViewModelFactory {
         }
     }
     
-    func createViewModel(with type: CoordinatingViewModelTypes, coordinator: Coordinator) -> UIViewController & Coordinating {
+    func createViewController(with type: CoordinatingViewModelTypes, coordinator: Coordinator) -> UIViewController & Coordinating {
         let viewModel = createViewModelBasedOnType(with : type)
         viewModel.coordinator = coordinator
         return viewModel

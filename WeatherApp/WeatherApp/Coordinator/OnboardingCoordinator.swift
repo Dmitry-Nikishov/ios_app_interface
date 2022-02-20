@@ -12,7 +12,7 @@ class OnboardingCoordinator : Coordinator, Coordinating {
     
     weak var navigationController: UINavigationController?
     
-    private let viewModelFactory : ViewModelFactory
+    private let viewControllerFactory : ViewControllerFactory
     
     func processEvent(with type: CoordinatorEvent) {
         switch type {
@@ -25,14 +25,14 @@ class OnboardingCoordinator : Coordinator, Coordinating {
     }
     
     func start() {
-        let onboardingController = viewModelFactory.createViewModel(with: .onboardingModel, coordinator: self)
+        let onboardingController = viewControllerFactory.createViewController(with: .onboardingModel, coordinator: self)
         
         navigationController?.setViewControllers([onboardingController], animated: true)
     }
     
-    init(viewModelFactory : ViewModelFactory)
+    init(viewControllerFactory : ViewControllerFactory)
     {
-        self.viewModelFactory = viewModelFactory
+        self.viewControllerFactory = viewControllerFactory
     }
 }
 
