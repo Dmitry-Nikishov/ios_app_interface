@@ -30,8 +30,8 @@ class DaySummaryController : UIViewController, Coordinating {
     override func loadView() {
         let daySummaryView = DaySummaryView(viewFrame: .zero)
         
-        daySummaryView.backButtonHandler = { [unowned self] in
-            self.coordinator?.processEvent(with: .daySummaryViewToMainViewEvent)
+        daySummaryView.backButtonHandler = { [weak self] in
+            self?.coordinator?.processEvent(with: .daySummaryViewToMainViewEvent)
         }
         
         self.view = daySummaryView

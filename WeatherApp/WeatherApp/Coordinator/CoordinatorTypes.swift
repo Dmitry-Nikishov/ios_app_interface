@@ -40,8 +40,8 @@ enum CoordinatingViewModelTypes {
     case onboardingModel
     case mainViewModel
     case settingsViewModel
-    case daySummaryViewModel
-    case hourSummaryViewModel
+    case daySummaryViewModel(String?, WeatherDataMonthly?)
+    case hourSummaryViewModel(String?, WeatherDataHourly?)
 }
 
 extension Coordinator {

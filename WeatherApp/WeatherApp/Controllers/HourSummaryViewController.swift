@@ -28,8 +28,8 @@ class HourSummaryViewController : UIViewController, Coordinating {
     override func loadView() {
         let hourSummaryView = HourSummaryView(viewFrame: .zero)
         
-        hourSummaryView.backButtonHandler = { [unowned self] in
-            self.coordinator?.processEvent(with: .hourSummaryViewToMainViewEvent)
+        hourSummaryView.backButtonHandler = { [weak self] in
+            self?.coordinator?.processEvent(with: .hourSummaryViewToMainViewEvent)
         }
         
         self.view = hourSummaryView

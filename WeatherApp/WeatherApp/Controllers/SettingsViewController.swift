@@ -17,8 +17,8 @@ class SettingsViewController : UIViewController, Coordinating {
     override func loadView() {
         let settingsView = SettingsView(viewFrame: .zero)
         
-        settingsView.applySettingsHandler = { [unowned self] in
-            self.coordinator?.processEvent(with: .settingsViewToMainViewEvent)
+        settingsView.applySettingsHandler = { [weak self] in
+            self?.coordinator?.processEvent(with: .settingsViewToMainViewEvent)
         }
         
         self.view = settingsView
