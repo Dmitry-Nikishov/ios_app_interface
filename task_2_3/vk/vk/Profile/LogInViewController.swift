@@ -67,7 +67,7 @@ class LogInViewController: UIViewController, Coordinating {
         view.layer.cornerRadius = 10
         view.placeholder = "Email or phone"
         view.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        view.textColor = .black
+        view.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         view.autocapitalizationType = .none
         view.tintColor = UIColor(named: "myColor")
         view.backgroundColor = .systemGray6
@@ -110,7 +110,7 @@ class LogInViewController: UIViewController, Coordinating {
         view.layer.cornerRadius = 10
         view.placeholder = "Password"
         view.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        view.textColor = .black
+        view.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         view.autocapitalizationType = .none
         view.tintColor = UIColor(named: "myColor")
         view.isSecureTextEntry = true
@@ -124,7 +124,6 @@ class LogInViewController: UIViewController, Coordinating {
     private let activitySpinner : UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
         view.translatesAutoresizingMaskIntoConstraints = false
-//        view.backgroundColor = .systemRed
         return view
     }()
     
@@ -156,7 +155,7 @@ class LogInViewController: UIViewController, Coordinating {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
         safeArea = view.layoutMarginsGuide
 
 //        checkFirebaseCurrentUser()

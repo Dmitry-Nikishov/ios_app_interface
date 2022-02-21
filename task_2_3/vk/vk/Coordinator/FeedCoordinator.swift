@@ -34,6 +34,7 @@ class FeedCoordinator : Coordinator, Coordinating {
         }
         
         let viewModel = viewModelFactory.createViewModel(with: .feedViewModel(usr), coordinator: self)
+
         navigationController?.pushViewController(viewModel, animated: true)
     }
     

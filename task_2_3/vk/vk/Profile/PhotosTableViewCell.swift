@@ -26,7 +26,7 @@ class PhotosTableViewCell: UITableViewCell, Coordinating {
     private let titleLabelView : UILabel = {
         let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        view.textColor = .black
+        view.textColor = .label
         view.text = "Photos"
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
