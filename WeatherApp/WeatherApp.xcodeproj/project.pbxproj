@@ -48,7 +48,7 @@
 		F6158517278EF5A00002140B /* CoordinatorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158516278EF5A00002140B /* CoordinatorTypes.swift */; };
 		F6158519278EF6590002140B /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158518278EF6590002140B /* AppCoordinator.swift */; };
 		F615851B278EF6CE0002140B /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615851A278EF6CE0002140B /* OnboardingCoordinator.swift */; };
-		F615851D278EF71C0002140B /* ViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615851C278EF71C0002140B /* ViewModelFactory.swift */; };
+		F615851D278EF71C0002140B /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615851C278EF71C0002140B /* ViewControllerFactory.swift */; };
 		F615851F278EF9020002140B /* AppAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615851E278EF9020002140B /* AppAlert.swift */; };
 		F6158521278EF92E0002140B /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158520278EF92E0002140B /* AppConstants.swift */; };
 		F6158523278F07D10002140B /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6158522278F07D10002140B /* MainCoordinator.swift */; };
@@ -134,7 +134,7 @@
 		F6158516278EF5A00002140B /* CoordinatorTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorTypes.swift; sourceTree = "<group>"; };
 		F6158518278EF6590002140B /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		F615851A278EF6CE0002140B /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
-		F615851C278EF71C0002140B /* ViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelFactory.swift; sourceTree = "<group>"; };
+		F615851C278EF71C0002140B /* ViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
 		F615851E278EF9020002140B /* AppAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAlert.swift; sourceTree = "<group>"; };
 		F6158520278EF92E0002140B /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		F6158522278F07D10002140B /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
@@ -325,7 +325,7 @@
 				F6158516278EF5A00002140B /* CoordinatorTypes.swift */,
 				F6158518278EF6590002140B /* AppCoordinator.swift */,
 				F615851A278EF6CE0002140B /* OnboardingCoordinator.swift */,
-				F615851C278EF71C0002140B /* ViewModelFactory.swift */,
+				F615851C278EF71C0002140B /* ViewControllerFactory.swift */,
 				F6158522278F07D10002140B /* MainCoordinator.swift */,
 				F6158524278F11880002140B /* SettingsCoordinator.swift */,
 				F6158526278F1A360002140B /* DaySummaryCoordinator.swift */,
@@ -499,7 +499,7 @@
 				F6158527278F1A360002140B /* DaySummaryCoordinator.swift in Sources */,
 				F61584EB278645200002140B /* LayoutAssembler.swift in Sources */,
 				F61584FD278A593E0002140B /* PaddingLabel.swift in Sources */,
-				F615851D278EF71C0002140B /* ViewModelFactory.swift in Sources */,
+				F615851D278EF71C0002140B /* ViewControllerFactory.swift in Sources */,
 				F615855D27AB2EC40002140B /* WeatherApiTypes.swift in Sources */,
 				F61584D3277126B50002140B /* MainView.swift in Sources */,
 				F61584FF278C5C930002140B /* HourSummaryView.swift in Sources */,

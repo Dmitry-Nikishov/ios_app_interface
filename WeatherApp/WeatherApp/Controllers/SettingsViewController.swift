@@ -10,19 +10,17 @@ import UIKit
 class SettingsViewController : UIViewController, Coordinating {
     weak var coordinator: Coordinator?
     
-    private func setupView()
-    {
-        let settingsView = SettingsView(viewFrame: self.view.frame)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    override func loadView() {
+        let settingsView = SettingsView(viewFrame: .zero)
         
-        settingsView.applySettingsHandler = { [weak self] in
-            self?.coordinator?.processEvent(with: .settingsViewToMainViewEvent)
+        settingsView.applySettingsHandler = { [unowned self] in
+            self.coordinator?.processEvent(with: .settingsViewToMainViewEvent)
         }
         
         self.view = settingsView
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupView()
     }
 }

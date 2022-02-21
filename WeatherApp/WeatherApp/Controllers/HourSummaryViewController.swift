@@ -10,29 +10,29 @@ import UIKit
 class HourSummaryViewController : UIViewController, Coordinating {
     weak var coordinator: Coordinator?
     
-    private func setupView()
-    {
-        let hourSummaryView = HourSummaryView(viewFrame: self.view.frame)
-        
-        hourSummaryView.backButtonHandler = { [weak self] in
-            self?.coordinator?.processEvent(with: .hourSummaryViewToMainViewEvent)
-        }
-        
-        self.view = hourSummaryView
+    private var customView : HourSummaryView {
+        return view as! HourSummaryView
     }
-
+    
     func applyUiSettings(poiName : String?, dataForUi : WeatherDataHourly?)
     {
         let uiData = WeatherDataToUiRepresentationConverter.convertHourlyDataToHourlyControllerFormat(dataForUi: dataForUi)
         
-        if let ui = self.view as? HourSummaryView {
-            ui.applyUiData(poiName: poiName, uiData: uiData)
-        }
+        self.customView.applyUiData(poiName: poiName, uiData: uiData)        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
+    }
+    
+    override func loadView() {
+        let hourSummaryView = HourSummaryView(viewFrame: .zero)
+        
+        hourSummaryView.backButtonHandler = { [unowned self] in
+            self.coordinator?.processEvent(with: .hourSummaryViewToMainViewEvent)
+        }
+        
+        self.view = hourSummaryView
     }
 }
 

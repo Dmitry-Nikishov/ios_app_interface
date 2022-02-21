@@ -12,12 +12,12 @@ class HourSummaryCoordinator : Coordinator, Coordinating {
     
     weak var navigationController: UINavigationController?
     
-    private let viewModelFactory : ViewModelFactory
+    private let viewControllerFactory : ViewControllerFactory
     
     private func handleSwitchFromMainViewToHourSummaryView(poiName : String?,
                                                            dataForUi : WeatherDataHourly?)
     {
-        let hourSummaryController = viewModelFactory.createViewModel(with: .hourSummaryViewModel, coordinator: self)
+        let hourSummaryController = viewControllerFactory.createViewController(with: .hourSummaryViewModel, coordinator: self)
         
         if let vc = hourSummaryController as? HourSummaryViewController {
             vc.applyUiSettings(poiName : poiName, dataForUi: dataForUi)
@@ -42,8 +42,8 @@ class HourSummaryCoordinator : Coordinator, Coordinating {
     
     func start() {}
     
-    init(viewModelFactory : ViewModelFactory)
+    init(viewControllerFactory : ViewControllerFactory)
     {
-        self.viewModelFactory = viewModelFactory
+        self.viewControllerFactory = viewControllerFactory
     }
 }

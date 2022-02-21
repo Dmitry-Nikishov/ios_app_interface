@@ -10,31 +10,31 @@ import UIKit
 class DaySummaryController : UIViewController, Coordinating {
     weak var coordinator: Coordinator?
     
+    private var customView: DaySummaryView {
+       return view as! DaySummaryView
+    }
+    
     func applyUiSettings(poiName : String?, weatherData : WeatherDataMonthly?)
     {
         if let dataForUi = weatherData {
             let uiData = WeatherDataToUiRepresentationConverter.convertMonthlyDataToUiRepresentation(weatherData: dataForUi)
 
-            if let ui = self.view as? DaySummaryView {
-                ui.applyUiSettings(poiName: poiName, uiData: uiData)
-            }
+            self.customView.applyUiSettings(poiName: poiName, uiData: uiData)
         }
     }
     
-    private func setupView()
-    {
-        let daySummaryView = DaySummaryView(viewFrame: self.view.frame)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    override func loadView() {
+        let daySummaryView = DaySummaryView(viewFrame: .zero)
         
-        daySummaryView.backButtonHandler = { [weak self] in
-            self?.coordinator?.processEvent(with: .daySummaryViewToMainViewEvent)
+        daySummaryView.backButtonHandler = { [unowned self] in
+            self.coordinator?.processEvent(with: .daySummaryViewToMainViewEvent)
         }
         
         self.view = daySummaryView
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupView()
-    }    
 }
 

@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import UIKit
 
 typealias UiViewClickHandler = () -> Void
 typealias UiUpdateWithWeatherDataRequestHandler = (String) -> Void
 typealias UiViewClickHandlerWithStringParam = (String) -> Void
 typealias UiSelectedDayChangedHandler = (Int) -> Void
+typealias CustomUiViewController = UIViewController & Coordinating

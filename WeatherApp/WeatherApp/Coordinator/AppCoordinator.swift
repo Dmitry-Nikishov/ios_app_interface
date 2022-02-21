@@ -8,45 +8,53 @@
 import Foundation
 import UIKit
 
+enum Screen: String {
+    case main
+    case settings
+    case daySummary
+    case hourSummary
+    case onboarding
+}
+
 class AppCoordinator : Coordinator {
     var navigationController: UINavigationController?
-    var children : [String : Coordinator]?
+    var children : [Screen: Coordinator]?
     
     func processEvent(with type: CoordinatorEvent) {
         switch type {
         case .onboardingViewToMainViewEvent :
-            children?["main"]?.processEvent(with: type)
+            children?[.main]?.processEvent(with: type)
             
         case .mainViewToSettingsViewEvent :
-            children?["settings"]?.processEvent(with: type)
+            children?[.settings]?.processEvent(with: type)
 
         case .mainViewToDaySummaryViewEvent :
-            children?["daySummary"]?.processEvent(with: type)
+            children?[.daySummary]?.processEvent(with: type)
             
         case .mainViewToHourSummaryViewEvent :
-            children?["hourSummary"]?.processEvent(with: type)
+            children?[.hourSummary]?.processEvent(with: type)
             
         default :
             ()
         }
     }
 
-    private let viewModelFactory = ViewModelFactoryImpl()
+    private let viewControllerFactory = ViewControllerFactoryImpl()
     
     private func createCoordinator(type : CoordinatingViewModelTypes) -> Coordinator & Coordinating {
         var result : Coordinator & Coordinating
         
         switch type {
             case .onboardingModel:
-                result = OnboardingCoordinator(viewModelFactory: self.viewModelFactory)
+                result = OnboardingCoordinator(viewControllerFactory: self.viewControllerFactory)
             case .mainViewModel:
-                result = MainCoordinator(viewModelFactory: self.viewModelFactory)
+                result = MainCoordinator(viewControllerFactory: self.viewControllerFactory)
             case .settingsViewModel:
-                result = SettingsCoordinator(viewModelFactory: self.viewModelFactory)
+                result = SettingsCoordinator(viewControllerFactory: self.viewControllerFactory)
             case .daySummaryViewModel:
-                result = DaySummaryCoordinator(viewModelFactory: self.viewModelFactory)
+                result = DaySummaryCoordinator(viewControllerFactory: self.viewControllerFactory)
             case .hourSummaryViewModel:
-                result = HourSummaryCoordinator(viewModelFactory: self.viewModelFactory)
+                result = HourSummaryCoordinator(viewControllerFactory: self.viewControllerFactory)
         }
         
         result.navigationController = self.navigationController
@@ -59,14 +67,14 @@ class AppCoordinator : Coordinator {
         self.navigationController?.isNavigationBarHidden = true
                 
         self.children = [
-            "onboarding" : createCoordinator(type : .onboardingModel),
-            "main" : createCoordinator(type : .mainViewModel),
-            "settings" : createCoordinator(type: .settingsViewModel),
-            "daySummary" : createCoordinator(type: .daySummaryViewModel),
-            "hourSummary" : createCoordinator(type: .hourSummaryViewModel)
+            .onboarding : createCoordinator(type : .onboardingModel),
+            .main : createCoordinator(type : .mainViewModel),
+            .settings : createCoordinator(type: .settingsViewModel),
+            .daySummary : createCoordinator(type: .daySummaryViewModel),
+            .hourSummary : createCoordinator(type: .hourSummaryViewModel)
         ]
         
-        self.children?["onboarding"]?.start()
+        self.children?[.onboarding]?.start()
     }
 }
 

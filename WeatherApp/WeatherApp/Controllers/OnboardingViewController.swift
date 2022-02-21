@@ -9,32 +9,22 @@ import UIKit
 
 class OnboardingViewController: UIViewController, Coordinating {
     weak var coordinator: Coordinator?
+        
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
     
-    private func setupView()
-    {
-        let onboardingView = OnboardingView(viewFrame: self.view.frame)
-        onboardingView.useGeolocationClickHandler = { [weak self] in
-            guard let this = self else {
-                return
-            }
-            
-            this.coordinator?.processEvent(with: .onboardingViewToMainViewEvent(.withCurrentLocation))
+    override func loadView() {
+        let onboardingView = OnboardingView(viewFrame: .zero)
+        onboardingView.useGeolocationClickHandler = { [unowned self] in
+            self.coordinator?.processEvent(with: .onboardingViewToMainViewEvent(.withCurrentLocation))
         }
         
-        onboardingView.denyGeolocationClickHandler = { [weak self] in
-            guard let this = self else {
-                return
-            }
-
-            this.coordinator?.processEvent(with: .onboardingViewToMainViewEvent(.withoutCurrentLocation))
+        onboardingView.denyGeolocationClickHandler = { [unowned self] in
+            self.coordinator?.processEvent(with: .onboardingViewToMainViewEvent(.withoutCurrentLocation))
         }
         
         self.view = onboardingView
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupView()
     }
 }
 

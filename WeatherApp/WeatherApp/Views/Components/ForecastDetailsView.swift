@@ -48,7 +48,6 @@ class ForecastDetailsView : UIView
         view.translatesAutoresizingMaskIntoConstraints = false
         view.text = "Ливень"
         view.font = UIFont.boldSystemFont(ofSize: 18)
-        view.backgroundColor = .yellow
         return view
     }()
     
