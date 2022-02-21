@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E829C6DA545D1EE8658FED06 /* Pods_vk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D0686B8172714CFDD7AFB33 /* Pods_vk.framework */; };
+		F61585CF27C3231D0002140B /* AdaptiveColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61585CE27C3231D0002140B /* AdaptiveColor.swift */; };
 		F61D1DB027012D5F008E18BC /* ViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D1DAF27012D5F008E18BC /* ViewModelFactory.swift */; };
 		F61D1DB5270269FF008E18BC /* AsyncImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D1DB4270269FF008E18BC /* AsyncImageProcessor.swift */; };
 		F61D1DB72703C4D9008E18BC /* PasswordCracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D1DB62703C4D9008E18BC /* PasswordCracker.swift */; };
@@ -113,6 +114,7 @@
 /* Begin PBXFileReference section */
 		04E9A9054F92CFEBC8DA37A9 /* Pods-vk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vk.release.xcconfig"; path = "Target Support Files/Pods-vk/Pods-vk.release.xcconfig"; sourceTree = "<group>"; };
 		4D0686B8172714CFDD7AFB33 /* Pods_vk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F61585CE27C3231D0002140B /* AdaptiveColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveColor.swift; sourceTree = "<group>"; };
 		F61D1DAF27012D5F008E18BC /* ViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelFactory.swift; sourceTree = "<group>"; };
 		F61D1DB4270269FF008E18BC /* AsyncImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImageProcessor.swift; sourceTree = "<group>"; };
 		F61D1DB62703C4D9008E18BC /* PasswordCracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordCracker.swift; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 				F671449E2699085500495503 /* TextFieldWithPadding.swift */,
 				F66024CE26EE2D5C004F4B5D /* Utility.swift */,
 				F61D1DBC270677A0008E18BC /* AppBlocker.swift */,
+				F61585CE27C3231D0002140B /* AdaptiveColor.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -677,6 +680,7 @@
 				F66024CD26EAC13E004F4B5D /* TestUserService.swift in Sources */,
 				F6E32129275AD46600EAE85E /* DbPosts.xcdatamodeld in Sources */,
 				F66024C726EAB999004F4B5D /* User.swift in Sources */,
+				F61585CF27C3231D0002140B /* AdaptiveColor.swift in Sources */,
 				F6E31FBB2735D33400EAE85E /* RestTypes.swift in Sources */,
 				F66024D826EEBA8A004F4B5D /* CredentialsCheckerFactory.swift in Sources */,
 				F6890FE526A8BE4A0021D4E7 /* ProfileTableHeaderViewDelegate.swift in Sources */,

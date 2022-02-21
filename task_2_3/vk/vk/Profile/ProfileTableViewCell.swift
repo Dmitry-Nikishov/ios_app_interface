@@ -54,7 +54,7 @@ class ProfileTableViewCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.numberOfLines = 0
         view.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        view.textColor = .black
+        view.textColor = .label
         return view
     }()
     
