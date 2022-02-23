@@ -70,8 +70,8 @@ class AppCoordinator : Coordinator {
             .onboarding : createCoordinator(type : .onboardingModel),
             .main : createCoordinator(type : .mainViewModel),
             .settings : createCoordinator(type: .settingsViewModel),
-            .daySummary : createCoordinator(type: .daySummaryViewModel),
-            .hourSummary : createCoordinator(type: .hourSummaryViewModel)
+            .daySummary : createCoordinator(type: .daySummaryViewModel(nil, nil)),
+            .hourSummary : createCoordinator(type: .hourSummaryViewModel(nil, nil))
         ]
         
         self.children?[.onboarding]?.start()

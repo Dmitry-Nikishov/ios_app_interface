@@ -13,6 +13,18 @@ protocol ViewControllerFactory {
 }
 
 class ViewControllerFactoryImpl : ViewControllerFactory {
+    private func createDaySummaryControllerWithUiSettings(poiName : String?, weatherData : WeatherDataMonthly?) -> DaySummaryController {
+            let controller = DaySummaryController()
+            controller.applyUiSettings(poiName: poiName, weatherData: weatherData)
+            return controller
+    }
+    
+    private func createHourlyControllerWithUiSettings(poiName : String?, weatherData : WeatherDataHourly?) -> HourSummaryViewController {
+            let controller = HourSummaryViewController()
+            controller.applyUiSettings(poiName: poiName, dataForUi: weatherData)
+            return controller
+    }
+    
     private func createViewModelBasedOnType(with type: CoordinatingViewModelTypes) -> UIViewController & Coordinating
     {
         switch type {
@@ -22,11 +34,11 @@ class ViewControllerFactoryImpl : ViewControllerFactory {
             case .mainViewModel :
                 return MainViewController()
             
-            case .daySummaryViewModel :
-                return DaySummaryController()
+            case .daySummaryViewModel(let poiName, let weatherData) :
+                return createDaySummaryControllerWithUiSettings(poiName: poiName, weatherData: weatherData)
             
-            case .hourSummaryViewModel :
-                return HourSummaryViewController()
+            case .hourSummaryViewModel(let poiName, let weatherData) :
+                return createHourlyControllerWithUiSettings(poiName: poiName, weatherData: weatherData)
             
             case .settingsViewModel :
                 return SettingsViewController()

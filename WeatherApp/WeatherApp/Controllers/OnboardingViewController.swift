@@ -16,12 +16,12 @@ class OnboardingViewController: UIViewController, Coordinating {
     
     override func loadView() {
         let onboardingView = OnboardingView(viewFrame: .zero)
-        onboardingView.useGeolocationClickHandler = { [unowned self] in
-            self.coordinator?.processEvent(with: .onboardingViewToMainViewEvent(.withCurrentLocation))
+        onboardingView.useGeolocationClickHandler = { [weak self] in
+            self?.coordinator?.processEvent(with: .onboardingViewToMainViewEvent(.withCurrentLocation))
         }
         
-        onboardingView.denyGeolocationClickHandler = { [unowned self] in
-            self.coordinator?.processEvent(with: .onboardingViewToMainViewEvent(.withoutCurrentLocation))
+        onboardingView.denyGeolocationClickHandler = { [weak self] in
+            self?.coordinator?.processEvent(with: .onboardingViewToMainViewEvent(.withoutCurrentLocation))
         }
         
         self.view = onboardingView
