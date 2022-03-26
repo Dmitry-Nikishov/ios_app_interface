@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  MapKit
+//  MapKitDemo
 //
 //  Created by Дмитрий Никишов on 16.02.2022.
 //
