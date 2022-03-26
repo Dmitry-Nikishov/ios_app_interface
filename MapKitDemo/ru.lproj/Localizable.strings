@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  MapKitDemo
+
+  Created by Дмитрий Никишов on 19.02.2022.
+  
+*/
+
+"DeleteRoutesMenuItem" = "Удалить маршруты";
+"RemoveMapPinsMenuItem" = "Удалить гео точки";
+"CreateRouteMenuItem" = "Создать маршрут";
+"CreateRouteAlertTitle" = "Ошибка создания маршрута";
+"CreateRouteAlertMessage" = "Маршрут можно создать только для 1-й шео точки и текущего местоположения";
+"MapMenuName" = "Меню Карты";
+"AlertButtonTitle" = "Ясненько";
