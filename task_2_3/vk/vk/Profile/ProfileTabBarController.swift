@@ -10,7 +10,11 @@ import UIKit
 class ProfileTabBarController : UITabBarController,
                          UITabBarControllerDelegate,
                          Coordinating {
-    var coordinator: Coordinator?
+    var coordinator: Coordinator? {
+        didSet {
+            profileViewController.coordinator = coordinator
+        }
+    }
     
     private(set) lazy var coreDataStack = CoreDataStack()
     

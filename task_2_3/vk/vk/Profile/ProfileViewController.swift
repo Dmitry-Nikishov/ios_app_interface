@@ -113,6 +113,7 @@ extension ProfileViewController: UITableViewDataSource {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PhotosTableViewCell.self)) as! PhotosTableViewCell
             cell.coordinator = self.coordinator
+
             return cell
         }
     }

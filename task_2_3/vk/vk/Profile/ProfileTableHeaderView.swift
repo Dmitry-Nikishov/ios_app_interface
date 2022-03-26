@@ -33,7 +33,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         let view = UILabel()
         view.text = "Hipster Pinguin"
         view.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        view.textColor = .black
+        view.textColor = .label
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -60,7 +60,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         let view = UILabel()
         view.text = "Waiting for something"
         view.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        view.textColor = .gray
+        view.textColor = .label
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -71,10 +71,9 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         view.layer.cornerRadius = 12
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.black.cgColor
-        view.backgroundColor = .white
         view.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        view.textColor = .black
-        view.backgroundColor = .white.withAlphaComponent(0)
+        view.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
+        view.backgroundColor = UIColor.createColor(lightMode: .white.withAlphaComponent(0), darkMode: .black)
         view.addTarget(self, action: #selector(statusTextChanged), for : .editingChanged)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -104,7 +103,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     private lazy var blackoutView : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .black
+        view.backgroundColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         view.alpha = 0
         return view
     }()
