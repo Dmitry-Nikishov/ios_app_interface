@@ -13,6 +13,7 @@
 		F6A9B7D227D2838600DD8876 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F6A9B7D027D2838600DD8876 /* Main.storyboard */; };
 		F6A9B7D427D2838700DD8876 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6A9B7D327D2838700DD8876 /* Assets.xcassets */; };
 		F6A9B7D727D2838700DD8876 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F6A9B7D527D2838700DD8876 /* LaunchScreen.storyboard */; };
+		F6A9B7DF27D28A1F00DD8876 /* LocalAuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A9B7DE27D28A1F00DD8876 /* LocalAuthorizationService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		F6A9B7D327D2838700DD8876 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F6A9B7D627D2838700DD8876 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F6A9B7D827D2838700DD8876 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F6A9B7DE27D28A1F00DD8876 /* LocalAuthorizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorizationService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				F6A9B7D327D2838700DD8876 /* Assets.xcassets */,
 				F6A9B7D527D2838700DD8876 /* LaunchScreen.storyboard */,
 				F6A9B7D827D2838700DD8876 /* Info.plist */,
+				F6A9B7DE27D28A1F00DD8876 /* LocalAuthorizationService.swift */,
 			);
 			path = FaceIdTest;
 			sourceTree = "<group>";
@@ -141,6 +144,7 @@
 				F6A9B7CF27D2838600DD8876 /* ViewController.swift in Sources */,
 				F6A9B7CB27D2838600DD8876 /* AppDelegate.swift in Sources */,
 				F6A9B7CD27D2838600DD8876 /* SceneDelegate.swift in Sources */,
+				F6A9B7DF27D28A1F00DD8876 /* LocalAuthorizationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +296,7 @@
 				DEVELOPMENT_TEAM = 43BA3A7UV4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FaceIdTest/Info.plist;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Please allow Face Id";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -320,6 +325,7 @@
 				DEVELOPMENT_TEAM = 43BA3A7UV4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FaceIdTest/Info.plist;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Please allow Face Id";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
