@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  MapKitDemo
+
+  Created by Дмитрий Никишов on 19.02.2022.
+  
+*/
+
+"DeleteRoutesMenuItem" = "Delete Routes";
+"RemoveMapPinsMenuItem" = "Remove Map Pins";
+"CreateRouteMenuItem" = "Create Route";
+"CreateRouteAlertTitle" = "Create Route Alert";
+"CreateRouteAlertMessage" = "Not able to route to more than 1 pin or current location is nil";
+"MapMenuName" = "Map Menu";
+"AlertButtonTitle" = "Got it";
