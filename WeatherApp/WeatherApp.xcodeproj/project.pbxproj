@@ -80,6 +80,15 @@
 		F615857327BA9B1A0002140B /* KmToLmConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615857227BA9B1A0002140B /* KmToLmConverterTests.swift */; };
 		F615857527BA9F880002140B /* CelciusToFahrConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615857427BA9F880002140B /* CelciusToFahrConverter.swift */; };
 		F615857727BAA0310002140B /* CelciusToFahrConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615857627BAA0310002140B /* CelciusToFahrConverterTests.swift */; };
+		F615861427C96D790002140B /* ViewControllerFactoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615861327C96D790002140B /* ViewControllerFactoryMock.swift */; };
+		F615861627C96E060002140B /* MockSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615861527C96E060002140B /* MockSettingsViewController.swift */; };
+		F615861827C96E190002140B /* MockMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615861727C96E190002140B /* MockMainViewController.swift */; };
+		F615861A27C96E2A0002140B /* MockDaySummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615861927C96E2A0002140B /* MockDaySummaryViewController.swift */; };
+		F615861D27C96E450002140B /* MockHourSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615861C27C96E450002140B /* MockHourSummaryViewController.swift */; };
+		F615861F27C96F720002140B /* MockOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615861E27C96F720002140B /* MockOnboardingViewController.swift */; };
+		F615862127C97C170002140B /* CoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615862027C97C170002140B /* CoordinatorTests.swift */; };
+		F615862327C985440002140B /* MockControllerStatisticsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615862227C985440002140B /* MockControllerStatisticsProtocol.swift */; };
+		F615862527C98CF50002140B /* MockControllerCoordinatorEventProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F615862427C98CF50002140B /* MockControllerCoordinatorEventProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -164,6 +173,15 @@
 		F615857227BA9B1A0002140B /* KmToLmConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KmToLmConverterTests.swift; sourceTree = "<group>"; };
 		F615857427BA9F880002140B /* CelciusToFahrConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelciusToFahrConverter.swift; sourceTree = "<group>"; };
 		F615857627BAA0310002140B /* CelciusToFahrConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelciusToFahrConverterTests.swift; sourceTree = "<group>"; };
+		F615861327C96D790002140B /* ViewControllerFactoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFactoryMock.swift; sourceTree = "<group>"; };
+		F615861527C96E060002140B /* MockSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingsViewController.swift; sourceTree = "<group>"; };
+		F615861727C96E190002140B /* MockMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMainViewController.swift; sourceTree = "<group>"; };
+		F615861927C96E2A0002140B /* MockDaySummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDaySummaryViewController.swift; sourceTree = "<group>"; };
+		F615861C27C96E450002140B /* MockHourSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHourSummaryViewController.swift; sourceTree = "<group>"; };
+		F615861E27C96F720002140B /* MockOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOnboardingViewController.swift; sourceTree = "<group>"; };
+		F615862027C97C170002140B /* CoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorTests.swift; sourceTree = "<group>"; };
+		F615862227C985440002140B /* MockControllerStatisticsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockControllerStatisticsProtocol.swift; sourceTree = "<group>"; };
+		F615862427C98CF50002140B /* MockControllerCoordinatorEventProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockControllerCoordinatorEventProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -337,12 +355,14 @@
 		F615852F27A33C800002140B /* WeatherAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				F615861227C96D4F0002140B /* Mocks */,
 				F615853F27A492D20002140B /* GeocodingTests.swift */,
 				F615854B27A4A4750002140B /* GeoPositionExtractorTests.swift */,
 				F615855E27AB30110002140B /* WeatherApiTests.swift */,
 				F615856427ADD4EE0002140B /* UiDateTimeFormatterTests.swift */,
 				F615857227BA9B1A0002140B /* KmToLmConverterTests.swift */,
 				F615857627BAA0310002140B /* CelciusToFahrConverterTests.swift */,
+				F615862027C97C170002140B /* CoordinatorTests.swift */,
 			);
 			path = WeatherAppTests;
 			sourceTree = "<group>";
@@ -368,6 +388,21 @@
 				F615856E27B598190002140B /* WeatherDataProvider.swift */,
 			);
 			path = WeatherApi;
+			sourceTree = "<group>";
+		};
+		F615861227C96D4F0002140B /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				F615861327C96D790002140B /* ViewControllerFactoryMock.swift */,
+				F615861527C96E060002140B /* MockSettingsViewController.swift */,
+				F615861727C96E190002140B /* MockMainViewController.swift */,
+				F615861927C96E2A0002140B /* MockDaySummaryViewController.swift */,
+				F615861C27C96E450002140B /* MockHourSummaryViewController.swift */,
+				F615861E27C96F720002140B /* MockOnboardingViewController.swift */,
+				F615862227C985440002140B /* MockControllerStatisticsProtocol.swift */,
+				F615862427C98CF50002140B /* MockControllerCoordinatorEventProtocol.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -550,9 +585,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F615861427C96D790002140B /* ViewControllerFactoryMock.swift in Sources */,
+				F615861F27C96F720002140B /* MockOnboardingViewController.swift in Sources */,
 				F615854C27A4A4750002140B /* GeoPositionExtractorTests.swift in Sources */,
+				F615861627C96E060002140B /* MockSettingsViewController.swift in Sources */,
+				F615861A27C96E2A0002140B /* MockDaySummaryViewController.swift in Sources */,
 				F615856527ADD4EE0002140B /* UiDateTimeFormatterTests.swift in Sources */,
+				F615861D27C96E450002140B /* MockHourSummaryViewController.swift in Sources */,
 				F615855F27AB30110002140B /* WeatherApiTests.swift in Sources */,
+				F615861827C96E190002140B /* MockMainViewController.swift in Sources */,
+				F615862127C97C170002140B /* CoordinatorTests.swift in Sources */,
+				F615862527C98CF50002140B /* MockControllerCoordinatorEventProtocol.swift in Sources */,
+				F615862327C985440002140B /* MockControllerStatisticsProtocol.swift in Sources */,
 				F615854027A492D20002140B /* GeocodingTests.swift in Sources */,
 				F615857327BA9B1A0002140B /* KmToLmConverterTests.swift in Sources */,
 				F615857727BAA0310002140B /* CelciusToFahrConverterTests.swift in Sources */,

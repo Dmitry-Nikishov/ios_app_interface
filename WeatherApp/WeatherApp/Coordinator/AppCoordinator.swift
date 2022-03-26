@@ -39,7 +39,7 @@ class AppCoordinator : Coordinator {
         }
     }
 
-    private let viewControllerFactory = ViewControllerFactoryImpl()
+    private let viewControllerFactory : ViewControllerFactory
     
     private func createCoordinator(type : CoordinatingViewModelTypes) -> Coordinator & Coordinating {
         var result : Coordinator & Coordinating
@@ -61,6 +61,11 @@ class AppCoordinator : Coordinator {
         result.coordinator = self
         
         return result
+    }
+    
+    init(controllerViewFactory : ViewControllerFactory)
+    {
+        viewControllerFactory = controllerViewFactory
     }
     
     func start() {
